@@ -98,6 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleOptionClick(optionIndex) {
         const currentMessage = gameData.messages[gameData.currentMessageIndex];
+        if (currentMessage.paths[optionIndex] === undefined) {
+            console.error('Undefined path for option index: ', optionIndex);
+            return;
+        }
         const nextMessageIndex = currentMessage.paths[optionIndex];
         const selectedOptionText = currentMessage.options[optionIndex];
         const userMessageDiv = document.createElement('div');
@@ -108,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gameData.currentMessageIndex = nextMessageIndex;
         displayMessage(nextMessageIndex);
     }
+    
     function startTimer(minutes, messageIndex) {
         const timerDiv = document.createElement('div');
         timerDiv.className = 'timer';

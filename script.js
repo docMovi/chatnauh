@@ -4,5 +4,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     console.log(p);
     lastM.textContent = p;
     
+    document.getElementById('create-profile-btn').addEventListener('click', () => 
+        { window.location.href = 'create-profile.html'; });
 
 });
