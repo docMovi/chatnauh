@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messagesDiv = document.getElementById('messages');
     const optionsDiv = document.getElementById('options');
     const typingIndicator = document.querySelector('.typing-indicator');
+    let message_ = "";
 
     const gameData = {
         messages: [
@@ -28,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveChatHistory() {
         localStorage.setItem('chatHistory', messagesDiv.innerHTML);
         localStorage.setItem('currentMessageIndex', gameData.currentMessageIndex);
+        console.log("saving " + message_);
+        localStorage.setItem('lastMessage', message_)
     }
 
     function loadChatHistory() {
@@ -51,12 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (message.type == 'text') {
             messageDiv.textContent = message.text;
+            message_ = message.text;
         } else if (message.type == 'image') {
             const imgElement = document.createElement('img');
             imgElement.src = message.imgUrl;
             imgElement.alt = 'Image message';
             imgElement.style.maxWidth = '100%';
             messageDiv.appendChild(imgElement);
+            message_ = "[img]";
         } else if (message.type == 'wait') {
             startTimer(message.minutes, messageIndex);
             optionsDiv.style.display = 'none';
@@ -77,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             saveChatHistory();
         }, 2000);
     }
+   
 
     function displayOptions(options) {
         optionsDiv.innerHTML = '';
@@ -130,9 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
     
-   
-    
-    
     
     loadChatHistory();
     document.getElementById('back-link').addEventListener('click', saveProgress);
@@ -184,13 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     
     }
-    
-    
+
     loadSavedTimer();
     
     if (!localStorage.getItem('endTime')) {
         displayMessage(gameData.currentMessageIndex);
     }
-    
-    
 });
