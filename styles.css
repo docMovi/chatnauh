@@ -152,13 +152,6 @@ body {
   color: inherit;
 }
 
-  /*.chattables {
-    justify-content: space-around;
-    background-color: cadetblue;
-    text-align: center;
-    padding-left: 200px;
-  }*/
-
 .notification {
     width: 10px;
     height: 10px;

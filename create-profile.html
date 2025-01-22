@@ -26,6 +26,8 @@
         <div id="message-content-section">
             <label for="messageContent">Message Content:</label>
             <textarea id="messageContent" name="messageContent"></textarea>
+        </div>
+        <div id="imageSection">
             <label for="imageUpload">Upload Image:</label>
             <input type="file" id="imageUpload" name="imageUpload" accept="image/*">
         </div>
@@ -48,9 +50,12 @@
         </div>
 
         <button type="button" id="add-message-btn">Add Message</button>
+        <button type="button" id="removeMessage">Remove Last Message</button>
         <ul id="messages-list"></ul>
         
         <button type="submit">Save Profile</button>
+        <button><a id="disable" href="index.html">Go Back</a></button>
+        <button type="reset">Reset Profile</button>
     </form>
 
     <script src="create-profile.js"></script>

@@ -1,22 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('profile-form');
-    const messagesList = document.getElementById('messages-list');
+    let messagesList = document.getElementById('messages-list');
     const messageTypeSelect = document.getElementById('messageType');
     const messageContentSection = document.getElementById('message-content-section');
-    const messageOptionsSection = document.getElementById('message-options-section');
+    const imageSection = document.getElementById("imageSection")
     const waitTimeSection = document.getElementById('wait-time-section');
     let messages = [];
 
     messageTypeSelect.addEventListener('change', () => {
-        const messageType = messageTypeSelect.value;
-        messageContentSection.style.display = messageType === 'text' || messageType === 'image' ? 'block' : 'none';
-        messageOptionsSection.style.display = messageType === 'text' || messageType === 'image' || messageType === 'wait' ? 'block' : 'none';
-        waitTimeSection.style.display = messageType === 'wait' ? 'block' : 'none';
+        updateType();
     });
+    updateType();
+
+    function updateType(){
+        const messageType = messageTypeSelect.value;
+        waitTimeSection.style.display = messageType === 'wait' ? 'block' : 'none';
+        imageSection.style.display = messageType === "image" ? "block" : "none";
+    }
 
     document.getElementById('add-message-btn').addEventListener('click', () => {
         const messageType = messageTypeSelect.value;
         let message = { type: messageType, options: [], paths: [] };
+
+        message.options[0] = document.getElementById('option1').value;
+        message.options[1] = document.getElementById('option2').value;
+        message.paths[0] = parseInt(document.getElementById('path1').value, 10);
+        message.paths[1]  = parseInt(document.getElementById('path2').value, 10);
 
         if (messageType === 'text') {
             message.text = document.getElementById('messageContent').value;
@@ -37,76 +46,79 @@ document.addEventListener('DOMContentLoaded', () => {
         if (messageType !== 'image') {
             addMessageToList(message);
         }
-
-        const option1 = document.getElementById('option1').value;
-        const path1 = parseInt(document.getElementById('path1').value, 10);
-        const option2 = document.getElementById('option2').value;
-        const path2 = parseInt(document.getElementById('path2').value, 10);
-        
-        if (option1 && !isNaN(path1)) {
-            message.options.push(option1);
-            message.paths.push(path1);
-        }
-        if (option2 && !isNaN(path2)) {
-            message.options.push(option2);
-            message.paths.push(path2);
-        }
     });
 
     function addMessageToList(message) {
         messages.push(message);
         const listItem = document.createElement('li');
-        listItem.textContent = `${message.type}: ${JSON.stringify(message)}`;
+        listItem.textContent = "" + message.type + ": <<" + message.text + ">> with options " + message.options[0] + " and " + message.options[1] + " leading to paths " + message.paths[0] + " and " + message.paths[1];
         messagesList.appendChild(listItem);
     }
 
     form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const profileName = document.getElementById('profileName').value;
-        const profilePic = document.getElementById('profilePic').files[0];
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            const profilePicURL = e.target.result;
-            
-            const profile = {
-                name: profileName,
-                profilePic: profilePicURL,
-                messages: messages
-            };
-
-            let profiles = JSON.parse(localStorage.getItem('profiles')) || [];
-            profiles.push(profile);
-            localStorage.setItem('profiles', JSON.stringify(profiles));
-
-            addProfileToIndex(profile);
-            window.location.href = 'index.html';
-        };
-
-        if (profilePic) {
-            reader.readAsDataURL(profilePic);
-        }
+        saveLocal();
+        // Add profile saving logic here
     });
 
-    function addProfileToIndex(profile) {
-        const profileContainer = document.querySelector('.profile-container');
+    function saveLocal() {
+        localStorage.setItem("ownProfileName", document.getElementById('profileName').value);
+        localStorage.setItem("ownProfilePic", document.getElementById('profilePic').files[0]);
 
-        const profileDiv = document.createElement('div');
-        profileDiv.className = 'profile-';
+        // Store messages array as a string (JSON format)
+        localStorage.setItem("messages_array", JSON.stringify(messages));
+    }
 
-        const profileLink = document.createElement('a');
-        profileLink.href = 'test.html'; // Ideally, you create a unique profile page for each profile
-        const profileImg = document.createElement('img');
-        profileImg.src = profile.profilePic;
-        profileImg.alt = 'profilePic';
-        profileLink.appendChild(profileImg);
+    loadLocal();
+    function loadLocal() {
+        if (localStorage.getItem("ownProfileName") != null) {
+            document.getElementById('profileName').value = localStorage.getItem("ownProfileName");
+        }
+        if (localStorage.getItem("ownProfilePic") != null) {
+            document.getElementById('profilePic').files[0] = localStorage.getItem("ownProfilePic"); // This doesn't work for file preview
+        }
+    
+        const savedMessages = localStorage.getItem("messages_array");
+        if (savedMessages) {
+            try {
+                messages = JSON.parse(savedMessages);
+                messagesList.textContent = ""; // Clear the current list
+                messages.forEach(message => {
+                    addMessageToList(message); // Re-render each message
+                });
+            } catch (error) {
+                console.error("Error parsing messages array from localStorage:", error);
+                messages = []; // Initialize with an empty array if parsing fails
+            }
+        } else {
+            messages = []; // If no saved messages, initialize as an empty array
+        }
+    }
+    
+    
 
-        const profileName = document.createElement('h2');
-        profileName.textContent = profile.name;
+    form.addEventListener('reset', (e) => {
+        clearLocal();
+    });
 
-        profileDiv.appendChild(profileLink);
-        profileDiv.appendChild(profileName);
-        profileContainer.appendChild(profileDiv);
+
+    function clearLocal(){
+        localStorage.setItem("ownProfileName", "");
+        localStorage.setItem("ownProfilePic", "");
+
+        localStorage.setItem("messages_array", "");
+        location.reload;
+    }
+
+    form.addEventListener('removeMessage', (e) => {
+        deleteLastMessage();
+    });
+
+    function deleteLastMessage(){
+        if (messages.length > 0) {
+            messages.pop();
+            messagesList.removeChild(messagesList.lastChild);
+            localStorage.setItem("messages_array", JSON.stringify(messages));
+            location.reload;
+        }
     }
 });
