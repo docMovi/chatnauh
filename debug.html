@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Test</title>
+</head>
+<body>
+    <div id="messages"></div>
+    <script type="module">
+        class Chat {
+            constructor() {
+                console.log("Chat constructor called");
+
+                this.messageDiv = document.getElementById('messages');
+                console.log(this.messageDiv);  // Should log the #messages div
+
+                if (!this.messageDiv) {
+                    console.error("ERROR: Element with id 'messages' not found.");
+                    return;
+                }
+
+                // Try to interact with the div
+                this.messageDiv.innerHTML = "Hello, world!";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const chat = new Chat();
+        });
+    </script>
+</body>
+</html>
