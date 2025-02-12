@@ -1,5 +1,4 @@
-class Chat { 
-
+class Chat {
     constructor(profileId) {
         this.profileId = profileId;
 
@@ -14,7 +13,7 @@ class Chat {
         // Check if the DOM elements are correctly found
         if (!this.messageDiv) {
             console.error("ERROR: Element with id 'messages' not found.");
-            return; // Exit constructor early if 'messages' is not found
+            return; // Exit constructor early if 'messages' not found
         }
         if (!this.optionsDiv) {
             console.error("ERROR: Element with id 'options' not found.");
@@ -26,10 +25,9 @@ class Chat {
         }
 
         this.message_ = "";
-        this.localMessageKey = `chatHistory_${profileId}`;
-        this.localIndexKey = `currentMessageIndex_${profileId}`;
-        this.localTimeKey = `endTime_&${profileId}`;
-        
+        this.localMessageKey = `chatHistory_${profileId}`; // Profile-specific key
+        this.localIndexKey = `currentMessageIndex_${profileId}`; // Profile-specific key
+
         this.bindResetButton();
         // Load chat history
         this.loadChatHistory();
@@ -37,7 +35,6 @@ class Chat {
 
     setMessages(messages) {
         console.log("Setting messages:", messages); // Log the messages being set
-        // Ensure the messages are valid and gameData.messages is an array
         if (!Array.isArray(messages)) {
             console.error("ERROR: Expected messages to be an array, but got:", messages);
             return;
@@ -54,33 +51,42 @@ class Chat {
 
     loadChatHistory() {
         console.log("Loading chat history...");
-        const savedChatHistory = localStorage.getItem('chatHistory');
-        const savedMessageIndex = localStorage.getItem('currentMessageIndex');
-        
+        const savedChatHistory = localStorage.getItem(this.localMessageKey);
+        const savedMessageIndex = localStorage.getItem(this.localIndexKey);
+   
         if (savedChatHistory) {
             this.messageDiv.innerHTML = savedChatHistory;
             this.messageDiv.scrollTop = this.messageDiv.scrollHeight;
         }
-        
+   
         if (savedMessageIndex) {
             this.gameData.currentMessageIndex = parseInt(savedMessageIndex, 10);
         }
+   
+        // Start the message rendering process if no message is currently displayed
+        if (this.gameData.currentMessageIndex >= 0 && this.gameData.currentMessageIndex < this.gameData.messages.length) {
+            this.displayMessage(this.gameData.currentMessageIndex);
+        }
     }
+   
 
     saveChatHistory() {
-        localStorage.setItem('chatHistory', this.messageDiv.innerHTML); // Corrected reference to this.messageDiv
-        localStorage.setItem('currentMessageIndex', this.gameData.currentMessageIndex);
+        localStorage.setItem(this.localMessageKey, this.messageDiv.innerHTML); // Use profile-specific key
+        localStorage.setItem(this.localIndexKey, this.gameData.currentMessageIndex); // Use profile-specific key
         console.log("saving " + this.message_);
-        localStorage.setItem('lastMessage', this.message_);
+        localStorage.setItem(`lastMessage_${this.profileId}`, this.message_); // Store last message per profile
     }
 
     displayMessage(messageIndex) {
         if (messageIndex >= this.gameData.messages.length) return;
+        
+        console.log('currentMessageIndex:', this.gameData.currentMessageIndex);
 
         const message = this.gameData.messages[messageIndex];
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message bot';
-
+    
+        // Handle the type of message (text, image, wait, etc.)
         if (message.type === 'text') {
             messageDiv.textContent = message.text;
             this.message_ = message.text;
@@ -91,14 +97,13 @@ class Chat {
             imgElement.style.maxWidth = '100%';
             messageDiv.appendChild(imgElement);
             this.message_ = "[img]";
-        } else if (message.type === 'wait') {
-            this.startTimer(message.minutes, messageIndex);
-            this.optionsDiv.style.display = 'none';
         }
-
+    
+        // Show typing indicator while the bot is sending messages
         this.typingIndicator.style.display = 'flex';
         this.optionsDiv.style.display = 'none';
-
+    
+        // Display the message after the typing delay
         setTimeout(() => {
             this.typingIndicator.style.display = 'none';
             const lastBotMessage = this.messageDiv.querySelector('.message.bot:last-child');
@@ -107,48 +112,66 @@ class Chat {
             }
             this.messageDiv.appendChild(messageDiv);
             this.messageDiv.scrollTop = this.messageDiv.scrollHeight;
-            this.displayOptions(message.options);
+    
+            // After displaying the message, check for options
+            if (message.options && message.options.length > 0) {
+                // Show options if available
+                this.displayOptions(message.options, message.paths);
+            } else {
+                // No options, continue to the next message immediately
+                this.displayMessage(messageIndex + 1);
+            }
+    
+            this.gameData.currentMessageIndex = messageIndex; // Update currentMessageIndex after each message
             this.saveChatHistory();
-        }, 2000);
+        }, 2000); // Typing delay for bot messages
     }
+    
 
-    displayOptions(options) {
+    displayOptions(options, paths) {
         this.optionsDiv.innerHTML = '';
         options.forEach((optionText, index) => {
             const optionButton = document.createElement('button');
             optionButton.className = 'option';
             optionButton.textContent = optionText;
-            optionButton.onclick = () => this.handleOptionClick(index); // Corrected reference to this.handleOptionClick
+            optionButton.onclick = () => this.handleOptionClick(index, paths); // Pass paths to handleOptionClick
             this.optionsDiv.appendChild(optionButton);
         });
         this.optionsDiv.style.display = 'flex';
     }
 
-    handleOptionClick(optionIndex) {
+    handleOptionClick(optionIndex, paths) {
         const currentMessage = this.gameData.messages[this.gameData.currentMessageIndex];
-        if (currentMessage.paths[optionIndex] === undefined) {
+        if (paths[optionIndex] === undefined) {
             console.error('Undefined path for option index: ', optionIndex);
             return;
         }
-        const nextMessageIndex = currentMessage.paths[optionIndex];
+        const nextMessageIndex = paths[optionIndex];
         const selectedOptionText = currentMessage.options[optionIndex];
+    
+        // Show user message
         const userMessageDiv = document.createElement('div');
         userMessageDiv.className = 'message user';
         userMessageDiv.textContent = `You: ${selectedOptionText}`;
-        this.messageDiv.appendChild(userMessageDiv); // Corrected reference to this.messageDiv
-        localStorage.setItem('currentMessageIndex', nextMessageIndex);
+        this.messageDiv.appendChild(userMessageDiv);
+    
+        // Update current message index to next one in path
         this.gameData.currentMessageIndex = nextMessageIndex;
+        localStorage.setItem(this.localIndexKey, nextMessageIndex); // Store index for persistence
+    
+        // Display the next message according to the selected option
         this.displayMessage(nextMessageIndex);
     }
+    
 
     startTimer(minutes, messageIndex) {
         const timerDiv = document.createElement('div');
         timerDiv.className = 'timer';
         this.messageDiv.appendChild(timerDiv); // Corrected reference to this.messageDiv
-    
+
         const endTime = Date.now() + minutes * 60 * 1000;
         localStorage.setItem('endTime', endTime);
-    
+
         const interval = setInterval(() => {
             const remainingTime = localStorage.getItem('endTime') - Date.now();
             if (remainingTime <= 0) {
@@ -180,44 +203,20 @@ class Chat {
 
     resetChatHistory() {
         console.log("Resetting chat history...");
-        localStorage.removeItem('chatHistory');
-        localStorage.removeItem('currentMessageIndex');
-        localStorage.removeItem('endTime');
-        localStorage.removeItem('timer');
-        
-        this.messageDiv.innerHTML = '';  // Clear the messages container
-        this.gameData.currentMessageIndex = 0;  // Reset to the first message
-        
-        // Display the first message again
+        localStorage.removeItem(this.localMessageKey);
+        localStorage.removeItem(this.localIndexKey);
+        localStorage.removeItem(`lastMessage_${this.profileId}`);
+   
+        this.messageDiv.innerHTML = '';
+        this.gameData.currentMessageIndex = 0;
         this.displayMessage(0);
-        
-        this.optionsDiv.innerHTML = '';  // Clear options if any
-        this.optionsDiv.style.display = 'none';  // Hide options initially
-    }
+   
+        this.optionsDiv.innerHTML = ''; 
+        this.optionsDiv.style.display = 'none';  // Ensure optionsDiv is hidden
+   }
+   
 
-    loadSavedTimer() {
-        const endTime = localStorage.getItem('endTime');
-        if (endTime) {
-            const remainingTime = endTime - Date.now();
-            if (remainingTime > 2000) {  // If more than 2 seconds
-                this.startTimer(remainingTime / 60000, this.gameData.currentMessageIndex - 1); // Corrected reference to this.startTimer
-            } else {
-                // If less than or equal to 2 seconds, wait for 2 seconds
-                setTimeout(() => {
-                    this.gameData.currentMessageIndex = parseInt(localStorage.getItem('currentMessageIndex'), 10) || 0;
-                    if (this.gameData.messages[this.gameData.currentMessageIndex - 1]?.type === 'wait') {
-                        this.gameData.currentMessageIndex++;
-                    }
-                    this.displayMessage(this.gameData.currentMessageIndex);
-                    const profileElement = document.getElementById('profile1'); // Double-check that profile1 is always the right profile.
-                    profileElement.querySelector('.notification').classList.add('active'); // Activate notification
-                    localStorage.removeItem('endTime');
-                }, remainingTime);
-            }
-        } else {
-            this.displayMessage(this.gameData.currentMessageIndex);
-        }
-    }
+    
 }
 
 export default Chat;
