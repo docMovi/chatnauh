@@ -27,11 +27,17 @@ class Chat {
         this.message_ = "";
         this.localMessageKey = `chatHistory_${profileId}`; // Profile-specific key
         this.localIndexKey = `currentMessageIndex_${profileId}`; // Profile-specific key
+        
 
         this.bindResetButton();
         // Load chat history
         this.loadChatHistory();
+
+       
+        
+
     }
+
 
     setMessages(messages) {
         console.log("Setting messages:", messages); // Log the messages being set
@@ -86,6 +92,8 @@ class Chat {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message bot';
     
+        const modCanvas = document.getElementById("modal");
+        modCanvas.style.visibility = "hidden";
         // Handle the type of message (text, image, wait, etc.)
         if (message.type === 'text') {
             messageDiv.textContent = message.text;
@@ -97,6 +105,10 @@ class Chat {
             imgElement.style.maxWidth = '100%';
             messageDiv.appendChild(imgElement);
             this.message_ = "[img]";
+          
+            imgElement.addEventListener('click', () => this.openPic(imgElement, modCanvas));
+
+            
         }
     
         // Show typing indicator while the bot is sending messages
@@ -215,7 +227,23 @@ class Chat {
         this.optionsDiv.style.display = 'none';  // Ensure optionsDiv is hidden
    }
    
+   
+   openPic(img, modCanvas) {
+       modCanvas.style.visibility = "visible";
 
+       const picSlot = document.getElementById("modal-img");
+       picSlot.src = img.src;
+
+       const close_btn = document.getElementById("close-btn");
+       close_btn.addEventListener('click', () => this.closePic(modCanvas, picSlot))
+       
+     
+   }
+
+   closePic(modCanvas, picSlot){
+       modCanvas.style.visibility = "hidden";
+       picSlot.src = "";
+   }
     
 }
 

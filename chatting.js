@@ -48,5 +48,5 @@ document.addEventListener('DOMContentLoaded', () => {
         profilePic.src = 'res/test/pfp.jpg';  // Set image for profile3
         profileName.textContent = 'Testname3'; // Set name for profile3
     }
-   
+
 });
