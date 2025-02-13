@@ -208,6 +208,8 @@ body {
 #modal-img {
   width: 100%;
   height: auto;
+  max-width: 500px;
+  max-height: 75vh;
   border-radius: 10px;
   transition: transform 0.3s ease
 }

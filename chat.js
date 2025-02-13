@@ -107,8 +107,10 @@ class Chat {
             this.message_ = "[img]";
           
             imgElement.addEventListener('click', () => this.openPic(imgElement, modCanvas));
-
-            
+        } else if (message.type === "wait"){
+            console.log("you have to wait until you have reached: " + message.goal);
+            return;
+            //hier müssten wir einen hint erstellen und erfassen ob das goal schon erreicht ist; Goal array?
         }
     
         // Show typing indicator while the bot is sending messages
@@ -129,9 +131,11 @@ class Chat {
             if (message.options && message.options.length > 0) {
                 // Show options if available
                 this.displayOptions(message.options, message.paths);
+                this.activeReset();
             } else {
                 // No options, continue to the next message immediately
                 this.displayMessage(messageIndex + 1);
+                this.diableReset();
             }
     
             this.gameData.currentMessageIndex = messageIndex; // Update currentMessageIndex after each message
@@ -226,10 +230,14 @@ class Chat {
         this.optionsDiv.innerHTML = ''; 
         this.optionsDiv.style.display = 'none';  // Ensure optionsDiv is hidden
    }
+
+
    
    
    openPic(img, modCanvas) {
        modCanvas.style.visibility = "visible";
+
+       this.diableReset();
 
        const picSlot = document.getElementById("modal-img");
        picSlot.src = img.src;
@@ -242,8 +250,26 @@ class Chat {
 
    closePic(modCanvas, picSlot){
        modCanvas.style.visibility = "hidden";
+       this.activeReset();
        picSlot.src = "";
    }
+
+   diableReset(){
+    const resetButton = document.getElementById("reset-button")
+    if(resetButton){
+        resetButton.disabled = true;
+        resetButton.style.backgroundColor = "#ccc";
+        resetButton.style.cursor = "not-allowed";
+    }
+}
+   activeReset(){
+const resetButton = document.getElementById("reset-button")
+if(resetButton){
+    resetButton.disabled = false;
+    resetButton.style.backgroundColor = "";
+    resetButton.style.cursor = "";
+}
+}
     
 }
 
