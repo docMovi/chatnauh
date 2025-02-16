@@ -38,7 +38,6 @@ class Chat {
 
     }
 
-
     setMessages(messages) {
         console.log("Setting messages:", messages); // Log the messages being set
         if (!Array.isArray(messages)) {
@@ -133,14 +132,14 @@ class Chat {
             if (message.options && message.options.length > 0) {
                 // Show options if available
                 this.displayOptions(message.options, message.paths);
-                this.activeReset();
+                this.enableReset();
             } else {
                 // No options, continue to the next message immediately
                 this.displayMessage(messageIndex + 1);
                 if(messageIndex != this.gameData.messages.length - 1){
-                    this.diableReset();
+                    this.disableReset();
                 }else{
-                    this.activeReset();
+                    this.enableReset();
                 }  
             }
     
@@ -236,14 +235,11 @@ class Chat {
         this.optionsDiv.innerHTML = ''; 
         this.optionsDiv.style.display = 'none';  // Ensure optionsDiv is hidden
    }
-
-
-   
    
    openPic(img, modCanvas) {
        modCanvas.style.visibility = "visible";
 
-       this.diableReset();
+       this.disableReset();
 
        const picSlot = document.getElementById("modal-img");
        picSlot.src = img.src;
@@ -256,11 +252,11 @@ class Chat {
 
    closePic(modCanvas, picSlot){
        modCanvas.style.visibility = "hidden";
-       this.activeReset();
+       this.enableReset();
        picSlot.src = "";
    }
 
-   diableReset(){
+   disableReset(){
     const resetButton = document.getElementById("reset-button")
     if(resetButton){
         resetButton.disabled = true;
@@ -268,7 +264,7 @@ class Chat {
         resetButton.style.cursor = "not-allowed";
     }
 }
-   activeReset(){
+   enableReset(){
 const resetButton = document.getElementById("reset-button")
 if(resetButton){
     resetButton.disabled = false;

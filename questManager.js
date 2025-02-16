@@ -15,6 +15,24 @@ class QuestManager {
         this.quests.push(newQuest);
     }
 
+    getQuestID(name){
+        for(let i = 0; i < this.quests.length; i++){
+            if(this.quests[i].name == name){
+                return i;
+            }
+        }
+    }
+
+    getQuestName(questId){
+        if(this.quests[questId]){
+            return this.quests[questId].name;
+        } else{
+            console.log("ERROR: QUEST DOESN'T EXIST")
+            return "ERROR: QUEST DOESN'T EXIST"
+        }
+        
+    }
+
     startQuest(questId) {
         const quest = this.quests.find(q => q.id === questId);
         if (quest && !quest.inProgress && !quest.completed) {
@@ -73,6 +91,8 @@ class QuestManager {
         });
     }
 }
+
+export default QuestManager;
 
 /*
 const myQuestManager = new QuestManager();

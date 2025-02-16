@@ -1,12 +1,17 @@
 import Chat from "./chat.js";
+import QuestManager from "./questManager.js";
+
 import profile1Messages from "./test.js";
 import profile2Messages from "./profile2.js";
-//import profile3Messages from "./profile3.js";  // Assuming profile3Messages exist
+//import profile3Messages from "./profile3.js"; 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Retrieve the active profile from localStorage
+    setUpActiveProfile();
+    setUpQuests();
+});
+
+function setUpActiveProfile() {
     const activeProfile = localStorage.getItem('activeProfile');
-    
     if (!activeProfile) {
         console.error("No active profile found!");
         return;
@@ -30,23 +35,23 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
     }
 
-    // Initialize the chat for the selected profile
     const userChat = new Chat(activeProfile);
     userChat.setMessages(messages);
 
-    // Load chat history and timer if applicable
+    // Load chat history 
     userChat.loadChatHistory();
-
 
     if (activeProfile === 'profile1') {
         profilePic.src = 'res/test/pfp.jpg';  // Set image for profile1
         profileName.textContent = 'Testname'; // Set name for profile1
     } else if (activeProfile === 'profile2') {
-        profilePic.src = 'res/2prof/pfp.jpg';  // Set image for profile2
-        profileName.textContent = 'Ava Marie'; // Set name for profile2
+        profilePic.src = 'res/2prof/pfp.jpg';  
+        profileName.textContent = 'Ava Marie'; 
     } else if (activeProfile === 'profile3') {
-        profilePic.src = 'res/test/pfp.jpg';  // Set image for profile3
-        profileName.textContent = 'Testname3'; // Set name for profile3
+        profilePic.src = 'res/test/pfp.jpg';  
+        profileName.textContent = 'Testname3'; 
     }
-
-});
+}
+function setUpQuests(){
+    
+}
