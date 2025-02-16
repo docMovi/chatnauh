@@ -84,7 +84,9 @@ class Chat {
     }
 
     displayMessage(messageIndex) {
-        if (messageIndex >= this.gameData.messages.length) return;
+        if (messageIndex >= this.gameData.messages.length){
+            return;
+        } 
         
         console.log('currentMessageIndex:', this.gameData.currentMessageIndex);
 
@@ -135,7 +137,11 @@ class Chat {
             } else {
                 // No options, continue to the next message immediately
                 this.displayMessage(messageIndex + 1);
-                this.diableReset();
+                if(messageIndex != this.gameData.messages.length - 1){
+                    this.diableReset();
+                }else{
+                    this.activeReset();
+                }  
             }
     
             this.gameData.currentMessageIndex = messageIndex; // Update currentMessageIndex after each message
