@@ -7,12 +7,11 @@ import profile2Messages from "./profile2.js";
 
 const quests = new QuestManager();
 const activeProfile = localStorage.getItem('activeProfile');
-const userChat = new Chat(activeProfile);
+const userChat = new Chat(activeProfile, quests);
 
 document.addEventListener('DOMContentLoaded', () => {
     setUpActiveProfile(activeProfile);
     setUpQuests(quests);
-   
 });
 
 function setUpActiveProfile(activeProfile) {

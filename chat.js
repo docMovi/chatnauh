@@ -1,6 +1,8 @@
+
 class Chat {
-    constructor(profileId) {
+    constructor(profileId, QuestManager) {
         this.profileId = profileId;
+        this.qm = QuestManager;
 
         // Initialize gameData properly
         this.gameData = this.gameData || { messages: [] }; // Ensure gameData is always initialized
@@ -112,19 +114,20 @@ class Chat {
           
             imgElement.addEventListener('click', () => this.openPic(imgElement, modCanvas));
         } else if (message.type === "wait"){
-            let f = false;
-            
-            for(let i = 0; i < this.quests.length; i++){
-                if(this.quests[i] == message.goal){
-                    f = true;
+            let id = this.qm.getQuestID(message.goal);
+            if(this.qm.questExist(id)){
+                if(this.qm.getQuestProgress(id) == "completed"){
+                    //continue
+                }else{
+                   alert("you have to wait until you have reached: " + message.goal);
+                   return;
                 }
-            }
-            if(f){
-                //continue
             }else{
-                alert("you have to wait until you have reached: " + message.goal);
-                return;
+                console.log("Error: quest doesn't exist");
             }
+            
+            
+            
         }
     
         // Show typing indicator while the bot is sending messages
@@ -286,7 +289,7 @@ if(resetButton){
 }
 }
 
-questUpdate(name){
+    questUpdate(name){
     this.quests.push(name);
     this.saveChatHistory();
 }

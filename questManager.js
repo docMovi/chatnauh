@@ -103,7 +103,20 @@ class QuestManager {
     saveAllQuests(){
         localStorage.setItem("quests", this.quests);
     }
-
+    questExist(questId){
+        if(this.quests[questId]){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    getQuestProgress(questId){
+        if(this.quests[questId].inProgress){
+            return "inProgress";
+        }else if(this.quests[questId].completed){
+            return "completed";
+        }   
+    }
 
 }
 
