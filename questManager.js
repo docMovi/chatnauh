@@ -34,24 +34,24 @@ class QuestManager {
     }
 
     startQuest(questId) {
-        const quest = this.quests.find(q => q.id === questId);
+        const quest = this.quests[questId];
         if (quest && !quest.inProgress && !quest.completed) {
             quest.inProgress = true;
-            alert(`Quest gestartet: ${quest.name} - ${quest.description}`);
+            console.log(`Quest gestartet: ${quest.name} - ${quest.description}`);
         } else {
-            alert("Diese Quest kann nicht gestartet werden.");
+            console.log("Diese Quest kann nicht gestartet werden, da sie entweder schon gestartet oder beendet ist.");
         }
     }
 
     completeQuest(questId) {
-        const quest = this.quests.find(q => q.id === questId);
+        const quest = this.quests[questId];
         if (quest && quest.inProgress && !quest.completed) {
             quest.completed = true;
             quest.inProgress = false;
-            alert(`Quest abgeschlossen: ${quest.name}`);
+            console.log(`Quest abgeschlossen: ${quest.name}`);
             this.updatePlayerProgress();
         } else {
-            alert("Diese Quest kann nicht abgeschlossen werden.");
+            console.log("Diese Quest kann nicht abgeschlossen werden, da sie entweder noch nicht gestartet oder schon beendet ist.");
         }
     }
 
@@ -61,8 +61,17 @@ class QuestManager {
         console.log(`Du hast ${this.playerProgress} von ${this.quests.length} Quests abgeschlossen!`);
     }
 
+    checkQuestStatus(questId) {
+        const quest = this.quests[questId];
+        let s = "";
+        if(quest.completed) {s = "completed"}
+        else if(quest.inProgress) {s = "in progress"}
+        else {s = "not started"}
+        console.log("Die Quest " + quest.name + " ist -> " + s);
+    }
+
     // Alle Quests anzeigen 
-    checkQuestStatus() {
+    checkAllQuestStatus() {
         this.quests.forEach(quest => {
             if (quest.inProgress) {
                 console.log(`Die Quest "${quest.name}" ist in Arbeit.`);

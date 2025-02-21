@@ -6,12 +6,13 @@ import profile2Messages from "./profile2.js";
 //import profile3Messages from "./profile3.js"; 
 
 document.addEventListener('DOMContentLoaded', () => {
-    setUpActiveProfile();
-    setUpQuests();
+    const activeProfile = localStorage.getItem('activeProfile');
+    setUpActiveProfile(activeProfile);
+    const quests = new QuestManager();
+    setUpQuests(quests);
 });
 
-function setUpActiveProfile() {
-    const activeProfile = localStorage.getItem('activeProfile');
+function setUpActiveProfile(activeProfile) {
     if (!activeProfile) {
         console.error("No active profile found!");
         return;
@@ -52,6 +53,9 @@ function setUpActiveProfile() {
         profileName.textContent = 'Testname3'; 
     }
 }
-function setUpQuests(){
-    
+function setUpQuests(qm){
+    qm.addQuest("hello, world", "this is an example quest. Press 'K'");
+    qm.checkAllQuestStatus();
+    qm.startQuest(qm.getQuestID("hello, world"));
+    qm.checkQuestStatus(qm.getQuestID("hello, world"));
 }
