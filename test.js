@@ -12,7 +12,7 @@
         { type: 'text', text: "That's awesome! Good luck with the web app.", options: ["..."], paths: [12] }, // 9
         { type: 'text', text: "Best of luck with your assignment!", options: ["..."], paths: [12] }, // 10
         { type: 'text', text: "Have a nice day then!", options: ["...", "See you"], paths: [12, 12] }, // 11
-        { type: 'wait', goal: "test001", paths: [13] }, // 12
+        { type: 'wait', goal: "chatWithAva", paths: [13] }, // 12
         { type: 'text', text: "Hi!", options: ["Hi, how are you?", "What do you want?"], paths: [14, 15]}, // 13
         { type: 'text', text: "good! How are you?", options: ["Better", "Good"], paths: [16, 17]}, // 14
         { type: 'text', text: "Well.. What are you doing?", options: ["Depends", "Nothing really"], paths: [17, 18]}, // 15

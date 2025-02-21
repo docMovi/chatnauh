@@ -99,6 +99,12 @@ class QuestManager {
             console.log(`ID: ${quest.id}, Name: ${quest.name}, Status: ${quest.completed ? 'Abgeschlossen' : quest.inProgress ? 'In Arbeit' : 'Noch nicht begonnen'}`);
         });
     }
+
+    saveAllQuests(){
+        localStorage.setItem("quests", this.quests);
+    }
+
+
 }
 
 export default QuestManager;

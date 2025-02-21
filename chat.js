@@ -28,6 +28,7 @@ class Chat {
         this.localMessageKey = `chatHistory_${profileId}`; // Profile-specific key
         this.localIndexKey = `currentMessageIndex_${profileId}`; // Profile-specific key
         
+        this.quests = [];
 
         this.bindResetButton();
         // Load chat history
@@ -72,6 +73,7 @@ class Chat {
         if (this.gameData.currentMessageIndex >= 0 && this.gameData.currentMessageIndex < this.gameData.messages.length) {
             this.displayMessage(this.gameData.currentMessageIndex);
         }
+
     }
    
 
@@ -80,6 +82,7 @@ class Chat {
         localStorage.setItem(this.localIndexKey, this.gameData.currentMessageIndex); // Use profile-specific key
         console.log("saving " + this.message_);
         localStorage.setItem(`lastMessage_${this.profileId}`, this.message_); // Store last message per profile
+        localStorage.setItem("quests", this.quests);
     }
 
     displayMessage(messageIndex) {
@@ -109,9 +112,19 @@ class Chat {
           
             imgElement.addEventListener('click', () => this.openPic(imgElement, modCanvas));
         } else if (message.type === "wait"){
-            console.log("you have to wait until you have reached: " + message.goal);
-            return;
-            //hier müssten wir einen hint erstellen und erfassen ob das goal schon erreicht ist; Goal array?
+            let f = false;
+            
+            for(let i = 0; i < this.quests.length; i++){
+                if(this.quests[i] == message.goal){
+                    f = true;
+                }
+            }
+            if(f){
+                //continue
+            }else{
+                alert("you have to wait until you have reached: " + message.goal);
+                return;
+            }
         }
     
         // Show typing indicator while the bot is sending messages
@@ -271,6 +284,11 @@ if(resetButton){
     resetButton.style.backgroundColor = "";
     resetButton.style.cursor = "";
 }
+}
+
+questUpdate(name){
+    this.quests.push(name);
+    this.saveChatHistory();
 }
     
 }
