@@ -101,8 +101,28 @@ class QuestManager {
     }
 
     saveAllQuests(){
-        localStorage.setItem("quests", this.quests);
+        // Convert the quests array to a JSON string before saving
+        localStorage.setItem("quests", JSON.stringify(this.quests));
     }
+    
+    loadAllQuests(){
+        // Retrieve the JSON string and convert it back into an array
+        const savedQuests = localStorage.getItem("quests");
+        
+        // Check if there's something stored, and parse it back into an array
+        if (savedQuests) {
+            this.quests = JSON.parse(savedQuests);
+        } else {
+            this.quests = []; // If no quests were saved, initialize it as an empty array
+        }
+    }
+    resetAllQuests() {
+        // Clear the quests array and also remove it from localStorage
+        this.quests = [];
+        localStorage.removeItem("quests");
+    }
+    
+    
     questExist(questId){
         if(this.quests[questId]){
             return true;

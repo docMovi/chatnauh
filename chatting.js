@@ -57,7 +57,7 @@ function setUpActiveProfile(activeProfile) {
 function setUpQuests(qm){
     qm.addQuest("chatWithAva", "this is an example quest. Chat with Ava for the first time");
     qm.startQuest(qm.getQuestID("chatWithAva"));
-    completeQuest(qm.getQuestID("chatWithAva"), qm);
+    //completeQuest(qm.getQuestID("chatWithAva"), qm);
     qm.checkAllQuestStatus();
 }
 
@@ -65,3 +65,17 @@ function completeQuest(id, qm){
     qm.completeQuest(id);
     userChat.questUpdate("chatWithAva");
 }
+
+//INPUT MACHINE
+document.addEventListener('keydown', function(event) {
+    if(event.key === "t") {
+        alert('You just used a button to cheat!');
+        completeQuest(quests.getQuestID("chatWithAva"), quests);
+        quests.saveAllQuests();  
+    }else if(event.key === "p"){
+        alert('You just used a button to cheat!');
+        quests.resetAllQuests();
+    }
+});
+
+quests.loadAllQuests();

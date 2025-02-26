@@ -93,6 +93,7 @@ class Chat {
         } 
         
         console.log('currentMessageIndex:', this.gameData.currentMessageIndex);
+        this.wait = false;
 
         const message = this.gameData.messages[messageIndex];
         const messageDiv = document.createElement('div');
@@ -117,16 +118,16 @@ class Chat {
             let id = this.qm.getQuestID(message.goal);
             if(this.qm.questExist(id)){
                 if(this.qm.getQuestProgress(id) == "completed"){
+                    this.wait = false;
                     //continue
                 }else{
                    alert("you have to wait until you have reached: " + message.goal);
-                   return;
+                   this.wait = true;
                 }
             }else{
                 console.log("Error: quest doesn't exist");
+                this.wait = true;
             }
-            
-            
             
         }
     
@@ -145,11 +146,11 @@ class Chat {
             this.messageDiv.scrollTop = this.messageDiv.scrollHeight;
     
             // After displaying the message, check for options
-            if (message.options && message.options.length > 0) {
+            if (message.options && message.options.length > 0 && !this.wait) {
                 // Show options if available
                 this.displayOptions(message.options, message.paths);
                 this.enableReset();
-            } else {
+            } else if(!this.wait) {
                 // No options, continue to the next message immediately
                 this.displayMessage(messageIndex + 1);
                 if(messageIndex != this.gameData.messages.length - 1){
