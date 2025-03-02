@@ -57,6 +57,7 @@ function setUpActiveProfile(activeProfile) {
 }
 function setUpQuests(qm){
     console.log("checking Quests");
+    qm.addQuest("chatWithTestname", "chat with testname to unlock Ava");
     qm.checkAllQuestStatus();
 }
 
