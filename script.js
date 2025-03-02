@@ -63,9 +63,11 @@ function condition(profile, cond, quests){
             }
         }
     }
-    if(b){
-        profile.style.visibility = "visible";
-    }else{
+    if(!b){
         profile.style.visibility = "hidden";
+        profile.style.display = "none";
+    }else{
+        profile.style.visibility = "visible";
+        profile.style.display = "inherit";
     }
 }
