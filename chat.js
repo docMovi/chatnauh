@@ -29,8 +29,7 @@ class Chat {
         this.message_ = "";
         this.localMessageKey = `chatHistory_${profileId}`; // Profile-specific key
         this.localIndexKey = `currentMessageIndex_${profileId}`; // Profile-specific key
-        
-        this.quests = [];
+ 
 
         this.bindResetButton();
         // Load chat history
@@ -61,6 +60,7 @@ class Chat {
         console.log("Loading chat history...");
         const savedChatHistory = localStorage.getItem(this.localMessageKey);
         const savedMessageIndex = localStorage.getItem(this.localIndexKey);
+    
    
         if (savedChatHistory) {
             this.messageDiv.innerHTML = savedChatHistory;
@@ -84,7 +84,7 @@ class Chat {
         localStorage.setItem(this.localIndexKey, this.gameData.currentMessageIndex); // Use profile-specific key
         console.log("saving " + this.message_);
         localStorage.setItem(`lastMessage_${this.profileId}`, this.message_); // Store last message per profile
-        localStorage.setItem("quests", this.quests);
+        
     }
 
     displayMessage(messageIndex) {
@@ -116,11 +116,15 @@ class Chat {
             imgElement.addEventListener('click', () => this.openPic(imgElement, modCanvas));
         } else if (message.type === "wait"){
             let id = this.qm.getQuestID(message.goal);
-            if(this.qm.questExist(id)){
+            if(this.qm.questIDExist(id)){
                 if(this.qm.getQuestProgress(id) == "completed"){
                     this.wait = false;
                     //continue
-                }else{
+                }else if(this.qm.getQuestProgress(id) !== "inProgress"){
+                    this.qm.startQuest(id);
+                    this.wait = true;
+                }
+                else{
                    alert("you have to wait until you have reached: " + message.goal);
                    this.wait = true;
                 }
@@ -129,6 +133,46 @@ class Chat {
                 this.wait = true;
             }
             
+        }else if(message.type === "complete"){
+            let id = this.qm.getQuestID(message.goal);
+            if(this.qm.getQuestProgress(id) == "inProgress"){
+                this.qm.completeQuest(id);
+            }else if(this.qm.getQuestProgress(id) == "completed"){
+                console.log("Quest " + message.goal + " already completed.");
+            }else{
+                this.qm.startQuest(id);
+                this.qm.completeQuest(id);
+            }
+        }else if(message.type === "create"){
+            if(this.qm.questNameExist(message.goal)){
+                //Quest already exists
+            }else{
+               this.qm.addQuest(message.goal, message.description);
+            }
+            //continue
+        }else if(message.type === "createAndWait"){
+            if(this.qm.questNameExist(message.goal)){
+                console.log("Quest already exists");
+            }else{
+               this.qm.addQuest(message.goal, message.description);
+            }
+            let id = this.qm.getQuestID(message.goal);
+            if(this.qm.questIDExist(id)){
+                if(this.qm.getQuestProgress(id) == "completed"){
+                    this.wait = false;
+                    //continue
+                }else if(this.qm.getQuestProgress(id) != "inProgress"){
+                    this.qm.startQuest(id);
+                    this.wait = true;
+                }
+                else{
+                   alert("you have to wait until you have reached: " + message.goal);
+                   this.wait = true;
+                }
+            }else{
+                console.log("Error: Something went wrong");
+                this.wait = true;
+            }
         }
     
         // Show typing indicator while the bot is sending messages
@@ -290,9 +334,15 @@ if(resetButton){
 }
 }
 
-    questUpdate(name){
-    this.quests.push(name);
-    this.saveChatHistory();
+addQuestToProfile(name, description) {
+    this.qm.addQuest(name, description);
+    this.qm.saveAllQuests();  // Ensure the quest is saved globally for all profiles
+}
+
+// Example method to complete a quest
+completeQuestInProfile(questId) {
+    this.qm.completeQuest(questId);
+    this.qm.saveAllQuests();  // Ensure the quest completion is saved globally
 }
     
 }

@@ -1,16 +1,17 @@
 import Chat from "./chat.js";
-import QuestManager from "./questManager.js";
+import quests from "./questManager.js";
 
 import profile1Messages from "./test.js";
 import profile2Messages from "./profile2.js";
 //import profile3Messages from "./profile3.js"; 
 
-const quests = new QuestManager();
 const activeProfile = localStorage.getItem('activeProfile');
 const userChat = new Chat(activeProfile, quests);
 
 document.addEventListener('DOMContentLoaded', () => {
+    quests.loadAllQuests();
     setUpActiveProfile(activeProfile);
+    console.log(localStorage.getItem("quests"));
     setUpQuests(quests);
 });
 
@@ -55,15 +56,12 @@ function setUpActiveProfile(activeProfile) {
     }
 }
 function setUpQuests(qm){
-    qm.addQuest("chatWithAva", "this is an example quest. Chat with Ava for the first time");
-    qm.startQuest(qm.getQuestID("chatWithAva"));
-    //completeQuest(qm.getQuestID("chatWithAva"), qm);
+    console.log("checking Quests");
     qm.checkAllQuestStatus();
 }
 
 function completeQuest(id, qm){
     qm.completeQuest(id);
-    userChat.questUpdate("chatWithAva");
 }
 
 //INPUT MACHINE
