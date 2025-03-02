@@ -35,9 +35,7 @@ class Chat {
         // Load chat history
         this.loadChatHistory();
 
-       
-        
-
+        this.notifications = [];
     }
 
     setMessages(messages) {
@@ -60,7 +58,7 @@ class Chat {
         console.log("Loading chat history...");
         const savedChatHistory = localStorage.getItem(this.localMessageKey);
         const savedMessageIndex = localStorage.getItem(this.localIndexKey);
-    
+        this.loadAllNotis();
    
         if (savedChatHistory) {
             this.messageDiv.innerHTML = savedChatHistory;
@@ -173,6 +171,9 @@ class Chat {
                 console.log("Error: Something went wrong");
                 this.wait = true;
             }
+        }else if(message.type === "notification"){
+            this.addNoti(message.name, message.description, message.icon);
+            console.log("added notification " + message.name);
         }
     
         // Show typing indicator while the bot is sending messages
@@ -295,6 +296,7 @@ class Chat {
    
         this.optionsDiv.innerHTML = ''; 
         this.optionsDiv.style.display = 'none';  // Ensure optionsDiv is hidden
+        this.resetNotifications();
    }
    
    openPic(img, modCanvas) {
@@ -343,6 +345,60 @@ addQuestToProfile(name, description) {
 completeQuestInProfile(questId) {
     this.qm.completeQuest(questId);
     this.qm.saveAllQuests();  // Ensure the quest completion is saved globally
+}
+
+loadAllNotis(){
+    if(!this.notifications) {
+        this.notifications = [];
+    }
+
+    const savedNotis = localStorage.getItem("notifications");
+    console.log(savedNotis);
+
+    if (savedNotis) {
+        const parsedNotis = JSON.parse(savedNotis);
+
+        parsedNotis.forEach(newNot => {
+            const notiExists = this.notifications.some(existingNoti => existingNoti.id === newNot.id || existingNoti.name === newNot.name);
+
+            if (!notiExists) {
+                // If the quest does not exist, push it
+                this.notifications.push(newNot);
+            }
+        });
+    } else {
+        console.log("Error: no notifications found in localstrage");
+        this.notifications = []; // If no quests were saved, initialize it as an empty array
+    }
+}
+
+addNoti(name, description, icon_) {
+    const newNot = {
+        id: this.notifications.length + 1,
+        name: name,
+        description: description,
+        alerted: false,
+        icon: icon_
+    };
+    this.notifications.push(newNot);
+    this.saveNotifications();  
+}
+
+resetNotifications() {
+    // Clear the notifications array
+    this.notifications = [];
+    
+    // Clear notifications from localStorage
+    localStorage.removeItem("notifications");
+    
+    console.log("Notifications have been reset.");
+}
+
+
+
+saveNotifications(){
+    console.log("saving " + this.notifications);
+    localStorage.setItem("notifications", JSON.stringify(this.notifications))
 }
     
 }

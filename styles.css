@@ -126,19 +126,54 @@ body {
     padding-bottom: 10px;
 }
 
+@media (max-width: 1700px) {
+  .profile-container {
+      max-width: 30%; /* Slightly increase container width on smaller screens */
+      padding: 15px; /* Reduce padding to fit more content */
+  }
+  .notification_{
+      width: 30%;
+  }
+}
 /* Media query for smaller screens like tablets and phones */
+@media (max-width: 1400px) {
+  .profile-container {
+      max-width: 35%; /* Slightly increase container width on smaller screens */
+      padding: 15px; /* Reduce padding to fit more content */
+  }
+  .notification_{
+    width: 30%;
+}
+}
+
 @media (max-width: 1200px) {
     .profile-container {
-        max-width: 30%; /* Slightly increase container width on smaller screens */
+        max-width: 40%; /* Slightly increase container width on smaller screens */
         padding: 15px; /* Reduce padding to fit more content */
     }
+    .notification_{
+      width: 30%;
+  }
+}
+
+@media (max-width: 900px) {
+  .profile-container {
+      max-width: 45%; /* Slightly increase container width on smaller screens */
+      padding: 15px; /* Reduce padding to fit more content */
+  }
+  .notification_{
+    width: 30%;
+}
 }
 
 @media (max-width: 768px) {
     .profile-container {
-        max-width: 50%; /* Allow it to take up more space on smaller screens */
+        max-width: 60%; /* Allow it to take up more space on smaller screens */
         padding: 10px;
     }
+    .notification_{
+      width: 30%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -194,16 +229,14 @@ body {
   color: inherit;
 }
 
-.notification {
+/*.notification {
     width: 10px;
     height: 10px;
     background-color: red;
     border-radius: 50%;
-    display: none; /* Initially hidden */
-}
-.notification.active {
-    display: inline-block;
-}
+    display: none; /* Initially hidden 
+} */
+
 
 .modal-content {
   background-color: white;
@@ -244,5 +277,89 @@ body {
 #modal-img:hover {
   position: relative;
   transform: scale(1.5);
+}
+
+/* Notification Container */
+.notification {
+  position: fixed;
+  bottom: 2%;
+  right: 20px;
+  background-color: #ff4f58; /* Vibrant color */
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  width: 25%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(100px); /* Start position (hidden below) */
+  opacity: 0; /* Initially hidden */
+  transition: transform 1s ease-out, opacity 1s ease-out;  /* Smooth transition */
+  margin-bottom: 60px;
+  margin-right: 5%;
+}
+
+.notification_{
+  position: fixed;
+  bottom: 12%;
+  right: 20px;
+  background-color: aliceblue;
+  color: #333;
+  padding: 15px;
+  border-radius: 8px;
+  width: 25%;
+  box-shadow: 0 4px 12px rgb(141, 141, 141);
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  margin-right: 5%;
+}
+
+/* Ensure content is arranged properly */
+.notification-content {
+  display: contents;
+  align-items: end;
+  width: 100%;
+}
+
+#notification-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#notification-name {
+  font-size: 18px;
+  margin: 0;
+  font-weight: bold;
+  color: black;
+}
+
+
+
+/* Show class adds animation to fade and move */
+.notification.show {
+  opacity: 1;
+  transform: translateY(0); /* Move into view */
+  animation: vibrate 0.5s ease-out 0.5s infinite alternate;  /* Vibration effect */
+}
+
+
+/* Vibrate effect */
+@keyframes vibrate {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(5px);
+  }
 }
 
