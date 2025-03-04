@@ -107,11 +107,18 @@ body {
     background-color: white;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
-    display: flex;
-    flex-direction: column;
     padding: 20px;
     margin: 0 auto; /* Centers the container */
     box-sizing: border-box;
+    overflow-y: hidden;
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; 
+  padding-top: 10px; 
+  max-height: calc(75% - 20px);
 }
 
 .profile-container h1 {
@@ -124,6 +131,8 @@ body {
     box-shadow: 0 0 13px rgba(0, 0, 0, 0.1);
     padding-top: 10px;
     padding-bottom: 10px;
+    top:0;
+    position: sticky;
 }
 
 @media (max-width: 1700px) {
