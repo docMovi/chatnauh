@@ -173,6 +173,7 @@ class Chat {
             }
         }else if(message.type === "notification"){
             this.addNoti(message.name, message.description, message.icon);
+            this.playNotification();
             console.log("added notification " + message.name);
         }
     
@@ -393,6 +394,41 @@ resetNotifications() {
     
     console.log("Notifications have been reset.");
 }
+
+playNotification(){
+        // Get all notification elements
+        const notiBox_ = document.getElementById("notification_");  // Get the first .notification element
+        const notiName = document.getElementById("notification-name");  // Get the first .notification-name element
+        const notiDesc = document.getElementById("notification-description");  // Get the first .notification-description element
+        const notiIcon = document.getElementById("notification-icon");  // Get the first .notification-icon element
+   
+       
+     
+        notiName.innerText = "You just got a new notification!";
+        notiDesc.innerText = "Turn back to the main screen and find out.";
+        notiIcon.src = "res/alerted.png"; // Use a default icon if no icon is provided
+    
+                    // Add the 'show' class after the delay (i * 2000 to show notifications sequentially)
+       setTimeout(() => {
+                if (notiBox_) {      
+                  notiBox_.style.opacity = 1;
+                } else {
+                     console.log("ERROR: notiBox_ is undefined during setTimeout");
+                 }
+            }, 1 * 2000);  // Delay each notification by 2 seconds (2000 ms)
+    
+            //  after 5 seconds
+               setTimeout(() => {
+                    if (notiBox_) {
+                            notiBox_.style.opacity = 0;
+                        } else {
+                            console.log("ERROR: notiBox_ is undefined during setTimeout");
+                        }
+                }, (1 * 2000) + 5000);  
+       }
+     
+        
+    
 
 
 
