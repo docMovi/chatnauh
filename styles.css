@@ -246,6 +246,9 @@ body {
     display: none;
 }
 
+.modal {
+    visibility: hidden;   
+}
 
 .modal-content {
   background-color: white;
