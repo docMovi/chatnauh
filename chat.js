@@ -63,6 +63,8 @@ class Chat {
         if (savedChatHistory) {
             this.messageDiv.innerHTML = savedChatHistory;
             this.messageDiv.scrollTop = this.messageDiv.scrollHeight;
+        }else {
+            this.displayMessage(0);
         }
    
         if (savedMessageIndex) {
