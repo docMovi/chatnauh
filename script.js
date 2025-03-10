@@ -102,6 +102,7 @@ function tryPlayingNoti(noti) {
     const notiName = document.getElementById("notification-name");  // Get the first .notification-name element
     const notiDesc = document.getElementById("notification-description");  // Get the first .notification-description element
     const notiIcon = document.getElementById("notification-icon");  // Get the first .notification-icon element
+    
 
     // Loop through the notifications
     for (let i = 0; i < noti.length; i++) {
@@ -110,6 +111,7 @@ function tryPlayingNoti(noti) {
             // Do nothing if the notification is already activated
         } else {
             console.log(noti[i].name + " AND " + noti[i].description + " WITH " + noti[i].alerted);
+            const notiProfile = document.getElementById("dot" + noti[i].profile);
 
             // Mark the notification as activated
             noti[i].alerted = true;
@@ -124,6 +126,8 @@ function tryPlayingNoti(noti) {
                 notiName.innerText = noti[i].name;
                 notiDesc.innerText = noti[i].description;
                 notiIcon.src = noti[i].icon || "res/logo.png"; // Use a default icon if no icon is provided
+                notiProfile.style.visibility = "visible";
+                console.log(notiProfile);
 
                 // Add the 'show' class after the delay (i * 2000 to show notifications sequentially)
                 setTimeout(() => {

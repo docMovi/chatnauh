@@ -174,7 +174,7 @@ class Chat {
                 this.wait = true;
             }
         }else if(message.type === "notification"){
-            this.addNoti(message.name, message.description, message.icon);
+            this.addNoti(message.name, message.description, message.icon, message.profile);
             this.playNotification();
             console.log("added notification " + message.name);
         }
@@ -375,13 +375,14 @@ loadAllNotis(){
     }
 }
 
-addNoti(name, description, icon_) {
+addNoti(name, description, icon_, profile_) {
     const newNot = {
         id: this.notifications.length + 1,
         name: name,
         description: description,
         alerted: false,
-        icon: icon_
+        icon: icon_,
+        profile: profile_
     };
     this.notifications.push(newNot);
     this.saveNotifications();  

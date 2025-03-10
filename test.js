@@ -14,7 +14,7 @@
         { type: 'text', text: "Best of luck with your assignment!", options: ["..."], paths: [12] }, // 10
         { type: 'text', text: "Have a nice day then!", options: ["...", "See you"], paths: [12, 12] }, // 11
         { type: 'complete', goal: "chatWithTestname"},          //12
-        { type: 'notification', name: "You have a new message!", description: "Someone texted you in chatnauh. Click on the app to see more.", icon: "https://www.famousbirthdays.com/headshots/hannah-kim-3.jpg"},          //13
+        { type: 'notification', name: "You have a new message!", description: "Someone texted you in chatnauh. Click on the app to see more.", icon: "https://www.famousbirthdays.com/headshots/hannah-kim-3.jpg", profile: 2},          //13
         { type: 'createAndWait', goal: "chatWithAva", description: "Chat with Ava for the first time."}, // 14
         { type: 'text', text: "Hi!", options: ["Hi, how are you?", "What do you want?"], paths: [16, 17]}, // 15
         { type: 'text', text: "good! How are you?", options: ["Better", "Good"], paths: [17, 18]}, // 16
