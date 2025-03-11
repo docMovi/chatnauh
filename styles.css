@@ -34,6 +34,7 @@ body {
   
   .message.user {
     justify-content: flex-end;
+    margin-left: 25%;
   }
   
   .message.bot {

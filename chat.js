@@ -101,6 +101,7 @@ class Chat {
     
         const modCanvas = document.getElementById("modal");
         modCanvas.style.visibility = "hidden";
+        this.addListener(modCanvas);
         // Handle the type of message (text, image, wait, etc.)
         if (message.type === 'text') {
             messageDiv.textContent = message.text;
@@ -112,7 +113,7 @@ class Chat {
             imgElement.style.maxWidth = '100%';
             messageDiv.appendChild(imgElement);
             this.message_ = "[img]";
-          
+            //this.addListener(modCanvas);
             imgElement.addEventListener('click', () => this.openPic(imgElement, modCanvas));
         } else if (message.type === "wait"){
             let id = this.qm.getQuestID(message.goal);
@@ -228,17 +229,23 @@ class Chat {
 
     handleOptionClick(optionIndex, paths) {
         const currentMessage = this.gameData.messages[this.gameData.currentMessageIndex];
+        let selectedOptionText;
         if (paths[optionIndex] === undefined) {
             console.error('Undefined path for option index: ', optionIndex);
             return;
         }
         const nextMessageIndex = paths[optionIndex];
-        const selectedOptionText = currentMessage.options[optionIndex];
+        if(currentMessage.optionsBig){
+            selectedOptionText = currentMessage.optionsBig;
+        }else{
+            selectedOptionText = currentMessage.options[optionIndex];
+        }
+        this.message_ = selectedOptionText;
     
         // Show user message
         const userMessageDiv = document.createElement('div');
         userMessageDiv.className = 'message user';
-        userMessageDiv.textContent = `You: ${selectedOptionText}`;
+        userMessageDiv.textContent = ` ${selectedOptionText}`;
         this.messageDiv.appendChild(userMessageDiv);
     
         // Update current message index to next one in path
@@ -356,7 +363,6 @@ loadAllNotis(){
     }
 
     const savedNotis = localStorage.getItem("notifications");
-    console.log(savedNotis);
 
     if (savedNotis) {
         const parsedNotis = JSON.parse(savedNotis);
@@ -429,17 +435,21 @@ playNotification(){
                         }
                 }, (1 * 2000) + 5000);  
        }
-     
-        
-    
-
-
 
 saveNotifications(){
-    console.log("saving " + this.notifications);
     localStorage.setItem("notifications", JSON.stringify(this.notifications))
 }
-    
+
+addListener(modCanvas) {
+    const images = document.querySelectorAll('img');
+
+    images.forEach(image => {
+        image.addEventListener('click', () => {
+            this.openPic(image, modCanvas);
+        });
+    });
+}
+   
 }
 
 export default Chat;

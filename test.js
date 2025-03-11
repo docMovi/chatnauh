@@ -20,8 +20,9 @@
         { type: 'text', text: "good! How are you?", options: ["Better", "Good"], paths: [17, 18]}, // 16
         { type: 'text', text: "Well.. What are you doing?", options: ["Depends", "Nothing really"], paths: [18, 20]}, // 17
         { type: 'text', text: "What do you mean?", options: [], paths: []}, // 18
-        { type: 'image', imgUrl: "https://media.tenor.com/GSUqW6Z4gQAAAAAM/funny-video-comedy.gif", options: [], paths: []}, // 19
-        
+        { type: 'image', imgUrl: "https://media.tenor.com/GSUqW6Z4gQAAAAAM/funny-video-comedy.gif", options: ["nice response", "mean response"], optionsBig: ["I love your personality. Keep acting that way","Just come to the point. What do you want?"], paths: [20,21]}, // 19
+        { type: 'text', text: "I like you too. Anyway..."}, // 20
+        { type: 'image', imgUrl: "https://www.xgif.cc/preview/?code=AdmirableAncientHorseshoebat", options: [], paths: []}, // 21
     ]  
 
 export default profile1Messages;

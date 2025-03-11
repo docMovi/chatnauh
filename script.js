@@ -153,7 +153,6 @@ function tryPlayingNoti(noti) {
             }
         }
     }
-    console.log(noti);
     saveNotifications(JSON.stringify(noti));
 }
 function resetNotifications() {
@@ -166,7 +165,6 @@ function resetNotifications() {
     console.log("Notifications have been reset.");
 }
 function saveNotifications(noti){
-    console.log("saving " + noti);
     localStorage.setItem("notifications", noti);
 }
 
