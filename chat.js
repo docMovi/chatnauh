@@ -36,6 +36,7 @@ class Chat {
         this.loadChatHistory();
 
         this.notifications = [];
+        this.profilePic = "";
     }
 
     setMessages(messages) {
@@ -53,6 +54,7 @@ class Chat {
             resetButton.addEventListener('click', () => this.resetChatHistory());
         }
     }
+
 
     loadChatHistory() {
         console.log("Loading chat history...");
@@ -98,24 +100,52 @@ class Chat {
         const message = this.gameData.messages[messageIndex];
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message bot';
-    
+
+        messageDiv.style.setProperty("--avatar-background-image", `url(${profilePic.src})`)
+
         const modCanvas = document.getElementById("modal");
         modCanvas.style.visibility = "hidden";
         this.addListener(modCanvas);
+        //messageDiv.appendChild(this.botAvatar);
+
         // Handle the type of message (text, image, wait, etc.)
         if (message.type === 'text') {
             messageDiv.textContent = message.text;
             this.message_ = message.text;
-        } else if (message.type === 'image') {
-            const imgElement = document.createElement('img');
-            imgElement.src = message.imgUrl;
-            imgElement.alt = 'Image message';
-            imgElement.style.maxWidth = '100%';
-            messageDiv.appendChild(imgElement);
-            this.message_ = "[img]";
-            //this.addListener(modCanvas);
-            imgElement.addEventListener('click', () => this.openPic(imgElement, modCanvas));
-        } else if (message.type === "wait"){
+        } else if (message.type === 'image' || message.type === 'video') {
+            const spoilerContainer = document.createElement('div');
+            spoilerContainer.classList.add('spoiler-container');
+            
+            const contentElement = document.createElement(message.type === 'image' ? 'img' : 'video');
+            
+            if (message.type === 'image') {
+                contentElement.src = message.imgUrl;
+                contentElement.alt = message.imgUrl;
+            } else {
+                contentElement.src = message.imgUrl;
+                contentElement.controls = true;
+            }
+            contentElement.classList.add('spoiler-content');
+            spoilerContainer.appendChild(contentElement);
+        
+            const spoilerText = document.createElement('div');
+            spoilerText.classList.add('spoiler-text');
+            spoilerText.textContent = 'Achtung: Sensibler Inhalt. Klicken, um anzuzeigen!';
+            spoilerContainer.appendChild(spoilerText);
+
+            spoilerContainer.addEventListener('click', () => {
+                contentElement.classList.remove('spoiler-content');  
+                contentElement.classList.add('revealed');          
+                spoilerText.style.display = 'none';
+            });
+        
+            messageDiv.appendChild(spoilerContainer);
+            this.message_ = "[" + message.type + "]";  
+            if(message.type === "image"){
+                contentElement.addEventListener('click', () => this.openPic(contentElement, modCanvas));
+            }
+        }
+         else if (message.type === "wait"){
             let id = this.qm.getQuestID(message.goal);
             if(this.qm.questIDExist(id)){
                 if(this.qm.getQuestProgress(id) == "completed"){
@@ -211,6 +241,7 @@ class Chat {
     
             this.gameData.currentMessageIndex = messageIndex; // Update currentMessageIndex after each message
             this.saveChatHistory();
+            
         }, 2000); // Typing delay for bot messages
     }
     
@@ -246,6 +277,9 @@ class Chat {
         const userMessageDiv = document.createElement('div');
         userMessageDiv.className = 'message user';
         userMessageDiv.textContent = ` ${selectedOptionText}`;
+        let pfp = localStorage.getItem("pfp")
+        console.log("pfp: " + pfp);
+        userMessageDiv.style.setProperty("--avatar-image", `url(${pfp})`);
         this.messageDiv.appendChild(userMessageDiv);
     
         // Update current message index to next one in path

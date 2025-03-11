@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setUpActiveProfile(activeProfile);
     console.log(localStorage.getItem("quests"));
     setUpQuests(quests);
+    localStorage.setItem("pfp", 'https://cammio.com/wp/wp-content/uploads/cammio/2018/02/blank-profile-picture-973461_1280-300x300.png')
 });
 
 function setUpActiveProfile(activeProfile) {

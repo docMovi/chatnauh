@@ -29,19 +29,32 @@ body {
 
   .message {
     display: flex;
+    max-width: 60%;  
+    padding: 10px;
+    border-radius: 15px; 
     margin-bottom: 10px;
-  }
-  
-  .message.user {
+    word-wrap: break-word;  
+    font-size: 16px; 
+}
+
+.message.user {
     justify-content: flex-end;
     margin-left: 25%;
-  }
-  
-  .message.bot {
-    justify-content: flex-start;
+    background-color: #DCF8C6;  
+    color: #000; 
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); 
     position: relative;
-    overflow: hidden;
-  }
+    padding: 12px 18px;  
+}
+
+.message.bot {
+    justify-content: flex-start;
+    background-color: #F0F0F0; 
+    color: #333;  
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); 
+    position: relative;
+    padding: 12px 18px; 
+}
   .message.bot img {
     width: 80%;
     height: 50%;
@@ -51,11 +64,40 @@ body {
     object-fit: cover;
     position: relative;
   }
+
+  .message.user::before {
+    content: '';
+    background-image: var(--avatar-image, url('res/logo.png')); /* Benutzer Avatar */
+    background-size: cover;
+    background-position: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    left: -40px;  /* Avatar auf der linken Seite des Containers */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.message.bot::before {
+    content: '';
+    background-image: var(--avatar-background-image, url('res/logo.png'));
+    background-size: cover;
+    background-position: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    right: -40px;  /* Avatar auf der rechten Seite des Containers */
+    top: 50%;
+    transform: translateY(-50%);
+}
   
-  .message.bot img:hover {
-    transform: scale(1.1);
-    z-index: 2;
-  }
+  .message:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);  /* Etwas stärkerer Schatten beim Hover */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
   .message .text {
     max-width: 70%;
@@ -212,6 +254,7 @@ body {
     border-radius: 25px;
     margin-right: 10px;
 }
+
 .profile- h2{
   margin: 12px 0;
   text-decoration: none;
@@ -386,3 +429,56 @@ body {
   }
 }
 
+.spoiler-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  overflow: hidden;
+  max-width: 100%;  /* Initial size limit */
+  height: 50%;
+}
+
+.spoiler-content {
+  opacity: 0.1;            
+  filter: grayscale(100%);       
+  transition: opacity 0.3s ease, filter 0.3s ease, max-width 0.3s ease;  /* Smooth transition for resizing */
+  width: 200px;   
+  height: 200px;;
+}
+
+.spoiler-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.spoiler-container:hover .spoiler-content {
+  opacity: 0.2; /* Show some feedback when hovering */
+}
+
+.spoiler-container .revealed {
+  opacity: 1;         
+  filter: grayscale(0%);
+  max-width: none;      
+  width: 100%;         
+  height: 100%;;
+}
+
+
+@media (max-width: 600px) {
+  .spoiler-container {
+      max-width: 100%;
+  }
+
+  .spoiler-text {
+      font-size: 12px; /* Kleinere Schrift für mobile Geräte */
+      padding: 8px;
+  }
+}
