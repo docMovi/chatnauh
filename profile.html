@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles_Pr.css">
+    <title>Chaty - Profile</title>
+    <link rel="icon" href="res/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="profile-container">
+        <h1 id="lower">CHATNAUH💙</h1>
+        <div class="profile-section">
+            <img id="preview-img" src="res/unknown.png" alt="Profilbild" class="preview-img">
+            <button id="remove-img-btn">X</button>
+            <div id="profile-menu">
+            <ul>
+                <li><img src="res/profile1.jpg" alt="Voreingestelltes Bild 1" class="profile-option" data-image="res/profile1.jpg"></li>
+                <li><img src="res/profile2.png" alt="Voreingestelltes Bild 2" class="profile-option" data-image="res/profile2.png"></li>
+                <li><img src="res/profile3.jpg" alt="Voreingestelltes Bild 3" class="profile-option" data-image="res/profile3.jpg"></li>
+                <li><img src="res/profile4.gif" alt="Voreingestelltes Bild 4" class="profile-option" data-image="res/profile4.gif"></li>
+                <li><img src="res/profile5.jpg" alt="Voreingestelltes Bild 5" class="profile-option" data-image="res/profile5.jpg"></li>
+                <li><img src="res/profile6.gif" alt="Voreingestelltes Bild 6" class="profile-option" data-image="res/profile6.gif"></li>
+                <li><img src="res/profile7.jpg" alt="Voreingestelltes Bild 7" class="profile-option" data-image="res/profile7.jpg"></li>
+                <li><img src="res/profile8.avif" alt="Voreingestelltes Bild 8" class="profile-option" data-image="res/profile8.avif"></li>
+                <li><img src="res/profile9.jpg" alt="Voreingestelltes Bild 9" class="profile-option" data-image="res/profile9.jpg"></li>
+                <li><img src="res/profile10.jpg" alt="Voreingestelltes Bild 7" class="profile-option" data-image="res/profile10.jpg"></li>
+                <li><img src="res/profile11.webp" alt="Voreingestelltes Bild 8" class="profile-option" data-image="res/profile11.webp"></li>
+                <li><img src="res/profile12.gif" alt="Voreingestelltes Bild 9" class="profile-option" data-image="res/profile12.gif"></li>
+                <li><img src="res/profile13.gif" alt="Voreingestelltes Bild 9" class="profile-option" data-image="res/profile13.gif"></li>
+                <li><img src="res/profile14.webp" alt="Voreingestelltes Bild 9" class="profile-option" data-image="res/profile14.webp"></li>
+                <li><img src="res/profile15.gif" alt="Voreingestelltes Bild 9" class="profile-option" data-image="res/profile15.gif"></li>
+                <li><img src="res/profile16.jpg" alt="Voreingestelltes Bild 9" class="profile-option" data-image="res/profile16.jpg"></li>
+                <li><button id="upload-btn">Eigenes Bild hochladen</button></li>
+            </ul>
+        </div> 
+
+        <input type="file" id="file-input">
+  
+
+        <div class="profile-section">
+            <label for="name">Name:</label>
+            <div class="profile-sectionText">
+                <input type="text" id="name" placeholder="input your name">
+                <button id="edit-name-btn">✓</button> <!-- New button to allow editing -->
+            </div>
+        </div>
+        
+
+        <div class="profile-section">
+            <label for="favorite-color">Choose A Color:</label>
+            <input type="color" id="favorite-color">
+        </div>
+
+        <button id="save-profile">Save Profile</button>
+
+        <button id="back" onclick="window.location.href='index.html';"></button>
+    </div>
+
+    <script src="chatnauh.js"></script>
+</body>
+</html>

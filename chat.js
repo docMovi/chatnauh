@@ -103,6 +103,22 @@ class Chat {
 
         messageDiv.style.setProperty("--avatar-background-image", `url(${profilePic.src})`)
 
+        let messageUserDivs = document.querySelectorAll(".message.user");
+        if(messageUserDivs.length > 0){
+            let color = localStorage.getItem("color_");
+            if(color){
+                messageUserDivs.forEach(function(div){
+                    div.style.setProperty("--myColor", color);
+                });
+            }else{
+                messageUserDivs.forEach(function(div) {
+                    div.style.setProperty("--myColor", "#DCF8C6");  // Set default color
+                });
+            }
+        }else {
+            console.log("ERROR: messageUserNotFound");
+        }
+
         const modCanvas = document.getElementById("modal");
         modCanvas.style.visibility = "hidden";
         this.addListener(modCanvas);
@@ -277,9 +293,16 @@ class Chat {
         const userMessageDiv = document.createElement('div');
         userMessageDiv.className = 'message user';
         userMessageDiv.textContent = ` ${selectedOptionText}`;
-        let pfp = localStorage.getItem("pfp")
+        let pfp = localStorage.getItem("pfp_");
         console.log("pfp: " + pfp);
-        userMessageDiv.style.setProperty("--avatar-image", `url(${pfp})`);
+        if(pfp){
+            userMessageDiv.style.setProperty("--avatar-image", `url(${pfp})`);
+        }else{
+            userMessageDiv.style.setProperty("--avatar-image", `url(${"res/logo.png"})`);
+        }
+        
+        
+        
         this.messageDiv.appendChild(userMessageDiv);
     
         // Update current message index to next one in path
@@ -483,6 +506,7 @@ addListener(modCanvas) {
         });
     });
 }
+
    
 }
 

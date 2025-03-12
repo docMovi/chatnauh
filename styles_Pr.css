@@ -1,0 +1,466 @@
+
+body {
+    font-family: 'Montserrat', sans-serif; /* Montserrat Schriftart */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4; /* Helles Hintergrund */
+    font-size: 16px; /* Standard Schriftgröße */
+    color: #333; /* Dunkle Textfarbe für bessere Lesbarkeit */
+    font: bold;
+  }
+  
+  
+  /* Basis-Stil für die Profile-Seite */
+  .profile-container {
+    width: 100%;
+    max-width: 23%;
+    height: 100%;
+    max-height: 80%; /* Setze hier die maximale Höhe */
+    background-color: white;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    padding: 20px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden; /* Verhindert, dass der Inhalt des Containers überläuft */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Ausrichtung der Inhalte */
+}
+
+  
+  /* Stil für die Überschrift */
+  #lower {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 700;
+  }
+  
+  /* Bereich für jedes Profil-Element */
+  .profile-section {
+    margin-bottom: 30px;
+  }
+  
+  /* Stil für Eingabefelder */
+  input[type="text"], input[type="color"], input[type="file"] {
+    width: 80%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin-top: 12px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Sanfter Schatten für Eingabefelder */
+    animation: slideUpProfile 1s ease-out forwards;
+  }
+  
+  /* Eingabefelder Hover-Effekt */
+  input[type="text"]:focus, input[type="color"]:focus, input[type="file"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(0, 204, 0, 0.3);
+    outline: none;
+  }
+  
+  
+  #preview-img {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: contain;
+    margin-bottom: 5%;
+    border: 3px solid #ddd;
+    transition: all 0.3s ease;
+    animation: slideUpProfile 1s ease-out forwards;
+  }
+  
+  /* Hover-Effekt für Profilbild-Vorschau */
+  #preview-img:hover {
+    transform: scale(1.05);
+    border-color: #4CAF50;
+  }
+
+  #upload-btn {
+    padding: 8px 16px;
+    margin-top: 10px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    width: auto;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+  
+  /* Stil für den Datei-Upload-Button */
+  input[type="file"] {
+    padding: 12px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    color: #333;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+    width: 80%;
+    animation: slideUpProfile 1s ease-out forwards;
+  }
+  
+  /* Hover-Effekt für Datei-Upload-Button */
+  input[type="file"]:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Farbauswahl-Button */
+  input[type="color"] {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: slideUpProfile 1s ease-out forwards;
+  }
+  
+  /* Hover-Effekt für Farbauswahl-Button */
+  input[type="color"]:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Eingabefelder und Buttons beim Hover interaktiver machen */
+  input[type="text"]:hover, input[type="color"]:hover, input[type="file"]:hover {
+    border-color: #4CAF50;
+    box-shadow: 0 0 12px rgba(0, 204, 0, 0.3);
+  }
+
+  #name {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease; /* Smooth transition for changes */
+    margin-right: 10px; /* Space between input and button */
+    width: 200px; /* Set a fixed width */
+}
+
+#name:disabled {
+    background-color: #f0f0f0;
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.2;
+}
+
+#name:hover:enabled {
+    border-color: #4CAF50; /* Green border when focused */
+    box-shadow: 0 0 8px rgba(0, 204, 0, 0.3); /* Subtle shadow */
+}
+
+
+  input[type="text"]:disabled {
+    background-color: #f0f0f0;
+    color: #888;
+    opacity: 0.3;
+    }
+
+    #edit-name-btn {
+        padding: 8px 12px;
+        font-size: 16px;
+        background-color: #4CAF50; /* Green background */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    #edit-name-btn:hover{
+        background-color: #45a049;
+        transform: scale(1.05); /* Slightly enlarge button on hover */
+    }
+
+    #edit-name-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        transform: none; /* Reset scaling on disabled state */
+    }
+    #edit-name-btn:focus {
+        outline: none;
+    }
+    .profile-sectionText {
+        display: flex;
+        align-items: center; /* Vertically center the input and button */
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 600px) {
+        .profile-sectionText {
+            flex-direction: column; 
+            align-items: flex-start;
+        }
+        #name {
+            width: 100%; /* Input takes full width on smaller screens */
+            margin-right: 0;
+        }
+        #edit-name-btn{
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+  
+  /* Abgerundeter Stil für alle Buttons */
+  button {
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    width: 40%; /* Damit der Button die gesamte Breite nutzt */
+    margin-left: 2%;
+    animation: slideUpProfile 1s ease-out forwards;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
+  
+  button:active {
+    transform: translateY(2px);
+  }
+  
+  #back {
+    background-color: #9c9c9c;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 40%;  
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute; 
+    bottom: 20px;  
+    left: 50%;  
+    transform: translateX(-50%);  
+    animation: slideUp 1s ease-out forwards;
+  }
+  
+  #back:hover {
+    background-color: #d4615d;  /* Wechsel von Grau zu Orange */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);  /* Stärkerer Schatten */
+    filter: brightness(1.2);  /* Hellerer Effekt */
+  }
+  
+  /* Aktiver Effekt beim Klicken */
+  #back:active {
+    transform: scale(1) translateY(10px); /* Button zurück auf normale Größe und nach unten drücken */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Normaler Schatten beim Klicken */
+  }
+  
+  @keyframes slideUp {
+    0% {
+        transform: translate(-50%, 20px) scale(0.8);  /* Startposition: etwas kleiner und unterhalb */
+        opacity: 0;
+    }
+    60% {
+        transform: translate(-50%, 0) scale(1.05);  /* Vergrößert und leicht nach oben bewegt */
+        opacity: 0.8;  /* Button wird allmählich sichtbar */
+    }
+    100% {
+        transform: translateX(-50%) scale(1);  /* Endposition: normal groß und zentriert */
+        opacity: 1;
+    }
+  }
+
+  /* Stil für das "X"-Button */
+  .profile-preview {
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#preview-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+#preview-img:hover {
+    transform: scale(1.05);
+    border-color: #4CAF50;
+}
+
+#remove-img-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #d61f1f; /* Rotes X */
+    color: white;
+    font-size: 24px;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+#remove-img-btn:hover {
+    background-color: #e53935;
+    opacity: 1;
+}
+
+
+  @keyframes slideUpProfile {
+    0% {
+        transform: translateX(-20px) scale(0.8);
+        opacity: 0;
+    }
+    60% {
+        transform: translateX(0) scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+  }
+  
+  
+@media (max-width: 1700px) {
+    .profile-container {
+        max-width: 30%; /* Slightly increase container width on smaller screens */
+        padding: 15px; /* Reduce padding to fit more content */
+    }
+    .notification_{
+        width: 30%;
+    }
+  }
+  /* Media query for smaller screens like tablets and phones */
+  @media (max-width: 1400px) {
+    .profile-container {
+        max-width: 35%; /* Slightly increase container width on smaller screens */
+        padding: 15px; /* Reduce padding to fit more content */
+    }
+    .notification_{
+      width: 30%;
+  }
+  }
+  
+  @media (max-width: 1200px) {
+      .profile-container {
+          max-width: 40%; /* Slightly increase container width on smaller screens */
+          padding: 15px; /* Reduce padding to fit more content */
+      }
+      .notification_{
+        width: 30%;
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .profile-container {
+        max-width: 45%; /* Slightly increase container width on smaller screens */
+        padding: 15px; /* Reduce padding to fit more content */
+    }
+   
+  }
+  
+  @media (max-width: 768px) {
+      .profile-container {
+          max-width: 60%; /* Allow it to take up more space on smaller screens */
+          padding: 10px;
+      }
+  }
+  
+  @media (max-width: 480px) {
+      .profile-container {
+          max-width: 80%; /* Further increase container width */
+          padding: 10px;
+      }
+
+  }
+
+  #profile-menu {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    width: 80%;  /* Feste Breite für das Menü */
+    max-height: 40%; /* Begrenzte Höhe für das Menü */
+    overflow-y: auto;  /* Scrollen aktivieren, wenn nötig */
+    text-align: center;
+    overflow-x: hidden; /* Verhindert horizontales Scrollen */
+    z-index: 99;
+}
+
+#profile-menu h3 {
+    margin-bottom: 15px;
+}
+
+#profile-menu ul {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3,1fr); 
+    gap: 15px;  /* Abstand zwischen den Bildern */
+    justify-items: center;
+    grid-auto-rows: 80px;  /* Höhe jeder Reihe */
+}
+
+#profile-menu ul li {
+    margin: 10px 0;
+}
+
+#profile-menu img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+#profile-menu img:hover {
+    transform: scale(1.1);
+}
+
+#file-input {
+    display: none;
+}
