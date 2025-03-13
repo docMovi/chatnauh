@@ -11,6 +11,8 @@ window.onload = function(){
     const colorPicker = document.getElementById('favorite-color');
     if(nameInput){
         loadHistory();
+    }else{
+        console.log("failed to load");
     }
    
 
