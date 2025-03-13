@@ -1,9 +1,9 @@
 window.onload = function(){
-    if(window.location.pathname === "/profile.html"){
-        console.log("you're on profile.html");
-    }else{
-        return;
-    }
+    //if(window.location.pathname === "/profile.html"){
+     //   console.log("you're on profile.html");
+    //}else{
+      //  return;
+    //}
     const menu = document.getElementById('profile-menu');
     const nameInput = document.getElementById('name');
     const editNameButton = document.getElementById('edit-name-btn');
