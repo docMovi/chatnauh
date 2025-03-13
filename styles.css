@@ -351,7 +351,7 @@ body {
 .notification {
   position: fixed;
   bottom: 2%;
-  right: 20px;
+  right: 1%;
   background-color: #ff4f58; /* Vibrant color */
   color: white;
   padding: 15px;

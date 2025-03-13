@@ -99,7 +99,8 @@ class Chat {
 
         const message = this.gameData.messages[messageIndex];
         const messageDiv = document.createElement('div');
-        messageDiv.className = 'message bot';
+        messageDiv.className = 'message bot';       
+       
 
         messageDiv.style.setProperty("--avatar-background-image", `url(${profilePic.src})`)
 
@@ -146,7 +147,7 @@ class Chat {
         
             const spoilerText = document.createElement('div');
             spoilerText.classList.add('spoiler-text');
-            spoilerText.textContent = 'Achtung: Sensibler Inhalt. Klicken, um anzuzeigen!';
+            spoilerText.textContent = 'Spoiler: Click to reveal!';
             spoilerContainer.appendChild(spoilerText);
 
             spoilerContainer.addEventListener('click', () => {
@@ -190,6 +191,7 @@ class Chat {
                 this.qm.startQuest(id);
                 this.qm.completeQuest(id);
             }
+
         }else if(message.type === "create"){
             if(this.qm.questNameExist(message.goal)){
                 //Quest already exists
@@ -234,31 +236,38 @@ class Chat {
         setTimeout(() => {
             this.typingIndicator.style.display = 'none';
             const lastBotMessage = this.messageDiv.querySelector('.message.bot:last-child');
+            
+            // Verhindert das Hinzufügen einer leeren Nachricht
+          
+        
             if (lastBotMessage && lastBotMessage.innerHTML === messageDiv.innerHTML) {
                 this.messageDiv.removeChild(lastBotMessage);
             }
-            this.messageDiv.appendChild(messageDiv);
-            this.messageDiv.scrollTop = this.messageDiv.scrollHeight;
-    
-            // After displaying the message, check for options
+            if (messageDiv.innerHTML.trim() === "") {
+                console.log("Empty message!");
+            }else{
+                this.messageDiv.appendChild(messageDiv);
+                this.messageDiv.scrollTop = this.messageDiv.scrollHeight;    
+            }
+            
+            // Nach der Nachricht, Optionen anzeigen oder zum nächsten Schritt gehen
             if (message.options && message.options.length > 0 && !this.wait) {
-                // Show options if available
                 this.displayOptions(message.options, message.paths);
                 this.enableReset();
-            } else if(!this.wait) {
-                // No options, continue to the next message immediately
+            } else if (!this.wait) {
                 this.displayMessage(messageIndex + 1);
-                if(messageIndex != this.gameData.messages.length - 1){
+                if (messageIndex != this.gameData.messages.length - 1) {
                     this.disableReset();
-                }else{
+                } else {
                     this.enableReset();
-                }  
+                }
             }
-    
-            this.gameData.currentMessageIndex = messageIndex; // Update currentMessageIndex after each message
+        
+            this.gameData.currentMessageIndex = messageIndex; // Update currentMessageIndex nach jeder Nachricht
             this.saveChatHistory();
-            
+        
         }, 2000); // Typing delay for bot messages
+        
     }
     
 
@@ -294,12 +303,12 @@ class Chat {
         userMessageDiv.className = 'message user';
         userMessageDiv.textContent = ` ${selectedOptionText}`;
         let pfp = localStorage.getItem("pfp_");
-        console.log("pfp: " + pfp);
         if(pfp){
             userMessageDiv.style.setProperty("--avatar-image", `url(${pfp})`);
         }else{
             userMessageDiv.style.setProperty("--avatar-image", `url(${"res/logo.png"})`);
         }
+        this.messageDiv.scrollTop = this.messageDiv.scrollHeight;
         
         
         

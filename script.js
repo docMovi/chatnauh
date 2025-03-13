@@ -127,7 +127,6 @@ function tryPlayingNoti(noti) {
                 notiDesc.innerText = noti[i].description;
                 notiIcon.src = noti[i].icon || "res/logo.png"; // Use a default icon if no icon is provided
                 notiProfile.style.visibility = "visible";
-                console.log(notiProfile);
 
                 // Add the 'show' class after the delay (i * 2000 to show notifications sequentially)
                 setTimeout(() => {
