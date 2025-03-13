@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+window.onload = function(){
     if(window.location.pathname === "/profile.html"){
         console.log("you're on profile.html");
     }else{
