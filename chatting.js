@@ -3,7 +3,7 @@ import quests from "./questManager.js";
 
 import profile1Messages from "./test.js";
 import profile2Messages from "./profile2.js";
-//import profile3Messages from "./profile3.js"; 
+import profile3Messages from "./profile3.js"; 
 
 const activeProfile = localStorage.getItem('activeProfile');
 const userChat = new Chat(activeProfile, quests);
@@ -31,9 +31,9 @@ function setUpActiveProfile(activeProfile) {
         case 'profile2':
             messages = profile2Messages;
             break;
-       /* case 'profile3':
+        case 'profile3':
             messages = profile3Messages;
-            break; */
+            break; 
         default:
             console.error('Unknown profile selected!');
             return;
@@ -51,7 +51,7 @@ function setUpActiveProfile(activeProfile) {
         profilePic.src = 'res/2prof/pfp.jpg';  
         profileName.textContent = 'Ava Marie'; 
     } else if (activeProfile === 'profile3') {
-        profilePic.src = 'res/test/pfp.jpg';  
+        profilePic.src = 'https://cdni.pornpics.de/1280/3/3/80655471/80655471_010_4a0d.jpg';  
         profileName.textContent = 'Testname3'; 
     }
 }

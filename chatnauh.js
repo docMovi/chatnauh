@@ -23,7 +23,7 @@ window.onload = function(){
     const profileOptions = document.querySelectorAll('.profile-option');
     profileOptions.forEach(function(option) {
         option.addEventListener('click', function(event) {
-            const imageUrl = option.getAttribute('data-image');
+            const imageUrl = option.src;
             const previewImg = document.getElementById('preview-img');
             previewImg.src = imageUrl;
             menu.style.display = 'none'; // Menü schließen nach Auswahl
@@ -54,7 +54,7 @@ window.onload = function(){
         const fileInput = document.querySelector('input[type="file"]');
         
         // Bild auf das Standard-Bild zurücksetzen
-        previewImg.src = 'res/unknown.png';
+        previewImg.src = 'res/pr/unknown.png';
         
         // Zurücksetzen des Dateieingabefeldes
         fileInput.value = '';  // Löscht den Wert des Dateieingabefelds

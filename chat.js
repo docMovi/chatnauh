@@ -292,7 +292,7 @@ class Chat {
         }
         const nextMessageIndex = paths[optionIndex];
         if(currentMessage.optionsBig){
-            selectedOptionText = currentMessage.optionsBig;
+            selectedOptionText = currentMessage.optionsBig[optionIndex];
         }else{
             selectedOptionText = currentMessage.options[optionIndex];
         }

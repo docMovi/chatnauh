@@ -422,11 +422,11 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    width: 80%;  /* Feste Breite für das Menü */
+    width: 110%;  /* Feste Breite für das Menü */
     max-height: 40%; /* Begrenzte Höhe für das Menü */
     overflow-y: auto;  /* Scrollen aktivieren, wenn nötig */
     text-align: center;
-    overflow-x: hidden; /* Verhindert horizontales Scrollen */
+    overflow-x: auto; /* Verhindert horizontales Scrollen */
     z-index: 99;
 }
 
