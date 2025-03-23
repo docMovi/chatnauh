@@ -1,9 +1,9 @@
 const phone = document.getElementById('phone');
 const apps = [
-    { id: "SETTINGS", image: "res/logo.png" },
-    { id: "CHATY", image: "res/logo.png", page: "chatnauh.html" },
-    { id: "GALLERY", image: "res/logo.png" },
-    { id: "STORE", image: "res/logo.png" }
+    { id: "SETTINGS", image: "https://icons.iconarchive.com/icons/dtafalonso/android-lollipop/512/Settings-icon.png" },
+    { id: "CHATY", image: "https://cdn-icons-png.flaticon.com/512/5539/5539745.png", page: "chatnauh.html" },
+    { id: "GALLERY", image: "https://cdn-icons-png.flaticon.com/512/8377/8377243.png" },
+    { id: "STORE", image: "res/icons/store_icon.png" }
 ];
 
 const totalSlots = 12;
