@@ -52,7 +52,7 @@ function setUpActiveProfile(activeProfile) {
         profileName.textContent = 'Ava Marie'; 
     } else if (activeProfile === 'profile3') {
         profilePic.src = 'https://cdni.pornpics.de/1280/3/3/80655471/80655471_010_4a0d.jpg';  
-        profileName.textContent = 'Testname3'; 
+        profileName.textContent = 'Amy (Sis)'; 
     }
 }
 function setUpQuests(qm){

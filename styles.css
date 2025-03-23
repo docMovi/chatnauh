@@ -670,3 +670,7 @@ body {
   }
 }
 
+.message_iframe{
+  width: 250%;
+  height: 200%;
+}

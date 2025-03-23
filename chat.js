@@ -129,18 +129,28 @@ class Chat {
         if (message.type === 'text') {
             messageDiv.textContent = message.text;
             this.message_ = message.text;
-        } else if (message.type === 'image' || message.type === 'video') {
+        } else if (message.type === 'image' || message.type === 'video' || message.type === 'iframe') {
             const spoilerContainer = document.createElement('div');
             spoilerContainer.classList.add('spoiler-container');
             
-            const contentElement = document.createElement(message.type === 'image' ? 'img' : 'video');
+            let contentElement;
             
             if (message.type === 'image') {
+                contentElement = document.createElement("img");
                 contentElement.src = message.imgUrl;
                 contentElement.alt = message.imgUrl;
-            } else {
+            } else if(message.type === "video"){
+                contentElement = document.createElement("video");
                 contentElement.src = message.imgUrl;
                 contentElement.controls = true;
+            }else {
+                //iframe
+                contentElement = document.createElement("iframe");
+                contentElement.src = message.imgUrl; 
+                contentElement.allowFullscreen = true;
+                contentElement.width = '1080';
+                contentElement.height = '1920';
+                contentElement.classList.add("message_iframe");
             }
             contentElement.classList.add('spoiler-content');
             spoilerContainer.appendChild(contentElement);
@@ -376,12 +386,14 @@ class Chat {
    }
    
    openPic(img, modCanvas) {
+       modCanvas.style.zIndex = "1000";
        modCanvas.style.visibility = "visible";
 
        this.disableReset();
 
        const picSlot = document.getElementById("modal-img");
        picSlot.src = img.src;
+      
 
        const close_btn = document.getElementById("close-btn");
        close_btn.addEventListener('click', () => this.closePic(modCanvas, picSlot))
@@ -391,6 +403,7 @@ class Chat {
 
    closePic(modCanvas, picSlot){
        modCanvas.style.visibility = "hidden";
+       modCanvas.style.zIndex = "5";
        this.enableReset();
        picSlot.src = "";
    }
