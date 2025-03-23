@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamisches Drag-and-Drop</title>
+    <style>
+        .phone {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 Spalten */
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .slot {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Standard: Slots unsichtbar (keine gestrichelte Umrandung) */
+        .slot {
+            border: none;
+        }
+
+        /* Aktiv: Slots zeigen eine gestrichelte Umrandung */
+        .dragging-active .slot {
+            border: 2px dashed lightgray;
+        }
+
+        .app {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            cursor: grab;
+            position: relative;
+        }
+
+        /* Aktiv: Apps mit gestricheltem Rand während Drag */
+        .dragging-active .app {
+            border: 2px dashed lightgray;
+        }
+
+        .app.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone" id="phone">
+        <!-- Slots werden durch JavaScript dynamisch befüllt -->
+    </div>
+
+    <script>
+        const phone = document.getElementById('phone');
+
+        // Array mit Apps (Bilder-URLs und Namen)
+        const apps = [
+            { id: "settings", image: "res/logo.png" },
+            { id: "chaty", image: "res/logo.png" },
+            { id: "gallery", image: "res/logo.png"}
+        ];
+
+        // Anzahl der Slots im Grid
+        const totalSlots = 9;
+
+        // Slots initial erstellen und Apps befüllen
+        for (let i = 0; i < totalSlots; i++) {
+            const slot = document.createElement('div');
+            slot.classList.add('slot');
+
+            // Apps in die ersten Slots laden
+            if (i < apps.length) {
+                const app = document.createElement('button');
+                app.classList.add('app');
+                app.setAttribute('draggable', 'true');
+                app.style.backgroundImage = `url(${apps[i].image})`;
+                app.setAttribute('id', apps[i].id);
+
+                // App in den Slot einfügen
+                slot.appendChild(app);
+
+                // Drag-and-Drop-Ereignisse für die App
+                addDragEvents(app);
+            }
+
+            // Slot zur Telefon-Oberfläche hinzufügen
+            phone.appendChild(slot);
+
+            // Drag-and-Drop-Ereignisse für Slots
+            addSlotEvents(slot);
+        }
+
+        let draggedElement = null;
+
+        // Drag-and-Drop-Events für Apps
+        function addDragEvents(app) {
+            app.addEventListener('dragstart', (e) => {
+                draggedElement = e.target;
+                e.target.classList.add('dragging');
+                phone.classList.add('dragging-active'); // Klasse hinzufügen
+            });
+
+            app.addEventListener('dragend', (e) => {
+                e.target.classList.remove('dragging');
+                draggedElement = null;
+                phone.classList.remove('dragging-active'); // Klasse entfernen
+            });
+        }
+
+        // Drag-and-Drop-Events für Slots
+        function addSlotEvents(slot) {
+            slot.addEventListener('dragover', (e) => {
+                e.preventDefault(); // Ermöglicht das Ablegen
+            });
+
+            slot.addEventListener('drop', (e) => {
+                if (!slot.querySelector('.app')) { // Prüft, ob der Slot leer ist
+                    slot.appendChild(draggedElement);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

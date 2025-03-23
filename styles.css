@@ -548,6 +548,22 @@ body {
   animation: shine 40s infinite;  /* Animation für den Glanz */
 }
 
+.time_ h1{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  /* Moderne Schriftart */
+  color: transparent;  /* Text transparent machen, damit nur der Glanz sichtbar wird */
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);  /* Sanfter Schatten für Tiefe */
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #4A90E2, #00C9FF, #4A90E2); /* Glitzer-Farben */
+  background-size: 300% 100%;
+  -webkit-background-clip: text;  /* Hintergrund nur auf den Text anwenden */
+  background-clip: text;
+  animation: shine 40s infinite;  /* Animation für den Glanz */
+}
+
 /* Animation für den Glanz-Effekt */
 @keyframes shine {
   0% {
@@ -669,4 +685,83 @@ body {
       opacity: 1;
   }
 }
+
+
+        .phone {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 20px;
+            justify-items: center;
+        }
+
+        .phone button {
+            width: 80px;
+            height: 80px;
+            background-size: cover;
+            background-position: center;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Textanzeige beim Hover */
+        .phone button::after {
+            content: attr(id); /* Zeigt den ID-Text (z. B. den Namen) */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none; /* Kein Klick auf den Text möglich */
+        }
+
+        .phone button:hover::after {
+            opacity: 1; /* Text wird sichtbar beim Hover */
+        }
+
+        .app {
+          width: 80px;
+          height: 80px;
+          border-radius: 15px;
+          background-size: cover;
+          background-position: center;
+          cursor: grab;
+          border: none;
+      }
+
+      .app.dragging {
+          opacity: 0.5; /* Halbtransparent während des Ziehens */
+          cursor: grabbing;
+      }
+
+      .slot {
+        width: 80px;
+        height: 80px;
+        border: 2px dashed lightgray; /* Leerer Slot-Stil */
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Standard: Slots unsichtbar (keine gestrichelte Umrandung) */
+    .slot {
+      border: none;
+    }
+
+    /* Aktiv: Slots zeigen eine gestrichelte Umrandung */
+    .dragging-active .slot {
+      border: 2px dashed lightgray;
+    }
+    .dragging-active .app {
+      border: 2px dashed lightgray;
+  }
 
