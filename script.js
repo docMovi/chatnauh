@@ -38,19 +38,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadQuests(quests){
     const savedQuests = localStorage.getItem("quests");
-    
+    let parsedQuests;
+
     // Check if there's something stored, and parse it back into an array
     if (savedQuests) {
-        const parsedQuests = JSON.parse(savedQuests);
+        try{
+            parsedQuests = JSON.parse(savedQuests);
+        }catch(error){
+            console.log("Error while parsing quests!");
+        }
+        
 
-        parsedQuests.forEach(newQuest => {
-            const questExists = quests.some(existingQuest => existingQuest.id === newQuest.id || existingQuest.name === newQuest.name);
-
-            if (!questExists) {
-                // If the quest does not exist, push it
-                quests.push(newQuest);
-            }
-        });
+        if(parsedQuests){
+            parsedQuests.forEach(newQuest => {
+                const questExists = quests.some(existingQuest => existingQuest.id === newQuest.id || existingQuest.name === newQuest.name);
+    
+                if (!questExists) {
+                    // If the quest does not exist, push it
+                    quests.push(newQuest);
+                }
+            });
+        }
+        
     } else {
         console.log("Error: no quests found in localstrage");
         quests = []; // If no quests were saved, initialize it as an empty array

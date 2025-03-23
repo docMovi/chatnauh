@@ -120,21 +120,27 @@ class QuestManager {
     loadAllQuests(){
         // Retrieve the JSON string and convert it back into an array
         const savedQuests = localStorage.getItem("quests");
-        
+        let parsedQuests
         // Check if there's something stored, and parse it back into an array
         if (savedQuests) {
-            const parsedQuests = JSON.parse(savedQuests);
+            try{
+                parsedQuests = JSON.parse(savedQuests);
+            }catch(error){
+                console.log("Error while parsing quests!");
+            }
 
-            // If there are quests already loaded, check if the loaded quests exist and merge them
-            parsedQuests.forEach(newQuest => {
-                // Check if the quest is already in the array by id or name
-                const questExists = this.quests.some(existingQuest => existingQuest.id === newQuest.id || existingQuest.name === newQuest.name);
-    
-                if (!questExists) {
-                    // If the quest does not exist, push it
-                    this.quests.push(newQuest);
-                }
-            });
+            if(parsedQuests){
+                parsedQuests.forEach(newQuest => {
+                    // Check if the quest is already in the array by id or name
+                    const questExists = this.quests.some(existingQuest => existingQuest.id === newQuest.id || existingQuest.name === newQuest.name);
+        
+                    if (!questExists) {
+                        // If the quest does not exist, push it
+                        this.quests.push(newQuest);
+                    }
+                });
+            }
+            
         } else {
             console.log("Error: no quests found in localstrage");
             this.quests = []; // If no quests were saved, initialize it as an empty array
