@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>settings</title>
+    <link rel="icon" href="https://icons.iconarchive.com/icons/dtafalonso/android-lollipop/512/Settings-icon.png">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="title">
+            <img src="https://icons.iconarchive.com/icons/dtafalonso/android-lollipop/512/Settings-icon.png" alt="GALLERY">
+            <p>SETTINGS</p>
+        </div>
+        <div class="settings" id="settings">
+            <div class="setting-item">
+                <div>
+                    <h3>Wi-Fi</h3>
+                    <p>Connect to available Wi-Fi networks.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+    
+            <!-- Bluetooth Setting -->
+            <div class="setting-item">
+                <div>
+                    <h3>Bluetooth</h3>
+                    <p>Toggle Bluetooth on or off.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+    
+            <!-- Display Brightness Setting -->
+            <div class="setting-item">
+                <div>
+                    <h3>Display Brightness</h3>
+                    <p>Adjust the screen brightness.</p>
+                </div>
+                <input type="range" min="0" max="100" value="50" class="brightness-slider">
+            </div>
+    
+            <!-- Location Services Setting -->
+            <div class="setting-item">
+                <div>
+                    <h3>Location Services</h3>
+                    <p>Enable or disable location services.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+    
+            <!-- Notifications Setting -->
+            <div class="setting-item">
+                <div>
+                    <h3>Notifications</h3>
+                    <p>Turn on/off notifications.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+    
+            <!-- App Version Info -->
+            <div class="setting-item">
+                <div>
+                    <h3>App Version</h3>
+                    <p>0.2.3</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+        <button id="back" onclick="window.location.href='index.html';"></button>
+    </div>
+    
+    
+    </div>
+    <script src="settings.js"></script>
+</body>
+</html>
