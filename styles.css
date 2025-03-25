@@ -156,7 +156,8 @@ body {
     padding: 20px;
     margin: 0 auto; /* Centers the container */
     box-sizing: border-box;
-    overflow-y: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
 }
 
@@ -546,6 +547,100 @@ body {
   -webkit-background-clip: text;  /* Hintergrund nur auf den Text anwenden */
   background-clip: text;
   animation: shine 40s infinite;  /* Animation für den Glanz */
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  animation: slideUpProfile 1s ease-out forwards;
+}
+
+.title img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  
+}
+
+.title p {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4a4a4a;
+}
+
+/* Gallery Styles */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+  animation: slideUpProfile 1s ease-out forwards;
+}
+
+/* Gallery Item Styles */
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect for Gallery Item */
+.gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Gallery Image */
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border-radius: 15px;
+}
+
+/* Hover Effect on Image */
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Text Overlays on Image */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark semi-transparent background */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  border-radius: 15px;
+}
+
+.gallery-item:hover .overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Overlay Text */
+.overlay-text {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.gallery-item:hover .overlay-text {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
 }
 
 .time_ h1{
