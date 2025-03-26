@@ -225,6 +225,10 @@ body {
       max-width: 30%; /* Slightly increase container width on smaller screens */
       padding: 15px; /* Reduce padding to fit more content */
   }
+  .profile-containerH {
+    max-width: 30%; /* Slightly increase container width on smaller screens */
+    padding: 15px; /* Reduce padding to fit more content */
+}
   .notification_{
       width: 30%;
   }
@@ -235,6 +239,10 @@ body {
       max-width: 35%; /* Slightly increase container width on smaller screens */
       padding: 15px; /* Reduce padding to fit more content */
   }
+  .profile-containerH {
+    max-width: 35%; /* Slightly increase container width on smaller screens */
+    padding: 15px; /* Reduce padding to fit more content */
+}
   .notification_{
     width: 30%;
 }
@@ -245,6 +253,10 @@ body {
         max-width: 40%; /* Slightly increase container width on smaller screens */
         padding: 15px; /* Reduce padding to fit more content */
     }
+    .profile-containerH {
+      max-width: 40%; /* Slightly increase container width on smaller screens */
+      padding: 15px; /* Reduce padding to fit more content */
+  }
     .notification_{
       width: 30%;
   }
@@ -265,6 +277,10 @@ body {
         max-width: 60%; /* Allow it to take up more space on smaller screens */
         padding: 10px;
     }
+    .profile-containerH {
+      max-width: 60%; /* Allow it to take up more space on smaller screens */
+      padding: 10px;
+  }
     .notification_{
       width: 30%;
   }
@@ -278,6 +294,13 @@ body {
     .profile-container h1 {
         font-size: 1.5em; /* Make font smaller on mobile */
     }
+    .profile-containerH {
+      max-width: 80%; /* Further increase container width */
+      padding: 10px;
+  }
+  .profile-containerH h1 {
+      font-size: 1.5em; /* Make font smaller on mobile */
+  }
 }
 
 
