@@ -6,6 +6,11 @@ const apps = [
     { id: "STORE", image: "res/icons/store_icon.png", page: "appstore.html"}
 ];
 
+let wallpaper = localStorage.getItem("wallpaper_");
+if(wallpaper){
+    const container = document.getElementsByClassName("profile-containerH")[0];
+    container.style.setProperty("--myWallpaper", "url(" + wallpaper + ")");
+}
 const totalSlots = 15;
 
 initializeSlots();
