@@ -677,9 +677,29 @@ body {
   transform: scale(1.05);
 }
 
-#folder img{
+.gallery-item.folder img{
   height: 50%;
 }
+
+.folder-content {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.folder-content img {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 8px;
+}
+
 
 /* Text Overlays on Image */
 .overlay {

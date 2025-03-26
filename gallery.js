@@ -1,14 +1,23 @@
+const images_ = [];
+const videos_ = [];
+let loca = "home";
+const folders = document.querySelectorAll(".gallery-item.folder");
+
 document.addEventListener('DOMContentLoaded', () => {
     // Select all the images inside the gallery
     const images = document.querySelectorAll('.gallery-item img');
-    const folders = document.querySelectorAll("#folder");
+    
     closeModal();
 
-    addImage("https://cdni.pornpics.com/1280/7/725/28128720/28128720_018_02d2.jpg", "Ira undressing");
-    addImage("https://img.freepik.com/free-vector/blur-pink-blue-abstract-gradient-background-vector_53876-174836.jpg?t=st=1743000647~exp=1743004247~hmac=4ffed6313587e088f9462259590431a77b4686d54029c255e1da9f7608b608cc&w=360", "background_image_01")
-    addImage("https://i.pinimg.com/1200x/f7/07/2e/f7072ed7bfc4dc718142bde00dc3d06e.jpg", "background_image_pig")
-    addImage("https://wallpaper-house.com/data/out/6/wallpaper2you_90760.jpg", "background_image_04");
-    addVideo("https://v55.erome.com/4503/6Jg2Fi2C/LId7Ybbx_720p.mp4", "shower_girl");
+    addImage("https://cdni.pornpics.com/1280/7/105/55240289/55240289_046_87a2.jpg", "bj_template", false);
+    addImage("https://cdni.pornpics.com/1280/7/763/70065296/70065296_132_a341.jpg", "belly-laying", false);
+    addImage("https://cdni.pornpics.com/460/7/124/37847024/37847024_026_114d.jpg", "relaxed-shower", false);
+    addImage("https://cdni.pornpics.com/1280/7/751/50312897/50312897_017_d773.jpg", "cute-fingernails", false);
+    addImage("https://cdni.pornpics.com/1280/7/725/28128720/28128720_018_02d2.jpg", "Ira undressing", false);
+    addImage("https://img.freepik.com/free-vector/blur-pink-blue-abstract-gradient-background-vector_53876-174836.jpg?t=st=1743000647~exp=1743004247~hmac=4ffed6313587e088f9462259590431a77b4686d54029c255e1da9f7608b608cc&w=360", "background_image_01", false)
+    addImage("https://i.pinimg.com/1200x/f7/07/2e/f7072ed7bfc4dc718142bde00dc3d06e.jpg", "background_image_pig", false)
+    addImage("https://wallpaper-house.com/data/out/6/wallpaper2you_90760.jpg", "background_image_04", false);
+    addVideo("https://v55.erome.com/4503/6Jg2Fi2C/LId7Ybbx_720p.mp4", "shower_girl", false);
 
     images.forEach(image => {
         image.addEventListener('click', (event) => {
@@ -22,55 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    document.querySelector('.gallery-modal').addEventListener('click', (e) => {
-        if (e.target === document.querySelector('.gallery-modal')) {
-            if(setWallButton.textContent != "Set as Wallpaper"){
-                setWallButton.textContent = "Set as Wallpaper";
-            }
-            if(setFavoriteButton.textContent == "❤️"){
-                setFavoriteButton.textContent = "♡";
-            }
-            closeModal();
-        }
-    });
-   
-   
-    const setWallButton = document.getElementById('setWallpaper');
-    setWallButton.addEventListener('click', () => {
-        alert('Wallpaper set to: ' + fullscreenImage.src);
-        setWallButton.textContent = "✓";
-        localStorage.setItem("wallpaper_", fullscreenImage.src)
-    });
-
-    const setFavoriteButton = document.getElementById("heart_");
-    setFavoriteButton.addEventListener("click", () => {
-        if(setFavoriteButton.textContent != "❤️"){
-            setFavoriteButton.textContent = "❤️"
-        }else{
-            setFavoriteButton.textContent = "♡";
-        }
-        
-    });
-
-    const closeModalButton = document.getElementById('closeGalModal');
-    closeModalButton.addEventListener('click', () => {
-        if(setWallButton.textContent != "Set as Wallpaper"){
-            setWallButton.textContent = "Set as Wallpaper";
-        }
-        if(setFavoriteButton.textContent == "❤️"){
-            setFavoriteButton.textContent = "♡";
-        }
-        closeModal();
-    });
+   refresh();
 });
-
-
 
 function openFullscreen(imgOrVid) {
     const modal = document.getElementById('profilePicModal');
     const fullscreenImage = document.getElementById('fullscreenImage');
     const fullscreenVideo = document.getElementById('fullscreenVideo');
     const wallButton = document.getElementById("setWallpaper");
+    let clicked;
 
     if (imgOrVid.tagName === 'IMG') {
         wallButton.style.opacity = 100;
@@ -78,21 +47,36 @@ function openFullscreen(imgOrVid) {
         fullscreenImage.src = imgOrVid.src;
         fullscreenImage.style.display = 'block';
         fullscreenVideo.style.display = 'hidden';  
+        clicked = images_.find(iamge => iamge.src === imgOrVid.src);
     }  else if (imgOrVid.tagName === 'VIDEO') {
-        console.log("isn video");
         wallButton.style.opacity = 0;
         fullscreenVideo.src = imgOrVid.src;
         fullscreenVideo.style.display = 'block';
         fullscreenImage.style.display = 'hidden';  
         fullscreenVideo.play();  
+        clicked = videos_.find(vid => vid.src === imgOrVid.src);
     }
 
     modal.style.display = 'block';
+    if(!imgOrVid.dataset.folder){
+        setUpButtons(clicked);
+    }
+
 }
 
 function openFolder(folder){
     closeModal();
-    console.log("opening folder <<" + folder + ">>")
+    const folderName = folder.getAttribute('data-folder');
+    console.log("Opening folder << " + folderName + " >>");
+    if(folderName == "favorites"){
+        loca = "favorites";
+        refresh();
+    }else if(folderName == "videos"){
+        loca = "videos";
+        refresh();
+    }
+
+    
 }
 
 function closeModal() {
@@ -109,7 +93,7 @@ function closeModal() {
     fullscreenVideo.currentTime = 0;
 }
 
-function addImage(src, name){
+function addImage(src, name, favorite){
     const galleryDiv = document.getElementById("gallery");
     const imgElement = document.createElement("div");
     const img_ = document.createElement("img");
@@ -128,12 +112,21 @@ function addImage(src, name){
     imgElement.appendChild(overlay_);
     overlay_.appendChild(text_);
 
+    const tmp = {
+        src: src,
+        name: name,
+        favorite: favorite,
+        element: imgElement
+    };
+    images_.push(tmp);
+    
+
     img_.addEventListener('click', (event) => {
         openFullscreen(event.target);
     });
 }
 
-function addVideo(src, name){
+function addVideo(src, name, favorite){
     const galleryDiv = document.getElementById("gallery");
     const imgElement = document.createElement("div");
     const video_ = document.createElement("video");
@@ -152,7 +145,127 @@ function addVideo(src, name){
     imgElement.appendChild(overlay_);
     overlay_.appendChild(text_);
 
+    const tmp = {
+        src: src,
+        name: name,
+        favorite: favorite,
+        element: imgElement
+    };
+    videos_.push(tmp);
+
     video_.addEventListener('click', (event) => {
         openFullscreen(event.target);
+    });
+}
+
+function setUpButtons(clicked){
+    const setWallButton = document.getElementById('setWallpaper');
+    setWallButton.addEventListener('click', () => {
+        setWallButton.textContent = "✓";
+        localStorage.setItem("wallpaper_", fullscreenImage.src)
+    });
+
+    const setFavoriteButton = document.getElementById("heart_");
+    if(clicked.favorite){setFavoriteButton.textContent =  "❤️";}else{setFavoriteButton.textContent = "♡";}
+    setFavoriteButton.addEventListener("click", () => {
+        if(setFavoriteButton.textContent != "❤️"){
+            setFavoriteButton.textContent = "❤️";
+            clicked.favorite = true;
+        }else{
+            setFavoriteButton.textContent = "♡";
+            clicked.favorite = false;
+        }
+        
+    });
+
+    const closeModalButton = document.getElementById('closeGalModal');
+    closeModalButton.addEventListener('click', () => {
+        if(setWallButton.textContent != "Set as Wallpaper"){
+            setWallButton.textContent = "Set as Wallpaper";
+        }
+        closeModal();
+    });
+
+    document.querySelector('.gallery-modal').addEventListener('click', (e) => {
+        if (e.target === document.querySelector('.gallery-modal')) {
+            if(setWallButton.textContent != "Set as Wallpaper"){
+                setWallButton.textContent = "Set as Wallpaper";
+            }
+            if(setFavoriteButton.textContent == "❤️"){
+                setFavoriteButton.textContent = "♡";
+            }
+            closeModal();
+        }
+    });
+}
+
+function refresh(){
+    if(loca == "home"){
+        console.log("starting page:");
+        for(let i = 0; i < images_.length; i++){
+            images_[i].element.style.display = "block";
+        }
+        for(let i = 0; i < folders.length; i++){
+            folders[i].style.display = "block";
+        }
+        for(let i = 0; i < videos_.length; i++){
+            videos_[i].element.style.display = "none";
+        }
+        
+    }else if(loca == "favorites"){
+        console.log("favorites folder:");
+        for(let i = 0; i < images_.length; i++){
+            if(images_[i].favorite){
+                images_[i].element.style.display = "block";
+            }else{
+                images_[i].element.style.display = "none";
+            }
+        }
+        for(let i = 0; i < videos_.length; i++){
+            if(videos_[i].favorite){
+                videos_[i].element.style.display = "block";
+            }else{
+                videos_[i].element.style.display = "none";
+            }
+        }
+        for(let i = 0; i < folders.length; i++){
+            folders[i].style.display = "none";
+        }
+        createHomeFolder();
+    }else if(loca == "videos"){
+        console.log("video folder:");
+        for(let i = 0; i < images_.length; i++){
+            images_[i].element.style.display = "none";
+        }
+        for(let i = 0; i < videos_.length; i++){
+            videos_[i].element.style.display = "block";
+        }
+        for(let i = 0; i < folders.length; i++){
+            folders[i].style.display = "none";
+        }
+        createHomeFolder();
+    }
+}
+
+function createHomeFolder(){
+    const gallery_ = document.getElementById("gallery");
+    const folder_ = document.createElement("div");
+    const img_ = document.createElement("img");
+    const overlay_ = document.createElement("div");
+
+    folder_.classList.add("gallery-item"); folder_.classList.add("folder");
+    overlay_.classList.add("overlay-text");
+
+    img_.src = "https://i.pinimg.com/736x/8e/b6/56/8eb656ee4829bbf6709a724b36def067.jpg";
+    overlay_.textContent = "HOME";
+
+    gallery_.appendChild(folder_);
+    folder_.appendChild(img_);
+    folder_.appendChild(overlay_);
+
+    folder_.addEventListener('click', () => {
+        loca = "home";
+        refresh();
+        folder_.style.display = "none";
     });
 }
