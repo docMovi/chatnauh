@@ -172,12 +172,12 @@ body {
   padding: 20px;
   margin: 0 auto; /* Centers the container */
   box-sizing: border-box;
-  overflow-y: auto;
+  overflow-y: hidden; /*different*/
   overflow-x: hidden;
   position: relative;
+  
   background-image: var(--myWallpaper); 
   border: 10px solid white; 
-
   background-size: cover;
   background-position: center; 
   background-repeat: no-repeat; 
