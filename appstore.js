@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function startDownload(button) {
+function startDownload(button, app) {
     button.style.display = 'none';
 
     const progressContainer = document.createElement('div');
@@ -69,6 +69,8 @@ function startDownload(button) {
             }, 2000);
         }
     }, 100); // Update the progress every 100ms
+
+
 }
 
 function showInfo(button) {
@@ -115,9 +117,6 @@ function addApps(name, cover, icon, small, info, downloaded){
     buttonCont.appendChild(download);
     buttonCont.appendChild(infob);
 
-    download.addEventListener('click', () => startDownload(download));
-    infob.addEventListener('click', () => showInfo(infob));
-
     const tmp = {
         name: name,
         cover: cover,
@@ -126,5 +125,8 @@ function addApps(name, cover, icon, small, info, downloaded){
         info: info,
         downloaded: downloaded
     };
+
+    download.addEventListener('click', () => startDownload(download, tmp));
+    infob.addEventListener('click', () => showInfo(infob));
     apps.push(tmp);
 }
