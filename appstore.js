@@ -69,8 +69,7 @@ function startDownload(button, app) {
             }, 2000);
         }
     }, 100); // Update the progress every 100ms
-
-
+    app.downloaded = true;
 }
 
 function showInfo(button) {

@@ -1,10 +1,6 @@
 const phone = document.getElementById('phone');
-const apps = [
-    { id: "SETTINGS", image: "https://icons.iconarchive.com/icons/dtafalonso/android-lollipop/512/Settings-icon.png", page: "home_settings.html", active: true },
-    { id: "CHATNAUH", image: "https://cdn-icons-png.flaticon.com/512/5539/5539745.png", page: "chatnauh.html", active: true },
-    { id: "GALLERY", image: "https://cdn-icons-png.flaticon.com/512/8377/8377243.png", page: "gallery.html", active: true },
-    { id: "STORE", image: "res/icons/store_icon.png", page: "appstore.html", active: true}, 
-];
+
+let apps = initializeApps(); // Initialize apps array
 
 let wallpaper = localStorage.getItem("wallpaper_");
 if(wallpaper){
@@ -19,8 +15,39 @@ loadAppOrder();
 document.addEventListener('keydown', function(event) {
    if(event.key === "p"){
         localStorage.removeItem('appOrder');
+        localStorage.removeItem("apps");
+    }
+    if(event.key === "t"){
+        const spotifyApp = apps.find(app => app.id === "SPOTIFY");
+        if (spotifyApp) {
+            spotifyApp.active = !spotifyApp.active;
+            saveApps();  // Save the updated apps array when the active state changes
+        }
+        initializeApps();
+
     }
 });
+
+function initializeApps() {
+    const savedApps = JSON.parse(localStorage.getItem('apps'));
+    if (savedApps) {
+        return savedApps;  // If saved apps exist, return them
+    } else {
+        const defaultApps = [
+            { id: "SETTINGS", image: "https://icons.iconarchive.com/icons/dtafalonso/android-lollipop/512/Settings-icon.png", page: "home_settings.html", active: true },
+            { id: "CHATNAUH", image: "https://cdn-icons-png.flaticon.com/512/5539/5539745.png", page: "chatnauh.html", active: true },
+            { id: "GALLERY", image: "https://cdn-icons-png.flaticon.com/512/8377/8377243.png", page: "gallery.html", active: true },
+            { id: "STORE", image: "res/icons/store_icon.png", page: "appstore.html", active: true}, 
+            { id: "SPOTIFY", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/1024px-Spotify_icon.svg.png?20220821125323", page: "spotify.html", active: false}, 
+        ];
+        localStorage.setItem('apps', JSON.stringify(defaultApps));  // Save default apps to localStorage
+        return defaultApps;
+    }
+}
+
+function saveApps() {
+    localStorage.setItem('apps', JSON.stringify(apps)); // Save the apps array to localStorage
+}
 
 function initializeSlots() {
     for (let i = 0; i < totalSlots; i++) {
@@ -32,13 +59,17 @@ function initializeSlots() {
 }
 
 function loadAppOrder() {
+    console.log("Apps array before filtering:", apps);
     const savedOrder = JSON.parse(localStorage.getItem('appOrder')) || apps.map(app => app.id);
+
+    console.log("Saved app order:", savedOrder);
+
     const sortedApps = savedOrder.map(id => {
         const app = apps.find(app => app.id === id);
-        return app || null;
-    });
-
+        return app && app.active ? app : null;
+    }).filter(app => app !== null);
     const slots = document.querySelectorAll('.slot');
+    
     sortedApps.forEach((app, index) => {
         if (app && slots[index]) { 
             const slot = slots[index];
@@ -63,6 +94,7 @@ function loadAppOrder() {
         }
     });
 
+    // Fill remaining slots with empty slots if necessary
     for (let i = sortedApps.length; i < totalSlots; i++) {
         if (slots[i] && !slots[i].querySelector('.app')) {
             const emptySlot = document.createElement('div');
@@ -71,6 +103,8 @@ function loadAppOrder() {
         }
     }
 }
+
+
 
 function addDragEvents(app) {
     app.addEventListener('dragstart', (e) => {
@@ -108,5 +142,3 @@ function saveAppOrder() {
     });
     localStorage.setItem('appOrder', JSON.stringify(order));
 }
-
-
