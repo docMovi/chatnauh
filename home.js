@@ -1,6 +1,5 @@
 const phone = document.getElementById('phone');
-
-let apps = initializeApps(); // Initialize apps array
+let apps = initializeApps(); 
 
 let wallpaper = localStorage.getItem("wallpaper_");
 if(wallpaper){
@@ -18,13 +17,7 @@ document.addEventListener('keydown', function(event) {
         localStorage.removeItem("apps");
     }
     if(event.key === "t"){
-        const spotifyApp = apps.find(app => app.id === "SPOTIFY");
-        if (spotifyApp) {
-            spotifyApp.active = !spotifyApp.active;
-            saveApps();  // Save the updated apps array when the active state changes
-        }
-        initializeApps();
-
+        activateApp("SPOTIFY");
     }
 });
 
@@ -67,8 +60,9 @@ function loadAppOrder() {
     const sortedApps = savedOrder.map(id => {
         const app = apps.find(app => app.id === id);
         return app && app.active ? app : null;
-    }).filter(app => app !== null);
+    });
     const slots = document.querySelectorAll('.slot');
+    console.log('Sorted apps:', JSON.stringify(sortedApps, null, 2)); 
     
     sortedApps.forEach((app, index) => {
         if (app && slots[index]) { 
@@ -103,8 +97,6 @@ function loadAppOrder() {
         }
     }
 }
-
-
 
 function addDragEvents(app) {
     app.addEventListener('dragstart', (e) => {
@@ -141,4 +133,61 @@ function saveAppOrder() {
         order.push(app ? app.id : null); 
     });
     localStorage.setItem('appOrder', JSON.stringify(order));
+}
+
+function addAppToNextFreeSlot(appId) {
+    const app = apps.find(app => app.id === appId);
+
+    if (!app || !app.active) {
+        console.log("App not found or not active.");
+        return;
+    }
+
+    const slots = document.querySelectorAll('.slot'); 
+    let added = false;  
+
+    for (let i = 0; i < slots.length; i++) {
+        const slot = slots[i];
+
+        if (!slot.querySelector('.app')) {
+            const appElement = document.createElement('button');
+            appElement.classList.add('app');
+            appElement.setAttribute('draggable', 'true');
+            appElement.style.backgroundImage = `url(${app.image})`;
+            appElement.setAttribute('id', app.id);
+
+            if (app.page) {
+                appElement.addEventListener('click', () => {
+                    window.location.href = app.page; 
+                });
+            } else {
+                appElement.addEventListener('click', () => {
+                    alert(`Keine Seite für "${app.id}" definiert!`);
+                });
+            }
+
+            slot.appendChild(appElement);
+            addDragEvents(appElement);
+            
+            added = true;  
+            break; 
+        }
+    }
+
+    if (added) {
+        saveAppOrder();
+    } else {
+        console.log("No empty slot available.");
+    }
+}
+
+function activateApp(id){
+    const app_ = apps.find(app => app.id === id);
+    if (app_) {
+        app_.active = !app_.active;
+        saveApps();  
+    }
+    initializeApps();
+    addAppToNextFreeSlot(id);
+    window.location.reload();
 }
