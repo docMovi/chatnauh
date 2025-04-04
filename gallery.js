@@ -17,8 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     addImage("https://img.freepik.com/free-vector/blur-pink-blue-abstract-gradient-background-vector_53876-174836.jpg?t=st=1743000647~exp=1743004247~hmac=4ffed6313587e088f9462259590431a77b4686d54029c255e1da9f7608b608cc&w=360", "background_image_01", false)
     addImage("https://i.pinimg.com/1200x/f7/07/2e/f7072ed7bfc4dc718142bde00dc3d06e.jpg", "background_image_pig", false)
     addImage("https://wallpaper-house.com/data/out/6/wallpaper2you_90760.jpg", "background_image_04", false);
-    addVideo("https://v55.erome.com/4503/6Jg2Fi2C/LId7Ybbx_720p.mp4", "shower_girl", false);
+    addVideo("https://www.shorts.xxx/content/shorts/956/f76a210693ac0a11b50e21d1d18d28ad.mp4", "shower_girl", false);
+    addVideo("https://nvms11.cdn.privatehost.com/215000/215737/215737.mp4?lr=2500k&lra=5000k&c=14&exp_time=1743785006&sign=1e26d5817c6fac5b101758e594d18c18", "forgot panties", false);
 
+    
     images.forEach(image => {
         image.addEventListener('click', (event) => {
             openFullscreen(event.target);

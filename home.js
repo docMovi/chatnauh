@@ -55,14 +55,11 @@ function loadAppOrder() {
     console.log("Apps array before filtering:", apps);
     const savedOrder = JSON.parse(localStorage.getItem('appOrder')) || apps.map(app => app.id);
 
-    console.log("Saved app order:", savedOrder);
-
     const sortedApps = savedOrder.map(id => {
         const app = apps.find(app => app.id === id);
         return app && app.active ? app : null;
     });
     const slots = document.querySelectorAll('.slot');
-    console.log('Sorted apps:', JSON.stringify(sortedApps, null, 2)); 
     
     sortedApps.forEach((app, index) => {
         if (app && slots[index]) { 
@@ -191,3 +188,4 @@ function activateApp(id){
     addAppToNextFreeSlot(id);
     window.location.reload();
 }
+

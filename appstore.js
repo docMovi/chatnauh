@@ -6,8 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const downloadButtons = document.querySelectorAll('.app-buttons button');
     const bigInfos = document.querySelectorAll(".info-big");
-    
-    // Initially hide all app info sections
     bigInfos.forEach(info => {
         info.style.display = "none";
     });
@@ -36,7 +34,7 @@ document.addEventListener('keydown', function(event) {
 function initializeApps() {
     const savedApps = JSON.parse(localStorage.getItem('apps_store'));
     if (savedApps) {
-        apps = savedApps;  // If saved apps exist, load them
+        apps = savedApps;  
     } else {
         addApps("SPOTIFY",
             "https://cdn.dribbble.com/userupload/28356320/file/original-9e8e7b758718b06bf6f43be0f5bf9c37.gif",
@@ -55,7 +53,7 @@ function startDownload(button, app) {
         button.style.backgroundColor = "green";
         return;
     }
-    button.style.display = 'none'; // Hide the button while downloading
+    button.style.display = 'none';
 
     const progressContainer = document.createElement('div');
     progressContainer.classList.add('progress-container');
@@ -88,13 +86,15 @@ function startDownload(button, app) {
                 button.textContent = "Downloaded";
                 button.style.backgroundColor = "green";
                 progressContainer.remove();  // Remove progress bar and "Downloaded" text
+                window.location.reload();
             }, 2000);
+
         }
     }, 100); // Update the progress every 100ms
     app.downloaded = true;
     saveApps();
-    console.log("activating app (trying)");
     activateApp_(app);
+    
 }
 
 function showInfo(info) {
@@ -143,13 +143,6 @@ function addApps(name, cover, icon, small, info, downloaded) {
     buttonCont.appendChild(download);
     buttonCont.appendChild(infob);
 
-    if(downloaded){
-        download.textContent = "Downloaded";
-        download.backgroundColor = "green";
-    }else{
-        download.textContent = "Download";
-    }
-
     const tmp = {
         name: name,
         cover: cover,
@@ -158,6 +151,38 @@ function addApps(name, cover, icon, small, info, downloaded) {
         info: info,
         downloaded: downloaded
     };
+
+    const uninstallButton = document.createElement('button');
+    if(downloaded){
+        download.textContent = "Downloaded";
+        download.color = "green";
+
+        uninstallButton.textContent = 'Uninstall';
+        uninstallButton.style.marginTop = '10px';
+        uninstallButton.style.backgroundColor = 'red';
+        uninstallButton.style.color = 'white';
+        uninstallButton.style.border = 'none';
+        uninstallButton.style.padding = '5px 10px';
+        uninstallButton.style.cursor = 'pointer';
+        buttonCont.appendChild(uninstallButton);
+                
+        uninstallButton.addEventListener('click', () => {
+            for(let i = 0; i < apps.length; i++){
+                if(apps[i].name == name){
+                    apps[i].downloaded = false;
+                    console.log("downloaded of " + apps[i].name + " changed to false");
+                    saveApps();
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }
+            }
+            deactivateApp(tmp);
+        });
+    }else{
+        download.textContent = "Download";
+        uninstallButton.style.display = "hidden";
+    }
 
     const appExists = apps.find(app => app.name === tmp.name && app.cover === tmp.cover);
     if (!appExists) {
@@ -178,11 +203,25 @@ function saveApps() {
 function activateApp_(app){
     const homeApps = JSON.parse(localStorage.getItem('apps'));
     if(homeApps){
-        console.log("hello Console");
         for(let i = 0; i < homeApps.length; i++){
             if(homeApps[i].id == app.name){
                 homeApps[i].active = true;
-                console.log("setting " + homeApps[i] + "to active");
+                console.log("setting " + homeApps[i].id + "to active");
+                localStorage.setItem('apps', JSON.stringify(homeApps));
+            }
+        }
+    }else{
+        console.log("homeApps didn't load right.");
+    }
+}
+
+function deactivateApp(app){
+    const homeApps = JSON.parse(localStorage.getItem('apps'));
+    if(homeApps){
+        for(let i = 0; i < homeApps.length; i++){
+            if(homeApps[i].id == app.name){
+                homeApps[i].active = false;
+                console.log("setting " + homeApps[i].id + "to not active");
                 localStorage.setItem('apps', JSON.stringify(homeApps));
             }
         }
