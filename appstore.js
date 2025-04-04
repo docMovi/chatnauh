@@ -31,19 +31,24 @@ document.addEventListener('keydown', function(event) {
      }
  });
 
-function initializeApps() {
+ function initializeApps() {
     const savedApps = JSON.parse(localStorage.getItem('apps_store'));
     if (savedApps) {
-        apps = savedApps;  
+        apps = savedApps;
     } else {
-        addApps("SPOTIFY",
-            "https://cdn.dribbble.com/userupload/28356320/file/original-9e8e7b758718b06bf6f43be0f5bf9c37.gif",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/1024px-Spotify_icon.svg.png?20220821125323",
-            "Listen to Music®",
-            "<b>Listen to Music®</b> – because silence is awkward and nobody actually wants to hear themselves think. <br> <br> 🎧 Welcome to <b>Spotify</b>, the app that insists it knows your vibe better than you do. <br> <br> Whether you're in the <b>mood</b> for chill beats or hardcore headbanging, we've got you covered—along with that one guilty pleasure song you accidentally liked back in 2017. <br>(It's still here. Waiting.) <br> <br> With <b>Spotify</b>, you can explore endless playlists, curate the perfect mix for every mood, and enjoy the thrill of random surprises.",
-            false
-        );
-        localStorage.setItem('apps_store', JSON.stringify(apps));
+        // Check if Spotify app already exists in apps array before adding
+        const spotifyAppExists = apps.some(app => app.name === "SPOTIFY");
+        if (!spotifyAppExists) {
+            addApps(
+                "SPOTIFY",
+                "https://cdn.dribbble.com/userupload/28356320/file/original-9e8e7b758718b06bf6f43be0f5bf9c37.gif",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/1024px-Spotify_icon.svg.png?20220821125323",
+                "Listen to Music®",
+                "<b>Listen to Music®</b> – because silence is awkward and nobody actually wants to hear themselves think. <br> <br> 🎧 Welcome to <b>Spotify</b>, the app that insists it knows your vibe better than you do. <br> <br> Whether you're in the <b>mood</b> for chill beats or hardcore headbanging, we've got you covered—along with that one guilty pleasure song you accidentally liked back in 2017. <br>(It's still here. Waiting.) <br> <br> With <b>Spotify</b>, you can explore endless playlists, curate the perfect mix for every mood, and enjoy the thrill of random surprises.",
+                false
+            );
+            localStorage.setItem('apps_store', JSON.stringify(apps));
+        }
     }
 }
 
