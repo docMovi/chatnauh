@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
         info.style.display = "none";
     });
 
-    // Add event listeners to all buttons (Download and Info)
     downloadButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             const targetButton = event.target;
@@ -19,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const app = apps.find(a => a.name === appCard.querySelector('h3').textContent);
             
             if (targetButton.textContent === 'Download' && app) {
-                startDownload(targetButton, app);  // Start download and update button
+                startDownload(targetButton, app);  
             }
         });
     });
@@ -36,7 +35,6 @@ document.addEventListener('keydown', function(event) {
     if (savedApps) {
         apps = savedApps;
     } else {
-        // Check if Spotify app already exists in apps array before adding
         const spotifyAppExists = apps.some(app => app.name === "SPOTIFY");
         if (!spotifyAppExists) {
             addApps(
@@ -78,24 +76,22 @@ function startDownload(button, app) {
             clearInterval(interval);
             progressBar.style.backgroundColor = 'green';
 
-            // Add the "Downloaded" text below the progress bar
             const downloadedText = document.createElement('span');
             downloadedText.textContent = 'Downloaded';
             downloadedText.style.color = 'green';
             downloadedText.style.marginTop = '10px';
             progressContainer.appendChild(downloadedText);
 
-            // Wait a few seconds, then reset the button and remove progress bar
             setTimeout(() => {
-                button.style.display = 'inline-block';  // Show the button again
+                button.style.display = 'inline-block'; 
                 button.textContent = "Downloaded";
                 button.style.backgroundColor = "green";
-                progressContainer.remove();  // Remove progress bar and "Downloaded" text
+                progressContainer.remove(); 
                 window.location.reload();
             }, 2000);
 
         }
-    }, 100); // Update the progress every 100ms
+    }, 100);
     app.downloaded = true;
     saveApps();
     activateApp_(app);
@@ -103,7 +99,6 @@ function startDownload(button, app) {
 }
 
 function showInfo(info) {
-    // Toggle the display of app info
     info.style.display = info.style.display === 'none' ? 'block' : 'none';
 }
 
@@ -136,7 +131,7 @@ function addApps(name, cover, icon, small, info, downloaded) {
     title.textContent = name;
     first_ingo.textContent = small;
     bigInfo.innerHTML = info;
-    bigInfo.style.display = "none"; // Initially hide the info
+    bigInfo.style.display = "none"; 
 
     store.appendChild(card);
     card.appendChild(img_);

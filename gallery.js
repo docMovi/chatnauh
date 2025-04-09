@@ -2,27 +2,28 @@ const images_ = [];
 const videos_ = [];
 const images_adult = [];
 const videos_adult = [];
+let favorites_ = [];
 let loca = "HOME";
 const folders = [...document.querySelectorAll(".gallery-item.folder")];
 
 document.addEventListener('DOMContentLoaded', () => {
     // Select all the images inside the gallery
     const images = document.querySelectorAll('.gallery-item img');
-    
+    loadFavorites();
     closeModal();
 
-    addImage("https://cdni.pornpics.com/1280/7/105/55240289/55240289_046_87a2.jpg", "bj_template", false, true);
-    addImage("https://cdni.pornpics.com/1280/7/763/70065296/70065296_132_a341.jpg", "belly-laying", false, true);
-    addImage("https://cdni.pornpics.com/460/7/124/37847024/37847024_026_114d.jpg", "relaxed-shower", false, true);
-    addImage("https://cdni.pornpics.com/1280/7/751/50312897/50312897_017_d773.jpg", "cute-fingernails", false, true);
-    addImage("https://cdni.pornpics.com/1280/7/725/28128720/28128720_018_02d2.jpg", "Ira undressing", false, true);
-    addImage("https://img.freepik.com/free-vector/blur-pink-blue-abstract-gradient-background-vector_53876-174836.jpg?t=st=1743000647~exp=1743004247~hmac=4ffed6313587e088f9462259590431a77b4686d54029c255e1da9f7608b608cc&w=360", "background_image_01", false, false)
-    addImage("https://i.pinimg.com/1200x/f7/07/2e/f7072ed7bfc4dc718142bde00dc3d06e.jpg", "background_image_pig", false, false);
-    addImage("https://wallpaper-house.com/data/out/6/wallpaper2you_90760.jpg", "background_image_04", false, false);
-    addVideo("https://www.shorts.xxx/content/shorts/956/f76a210693ac0a11b50e21d1d18d28ad.mp4", "shower_girl", false, true);
-    addVideo("https://nvms11.cdn.privatehost.com/215000/215737/215737.mp4?lr=2500k&lra=5000k&c=14&exp_time=1743785006&sign=1e26d5817c6fac5b101758e594d18c18", "forgot panties", false, true);
-    addVideo("https://i.imgur.com/sOC2RrZ.mp4", "that is so funny", false, false);
-    addVideo("https://i.imgur.com/L7XV2Hf_lq.mp4", "cute cat and dog", false, false);
+    addImage("https://cdni.pornpics.com/1280/7/105/55240289/55240289_046_87a2.jpg", "bj_template", true);
+    addImage("https://cdni.pornpics.com/1280/7/763/70065296/70065296_132_a341.jpg", "belly-laying", true);
+    addImage("https://cdni.pornpics.com/460/7/124/37847024/37847024_026_114d.jpg", "relaxed-shower", true);
+    addImage("https://cdni.pornpics.com/1280/7/751/50312897/50312897_017_d773.jpg", "cute-fingernails", true);
+    addImage("https://cdni.pornpics.com/1280/7/725/28128720/28128720_018_02d2.jpg", "Ira undressing", true);
+    addImage("https://img.freepik.com/free-vector/blur-pink-blue-abstract-gradient-background-vector_53876-174836.jpg?t=st=1743000647~exp=1743004247~hmac=4ffed6313587e088f9462259590431a77b4686d54029c255e1da9f7608b608cc&w=360", "background_image_01", false)
+    addImage("https://i.pinimg.com/1200x/f7/07/2e/f7072ed7bfc4dc718142bde00dc3d06e.jpg", "background_image_pig", false);
+    addImage("https://wallpaper-house.com/data/out/6/wallpaper2you_90760.jpg", "background_image_04", false);
+    addVideo("https://www.shorts.xxx/content/shorts/956/f76a210693ac0a11b50e21d1d18d28ad.mp4", "shower_girl", true);
+    addVideo("https://nvms11.cdn.privatehost.com/215000/215737/215737.mp4?lr=2500k&lra=5000k&c=14&exp_time=1743785006&sign=1e26d5817c6fac5b101758e594d18c18", "forgot panties", true);
+    addVideo("https://i.imgur.com/sOC2RrZ.mp4", "that is so funny", false);
+    addVideo("https://i.imgur.com/L7XV2Hf_lq.mp4", "cute cat and dog", false);
 
     
     images.forEach(image => {
@@ -98,7 +99,7 @@ function closeModal() {
     fullscreenVideo.currentTime = 0;
 }
 
-function addImage(src, name, favorite, adult){
+function addImage(src, name, adult){
     const galleryDiv = document.getElementById("gallery");
     const imgElement = document.createElement("div");
     const img_ = document.createElement("img");
@@ -120,7 +121,6 @@ function addImage(src, name, favorite, adult){
     const tmp = {
         src: src,
         name: name,
-        favorite: favorite,
         element: imgElement,
         adult: adult
     };
@@ -136,7 +136,7 @@ function addImage(src, name, favorite, adult){
     });
 }
 
-function addVideo(src, name, favorite, adult){
+function addVideo(src, name, adult){
     const galleryDiv = document.getElementById("gallery");
     const imgElement = document.createElement("div");
     const video_ = document.createElement("video");
@@ -158,7 +158,6 @@ function addVideo(src, name, favorite, adult){
     const tmp = {
         src: src,
         name: name,
-        favorite: favorite,
         element: imgElement
     };
     
@@ -182,14 +181,16 @@ function setUpButtons(clicked){
     });
 
     const setFavoriteButton = document.getElementById("heart_");
-    if(clicked.favorite){setFavoriteButton.textContent =  "❤️";}else{setFavoriteButton.textContent = "♡";}
+    if(insideFavorite(clicked)){setFavoriteButton.textContent =  "❤️";}else{setFavoriteButton.textContent = "♡";}
     setFavoriteButton.addEventListener("click", () => {
-        if(setFavoriteButton.textContent != "❤️"){
+        if(setFavoriteButton.textContent !== "❤️"){
             setFavoriteButton.textContent = "❤️";
-            clicked.favorite = true;
+            favorites_.push(clicked);
+            saveFavorites();
         }else{
             setFavoriteButton.textContent = "♡";
-            clicked.favorite = false;
+            favorites_ = favorites_.filter(favorite => favorite.src !== clicked.src);
+            saveFavorites();
         }
         
     });
@@ -215,6 +216,10 @@ function setUpButtons(clicked){
     });
 }
 
+function insideFavorite(clicked){
+    return favorites_.some(favorite => favorite.src === clicked.src);
+}
+
 function refresh(){
     if(loca == "HOME"){
         console.log("starting page:");
@@ -234,37 +239,24 @@ function refresh(){
             videos_adult[i].element.style.display = "none";
         }
     }else if(loca == "favorites"){
-        console.log("favorites folder:");
         for(let i = 0; i < images_.length; i++){
-            if(images_[i].favorite){
-                images_[i].element.style.display = "block";
-            }else{
-                images_[i].element.style.display = "none";
-            }
+            images_[i].element.style.display = "none";
         }
         for(let i = 0; i < videos_.length; i++){
-            if(videos_[i].favorite){
-                videos_[i].element.style.display = "block";
-            }else{
-                videos_[i].element.style.display = "none";
-            }
-        }
-        for(let i = 0; i < images_adult.length; i++){
-            if(images_adult[i].favorite){
-                images_adult[i].element.style.display = "block";
-            }else{
-                images_adult[i].element.style.display = "none";
-            }
+            videos_[i].element.style.display = "none";
         }
         for(let i = 0; i < videos_adult.length; i++){
-            if(videos_adult[i].favorite){
-                videos_adult[i].element.style.display = "block";
-            }else{
-                videos_adult[i].element.style.display = "none";
-            }
+            videos_adult[i].element.style.display = "none";
+        }
+        for(let i = 0; i < images_adult.length; i++){
+            images_adult[i].element.style.display = "none";
         }
         for(let i = 0; i < folders.length; i++){
             folders[i].style.display = "none";
+        }
+        for(let i = 0; i < favorites_.length; i++){
+            console.log(favorites_[i].element);
+            favorites_[i].element.style.display = "block";
         }
         createFolder("HOME", "HOME");
     }else if(loca == "videos"){
@@ -350,4 +342,30 @@ function createFolder(name, loca_){
     });
     
 }
+
+function saveFavorites() {
+    for(let i = 0; i < favorites_.length; i++)
+
+    favorites_ = Array.from(new Set(favorites_.map(item => item.src))) 
+        .map(src => favorites_.find(item => item.src === src));  
+
+    localStorage.setItem("favorites", JSON.stringify(favorites_));
+}
+
+function loadFavorites() {
+    const tmp = JSON.parse(localStorage.getItem("favorites"));
+    if (tmp) {
+        favorites_ = Array.from(new Set(tmp.map(item => item.src)))
+            .map(src => tmp.find(item => item.src === src)); 
+
+        console.log("Loading favorites as " + JSON.stringify(tmp));
+    }
+}
+
+
+document.addEventListener('keydown', function(event) {
+    if(event.key === "p") {
+         localStorage.removeItem("favorites");
+     }
+ });
 
