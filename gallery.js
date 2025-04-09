@@ -2,6 +2,7 @@ const images_ = [];
 const videos_ = [];
 const images_adult = [];
 const videos_adult = [];
+let addFiles = getAddFiles();
 let favorites_ = [];
 let loca = "HOME";
 const folders = [...document.querySelectorAll(".gallery-item.folder")];
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const images = document.querySelectorAll('.gallery-item img');
     loadFavorites();
     closeModal();
+    addNewPics();
 
     addImage("https://cdni.pornpics.com/1280/7/105/55240289/55240289_046_87a2.jpg", "bj_template", true);
     addImage("https://cdni.pornpics.com/1280/7/763/70065296/70065296_132_a341.jpg", "belly-laying", true);
@@ -46,6 +48,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
    refresh();
 });
+
+function getAddFiles(){
+    let tmp = JSON.parse(localStorage.getItem("addFile_"));
+    if(tmp){return tmp;}
+    else{tmp = []; return tmp;}
+}
+
+function addNewPics(){
+    if(!addFiles){return};
+    for(let i = 0; i < addFiles.length; i++){
+        if(addFiles[i].tag === "image" || addFiles[i].tag === "image_adult") {
+            addImage(addFiles[i].src, addFiles[i].name, addFiles[i].adult);
+        } else if (addFiles[i].tag === "video" || addFiles[i].tag === "video_adult") {
+            addVideo(addFiles[i].src, addFiles[i].name, addFiles[i].adult);
+        }
+    }
+    localStorage.setItem("addFile_", JSON.stringify(addFiles));
+}
 
 function openFullscreen(imgOrVid, src_) {
     const modal = document.getElementById('profilePicModal');
@@ -441,6 +461,8 @@ function loadFavorites() {
 document.addEventListener('keydown', function(event) {
     if(event.key === "p") {
          localStorage.removeItem("favorites");
+     }else if(event.key === "t"){
+        localStorage.removeItem("addFile_");
      }
  });
 

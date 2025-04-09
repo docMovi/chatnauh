@@ -6,7 +6,7 @@ if(wallpaper){
     const container = document.getElementsByClassName("profile-containerH")[0];
     container.style.setProperty("--myWallpaper", "url(" + wallpaper + ")");
 }
-const totalSlots = 15;
+const totalSlots = 24;
 
 initializeSlots();
 loadAppOrder();

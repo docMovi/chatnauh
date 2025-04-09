@@ -139,12 +139,12 @@ class Chat {
                 contentElement = document.createElement("img");
                 contentElement.src = message.imgUrl;
                 contentElement.alt = message.imgUrl;
-                sendToGallery(contentElement, message.adult,true);
+                this.sendToGallery(contentElement, message.imgDesc, message.adult,true);
             } else if(message.type === "video"){
                 contentElement = document.createElement("video");
                 contentElement.src = message.imgUrl;
                 contentElement.controls = true;
-                sendToGallery(contentElement, message.adult, false);
+                this.sendToGallery(contentElement, message.imgDesc, message.adult, false);
             }else {
                 //iframe
                 contentElement = document.createElement("iframe");
@@ -530,13 +530,33 @@ addListener(modCanvas) {
     });
 }
 
-sendToGallery(element_, adult, isImage){
-    if(isImage){
-        //adding image/video to designated array -> check if already exists (no double entries!)
+sendToGallery(element_, name, adult, isImage){
+   //adding image/video to designated array -> check if already exists (no double entries!)
+   let parsedArray = JSON.parse(localStorage.getItem("addFile_"));
+   let tag;
+   if(!parsedArray){parsedArray = []}
+   if(isImage){
+        if(adult){tag = "image_adult"
+        }else{tag = "image"}
+    }else{
+        if(adult){tag = "video_adult";
+        }else{tag = "video"}
+    } 
+
+    const tmp = {
+        src: element_.src,
+        adult: adult, 
+        tag: tag,
+        name: name
     }
-} 
+
+    if (!parsedArray.some(item => item.src === tmp.src)) {
+        parsedArray.push(tmp);
+        localStorage.setItem("addFile_", JSON.stringify(parsedArray));
+    }
 }
 
+}
 
 
 export default Chat;

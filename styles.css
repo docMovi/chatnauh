@@ -925,15 +925,15 @@ video:fullscreen {
 
         .phone {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             padding: 20px;
             justify-items: center;
         }
 
         .phone button {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background-size: cover;
             background-position: center;
             border: none;
@@ -964,8 +964,8 @@ video:fullscreen {
         }
 
         .app {
-          width: 80px;
-          height: 80px;
+          width: 60px;
+          height:60px;
           border-radius: 15px;
           background-size: cover;
           background-position: center;
@@ -980,8 +980,8 @@ video:fullscreen {
       }
 
       .slot {
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
         border: 2px dashed rgba(211, 211, 211, 0.288); /* Leerer Slot-Stil */
         border-radius: 10px;
         display: flex;
