@@ -21,9 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     addImage("https://i.pinimg.com/1200x/f7/07/2e/f7072ed7bfc4dc718142bde00dc3d06e.jpg", "background_image_pig", false);
     addImage("https://wallpaper-house.com/data/out/6/wallpaper2you_90760.jpg", "background_image_04", false);
     addVideo("https://www.shorts.xxx/content/shorts/956/f76a210693ac0a11b50e21d1d18d28ad.mp4", "shower_girl", true);
-    addVideo("https://nvms11.cdn.privatehost.com/215000/215737/215737.mp4?lr=2500k&lra=5000k&c=14&exp_time=1743785006&sign=1e26d5817c6fac5b101758e594d18c18", "forgot panties", true);
+    addVideo("https://nvms11.cdn.privatehost.com/215000/215737/215737.mp4?lr=2500k&lra=5000k&c=14&exp_time=1743785006&sign=1e26d5817c6fac5b101758e594d18c18", "xxx", true);
     addVideo("https://i.imgur.com/sOC2RrZ.mp4", "that is so funny", false);
     addVideo("https://i.imgur.com/L7XV2Hf_lq.mp4", "cute cat and dog", false);
+    addVideo("https://stream.fyptt.to/6QrdOEdB.mp4", "forgot panties", true);
 
     
     images.forEach(image => {
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     favorites_.forEach(fav => {
         fav.element.addEventListener('click', (event) => {
-            openFullscreen(event.target);
+            openFullscreen(event.target, fav.src);
         });
     });
 
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
    refresh();
 });
 
-function openFullscreen(imgOrVid) {
+function openFullscreen(imgOrVid, src_) {
     const modal = document.getElementById('profilePicModal');
     const fullscreenImage = document.getElementById('fullscreenImage');
     const fullscreenVideo = document.getElementById('fullscreenVideo');
@@ -55,24 +56,39 @@ function openFullscreen(imgOrVid) {
     let clicked;
 
     if (imgOrVid.tagName === 'IMG') {
+        console.log("found image file");
         wallButton.style.opacity = 100;
         wallButton.style.display = "block"; 
         fullscreenImage.src = imgOrVid.src;
         fullscreenImage.style.display = 'block';
-        fullscreenVideo.style.display = 'hidden';  
-        clicked = images_.find(iamge => iamge.src === imgOrVid.src);
-        if(!clicked){
-            clicked = images_adult.find(iamge => iamge.src === imgOrVid.src);
+        fullscreenVideo.style.display = 'hidden'; 
+        if(src_){
+            clicked = favorites_.find(iamge => iamge.src === src_);
+            if(!clicked){console.log("fatal error while loading image, because of favorite")}
+        } else{
+            clicked = images_.find(iamge => iamge.src === imgOrVid.src);
+            if(!clicked){
+                clicked = images_adult.find(iamge => iamge.src === imgOrVid.src);
+            }
         }
+
     }  else if (imgOrVid.tagName === 'VIDEO') {
+        console.log("found video file");
         wallButton.style.opacity = 0;
-        fullscreenVideo.src = imgOrVid.src;
+        if(src_){fullscreenVideo.src = src_;
+        }else{fullscreenVideo.src = imgOrVid.src; }
+
         fullscreenVideo.style.display = 'block';
         fullscreenImage.style.display = 'hidden';  
         fullscreenVideo.play();  
-        clicked = videos_.find(vid => vid.src === imgOrVid.src);
-        if(!clicked){
-            clicked = videos_adult.find(vid => vid.src === imgOrVid.src);
+        if(src_){
+            clicked = favorites_.find(vid => vid.src === src_);
+            if(!clicked){console.log("fatal error combined with favorite.src");}
+        }else{
+            clicked = videos_.find(vid => vid.src === imgOrVid.src);
+            if(!clicked){
+                clicked = videos_adult.find(vid => vid.src === imgOrVid.src);
+            }
         }
     }
 
@@ -128,7 +144,8 @@ function addImage(src, name, adult){
         src: src,
         name: name,
         element: imgElement,
-        adult: adult
+        adult: adult,
+        isImg: true
     };
 
     if(!adult){
@@ -164,7 +181,8 @@ function addVideo(src, name, adult){
     const tmp = {
         src: src,
         name: name,
-        element: imgElement
+        element: imgElement,
+        isImg: false
     };
     
     if(!adult){
@@ -216,7 +234,8 @@ function addFavorite(src, name, isImg){
     const tmp = {
         src: src,
         name: name,
-        element: imgElement
+        element: imgElement,
+        isImg: isImg
     };
     favorites_.push(tmp);
     imgElement.style.display = "none";
@@ -230,6 +249,7 @@ function setUpButtons(clicked){
     });
 
     const setFavoriteButton = document.getElementById("heart_");
+    console.log("searching for: " + clicked.src);
     if(insideFavorite(clicked)){setFavoriteButton.textContent =  "❤️";}else{setFavoriteButton.textContent = "♡";}
     setFavoriteButton.addEventListener("click", () => {
         if(setFavoriteButton.textContent !== "❤️"){
@@ -410,14 +430,14 @@ function loadFavorites() {
     const tmp = JSON.parse(localStorage.getItem("favorites"));
     if (tmp) {
         for(let i = 0; i < tmp.length; i++){
-            addFavorite(tmp[i].src, tmp[i].name, true);
+            console.log(tmp[i].isImg + ": isImage");
+            addFavorite(tmp[i].src, tmp[i].name, tmp[i].isImg);
         } 
         refresh();
 
         console.log("Loading favorites as " + JSON.stringify(tmp));
     }
 }
-
 
 document.addEventListener('keydown', function(event) {
     if(event.key === "p") {
