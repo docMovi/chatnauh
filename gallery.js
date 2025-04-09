@@ -32,6 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    favorites_.forEach(fav => {
+        fav.element.addEventListener('click', (event) => {
+            openFullscreen(event.target);
+        });
+    });
+
     folders.forEach(folder => {
         folder.addEventListener('click', (event) => {
             openFolder(event.target);
@@ -173,6 +179,49 @@ function addVideo(src, name, adult){
     });
 }
 
+function addFavorite(src, name, isImg){
+    const galleryDiv = document.getElementById("gallery");
+    const imgElement = document.createElement("div");
+    let img_;
+    let video_;
+    if(isImg){
+        img_ = document.createElement("img");
+    }else{
+        video_ = document.createElement("video");
+    }
+    const overlay_ = document.createElement("div");
+    const text_ = document.createElement("p");
+
+    imgElement.classList.add("gallery-item");
+    text_.classList.add("overlay-text");
+    overlay_.classList.add("overlay");
+
+    if(isImg){
+        img_.src = src;
+    }else{
+        video_.src = src;
+    }
+    
+    text_.textContent = name;
+
+    galleryDiv.appendChild(imgElement);
+    if(isImg){
+        imgElement.appendChild(img_);
+    }else{
+        imgElement.appendChild(video_);
+    }
+    imgElement.appendChild(overlay_);
+    overlay_.appendChild(text_);
+
+    const tmp = {
+        src: src,
+        name: name,
+        element: imgElement
+    };
+    favorites_.push(tmp);
+    imgElement.style.display = "none";
+}
+
 function setUpButtons(clicked){
     const setWallButton = document.getElementById('setWallpaper');
     setWallButton.addEventListener('click', () => {
@@ -186,6 +235,7 @@ function setUpButtons(clicked){
         if(setFavoriteButton.textContent !== "❤️"){
             setFavoriteButton.textContent = "❤️";
             favorites_.push(clicked);
+            console.log("pushing element " + clicked.element);
             saveFavorites();
         }else{
             setFavoriteButton.textContent = "♡";
@@ -223,6 +273,9 @@ function insideFavorite(clicked){
 function refresh(){
     if(loca == "HOME"){
         console.log("starting page:");
+        for(let i = 0; i < favorites_.length; i++){
+            favorites_[i].element.style.display = "none";
+        }
         for(let i = 0; i < images_.length; i++){
             images_[i].element.style.display = "block";
         }       
@@ -238,6 +291,7 @@ function refresh(){
         for(let i = 0; i < videos_adult.length; i++){
             videos_adult[i].element.style.display = "none";
         }
+        
     }else if(loca == "favorites"){
         for(let i = 0; i < images_.length; i++){
             images_[i].element.style.display = "none";
@@ -355,8 +409,10 @@ function saveFavorites() {
 function loadFavorites() {
     const tmp = JSON.parse(localStorage.getItem("favorites"));
     if (tmp) {
-        favorites_ = Array.from(new Set(tmp.map(item => item.src)))
-            .map(src => tmp.find(item => item.src === src)); 
+        for(let i = 0; i < tmp.length; i++){
+            addFavorite(tmp[i].src, tmp[i].name, true);
+        } 
+        refresh();
 
         console.log("Loading favorites as " + JSON.stringify(tmp));
     }
