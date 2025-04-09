@@ -21,10 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     addImage("https://i.pinimg.com/1200x/f7/07/2e/f7072ed7bfc4dc718142bde00dc3d06e.jpg", "background_image_pig", false);
     addImage("https://wallpaper-house.com/data/out/6/wallpaper2you_90760.jpg", "background_image_04", false);
     addVideo("https://www.shorts.xxx/content/shorts/956/f76a210693ac0a11b50e21d1d18d28ad.mp4", "shower_girl", true);
-    addVideo("https://nvms11.cdn.privatehost.com/215000/215737/215737.mp4?lr=2500k&lra=5000k&c=14&exp_time=1743785006&sign=1e26d5817c6fac5b101758e594d18c18", "xxx", true);
     addVideo("https://i.imgur.com/sOC2RrZ.mp4", "that is so funny", false);
     addVideo("https://i.imgur.com/L7XV2Hf_lq.mp4", "cute cat and dog", false);
-    addVideo("https://stream.fyptt.to/6QrdOEdB.mp4", "forgot panties", true);
+    addVideo("https://v.redd.it/uj2c69iyjc0d1/DASH_480.mp4", "total_accident", true);
 
     
     images.forEach(image => {

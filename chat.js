@@ -139,10 +139,12 @@ class Chat {
                 contentElement = document.createElement("img");
                 contentElement.src = message.imgUrl;
                 contentElement.alt = message.imgUrl;
+                sendToGallery(contentElement, message.adult,true);
             } else if(message.type === "video"){
                 contentElement = document.createElement("video");
                 contentElement.src = message.imgUrl;
                 contentElement.controls = true;
+                sendToGallery(contentElement, message.adult, false);
             }else {
                 //iframe
                 contentElement = document.createElement("iframe");
@@ -429,7 +431,6 @@ addQuestToProfile(name, description) {
     this.qm.addQuest(name, description);
     this.qm.saveAllQuests();  // Ensure the quest is saved globally for all profiles
 }
-
 // Example method to complete a quest
 completeQuestInProfile(questId) {
     this.qm.completeQuest(questId);
@@ -529,7 +530,13 @@ addListener(modCanvas) {
     });
 }
 
-   
+sendToGallery(element_, adult, isImage){
+    if(isImage){
+        //adding image/video to designated array -> check if already exists (no double entries!)
+    }
+} 
 }
+
+
 
 export default Chat;
