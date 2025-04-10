@@ -270,19 +270,22 @@ function setUpButtons(clicked){
     const setFavoriteButton = document.getElementById("heart_");
     console.log("searching for: " + clicked.src);
     if(insideFavorite(clicked)){setFavoriteButton.textContent =  "❤️";}else{setFavoriteButton.textContent = "♡";}
-    setFavoriteButton.addEventListener("click", () => {
-        if(setFavoriteButton.textContent !== "❤️"){
+    setFavoriteButton.onclick = () => {
+        const nowFav = insideFavorite(clicked);
+        if(!nowFav){
             setFavoriteButton.textContent = "❤️";
             favorites_.push(clicked);
             console.log("pushing element " + clicked.element);
             saveFavorites();
-        }else{
+        }else if(nowFav){
             setFavoriteButton.textContent = "♡";
             favorites_ = favorites_.filter(favorite => favorite.src !== clicked.src);
             saveFavorites();
+        }else{
+            console.log("error while pressing heart button");
         }
         
-    });
+    };
 
     const closeModalButton = document.getElementById('closeGalModal');
     closeModalButton.addEventListener('click', () => {
@@ -296,9 +299,6 @@ function setUpButtons(clicked){
         if (e.target === document.querySelector('.gallery-modal')) {
             if(setWallButton.textContent != "Set as Wallpaper"){
                 setWallButton.textContent = "Set as Wallpaper";
-            }
-            if(setFavoriteButton.textContent == "❤️"){
-                setFavoriteButton.textContent = "♡";
             }
             closeModal();
         }
@@ -465,4 +465,25 @@ document.addEventListener('keydown', function(event) {
         localStorage.removeItem("addFile_");
      }
  });
+
+ document.querySelectorAll('.add-folder-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+    console.log("adding ripple to buttons.");
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+
+    const size = 10;
+    ripple.style.width = ripple.style.height = `${size}px`;
+
+    const rect = this.getBoundingClientRect();
+    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+
+    this.appendChild(ripple);
+        // Remove ripple after animation
+        ripple.addEventListener('animationend', () => {
+            ripple.remove();
+        });
+    });
+});
 

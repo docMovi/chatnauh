@@ -625,6 +625,66 @@ body {
   
 }
 
+.add-folder-btn {
+  position: relative;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.add-folder-btn img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(0); /* optional, depends on bg */
+  transition: filter 0.3s;
+}
+
+.add-folder-btn:hover {
+  transform: scale(1.1);
+}
+
+.add-folder-btn .btn-text {
+  position: absolute;
+  bottom: -28px;
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.add-folder-btn:hover .btn-text {
+  opacity: 1;
+}
+
+.ripple {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(0, 123, 255, 0.4); /* Light blue ripple */
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.3s linear;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes ripple {
+  to {
+      transform: scale(4);
+      opacity: 0;
+  }
+}
+
 .title p {
   font-size: 24px;
   font-weight: bold;
