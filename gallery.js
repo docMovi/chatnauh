@@ -2,6 +2,7 @@ const images_ = [];
 const videos_ = [];
 const images_adult = [];
 const videos_adult = [];
+let customFolders = [];
 let addFiles = getAddFiles();
 let favorites_ = [];
 let loca = "HOME";
@@ -150,6 +151,7 @@ function addImage(src, name, adult){
     imgElement.classList.add("gallery-item");
     text_.classList.add("overlay-text");
     overlay_.classList.add("overlay");
+    img_.classList.add("ripple_button");
 
     img_.src = src;
     text_.textContent = name;
@@ -191,6 +193,7 @@ function addVideo(src, name, adult){
 
     video_.src = src;
     text_.textContent = name;
+    video_.classList.add("ripple_button");
 
     galleryDiv.appendChild(imgElement);
     imgElement.appendChild(video_);
@@ -235,8 +238,10 @@ function addFavorite(src, name, isImg){
 
     if(isImg){
         img_.src = src;
+        img_.classList.add("ripple_button");
     }else{
         video_.src = src;
+        video_.classList.add("ripple_button");
     }
     
     text_.textContent = name;
@@ -330,6 +335,17 @@ function refresh(){
         for(let i = 0; i < videos_adult.length; i++){
             videos_adult[i].element.style.display = "none";
         }
+        for(let i = 0; i < customFolders.length; i++){
+            if(customFolders[i].location == loca){
+                createFolder(customFolders[i].name, customFolders[i].name);
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "block";
+                }
+            }else{
+                //sadly there's a bug where the folder appears in every other
+                //aber ich hab kopfschmerzen und kann nicht mehr
+            }
+        }
         
     }else if(loca == "favorites"){
         for(let i = 0; i < images_.length; i++){
@@ -414,7 +430,7 @@ function createFolder(name, loca_){
     const img_ = document.createElement("img");
     const overlay_ = document.createElement("div");
 
-    folder_.classList.add("gallery-item"); folder_.classList.add("folder"); folder_.classList.add("specialfolder");
+    folder_.classList.add("gallery-item"); folder_.classList.add("folder"); folder_.classList.add("specialfolder"); folder_.classList.add("ripple_button");
     overlay_.classList.add("overlay-text");
 
     img_.src = "https://i.pinimg.com/736x/8e/b6/56/8eb656ee4829bbf6709a724b36def067.jpg";
@@ -458,6 +474,19 @@ function loadFavorites() {
     }
 }
 
+function addCustomFolder(name){
+    createFolder(name, name);
+    const currentLoca = loca;
+    let array = [];
+    const tmp = {
+        name: name,
+        location: currentLoca,
+        content: array
+    }
+    console.log("adding folder " + name + " in " + currentLoca);
+    customFolders.push(tmp);
+}
+
 document.addEventListener('keydown', function(event) {
     if(event.key === "p") {
          localStorage.removeItem("favorites");
@@ -466,7 +495,7 @@ document.addEventListener('keydown', function(event) {
      }
  });
 
- document.querySelectorAll('.add-folder-btn').forEach(button => {
+ document.querySelectorAll('.ripple_button').forEach(button => {
     button.addEventListener('click', function(e) {
     console.log("adding ripple to buttons.");
     const ripple = document.createElement('span');
@@ -486,4 +515,76 @@ document.addEventListener('keydown', function(event) {
         });
     });
 });
+
+document.querySelectorAll('.add-folder-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const existingWindow = document.getElementById('folder-input-window');
+        const existingOverlay = document.getElementById('modal-overlay');
+
+        if (existingWindow && existingOverlay) {
+            existingWindow.classList.add('fade-out-folder');
+            existingOverlay.classList.add('fade-out-fodler');
+
+            setTimeout(() => {
+                existingWindow.remove();
+                existingOverlay.remove();
+            }, 200);
+            return;
+        }
+
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'modal-overlay';
+        overlay.className = 'modal-overlay fade-in-folder';
+
+        // Clicking the overlay also closes the modal
+        overlay.addEventListener('click', () => {
+            document.getElementById('folder-input-window')?.classList.add('fade-out-folder');
+            overlay.classList.add('fade-out-folder');
+
+            setTimeout(() => {
+                document.getElementById('folder-input-window')?.remove();
+                overlay.remove();
+            }, 200);
+        });
+
+        // Create input window
+        const inputWindow = document.createElement('div');
+        inputWindow.id = 'folder-input-window';
+        inputWindow.className = 'folder-modal fade-in-folder';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Enter folder name';
+        input.className = 'folder-input';
+
+        const submitBtn = document.createElement('button');
+        submitBtn.textContent = 'Create';
+        submitBtn.className = 'folder-submit';
+
+        submitBtn.addEventListener('click', () => {
+            const folderName = input.value.trim();
+            if (folderName) {
+                console.log('Folder to create:', folderName);
+
+                addCustomFolder(folderName);
+
+                inputWindow.classList.add('fade-out-folder');
+                overlay.classList.add('fade-out-folder');
+                setTimeout(() => {
+                    inputWindow.remove();
+                    overlay.remove();
+                }, 200);
+            }
+        });
+
+        inputWindow.appendChild(input);
+        inputWindow.appendChild(submitBtn);
+
+        document.body.appendChild(overlay);
+        document.body.appendChild(inputWindow);
+    });
+});
+
+
 
