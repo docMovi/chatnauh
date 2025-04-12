@@ -141,7 +141,7 @@ function closeModal() {
     fullscreenVideo.currentTime = 0;
 }
 
-function addImage(src, name, adult){
+function addImage(src, name, adult, without){
     const galleryDiv = document.getElementById("gallery");
     const imgElement = document.createElement("div");
     const img_ = document.createElement("img");
@@ -169,10 +169,12 @@ function addImage(src, name, adult){
         isImg: true
     };
 
-    if(!adult){
-        images_.push(tmp);
-    }else{
-        images_adult.push(tmp);
+    if(!without){
+        if(!adult){
+            images_.push(tmp);
+        }else{
+            images_adult.push(tmp);
+        }
     }
     
     img_.addEventListener('click', (event) => {
@@ -219,7 +221,7 @@ function addVideo(src, name, adult){
     });
 }
 
-function addFavorite(src, name, isImg){
+function addFavorite(src, name, isImg,){
     const galleryDiv = document.getElementById("gallery");
     const imgElement = document.createElement("div");
     let img_;
@@ -265,6 +267,53 @@ function addFavorite(src, name, isImg){
     imgElement.style.display = "none";
 }
 
+function addToCustom(src, name, isImg){
+    const galleryDiv = document.getElementById("gallery");
+    const imgElement = document.createElement("div");
+    let img_;
+    let video_;
+    if(isImg){
+        img_ = document.createElement("img");
+    }else{
+        video_ = document.createElement("video");
+    }
+    const overlay_ = document.createElement("div");
+    const text_ = document.createElement("p");
+
+    imgElement.classList.add("gallery-item");
+    text_.classList.add("overlay-text");
+    overlay_.classList.add("overlay");
+
+    if(isImg){
+        img_.src = src;
+        img_.classList.add("ripple_button");
+    }else{
+        video_.src = src;
+        video_.classList.add("ripple_button");
+    }
+    
+    text_.textContent = name;
+
+    galleryDiv.appendChild(imgElement);
+    if(isImg){
+        imgElement.appendChild(img_);
+    }else{
+        imgElement.appendChild(video_);
+    }
+    imgElement.appendChild(overlay_);
+    overlay_.appendChild(text_);
+
+    const tmp = {
+        src: src,
+        name: name,
+        element: imgElement,
+        isImg: isImg
+    };
+    
+    imgElement.style.display = "none";
+    return tmp;
+}
+
 function setUpButtons(clicked){
     const setWallButton = document.getElementById('setWallpaper');
     setWallButton.addEventListener('click', () => {
@@ -291,6 +340,133 @@ function setUpButtons(clicked){
         }
         
     };
+
+   // 📁 Add to folder button logic
+    const addToFolderBtn = document.getElementById("addToFolderBtn");
+    const folderSelect = document.getElementById("folderSelect");
+    const modalContent = document.querySelector(".galmodal-content");
+
+    addToFolderBtn.style.display = "inline-block";
+    folderSelect.style.display = "none";
+
+    let confirmAddBtn = document.getElementById('confirmAddToFolderBtn');
+    if (!confirmAddBtn) {
+        confirmAddBtn = document.createElement('button');
+        confirmAddBtn.id = 'confirmAddToFolderBtn';
+        confirmAddBtn.textContent = '✅ Confirm Add';
+        confirmAddBtn.style.marginLeft = '10px';
+        confirmAddBtn.style.padding = '4px 10px';
+        confirmAddBtn.style.fontSize = '14px';
+        confirmAddBtn.style.border = 'none';
+        confirmAddBtn.style.borderRadius = '4px';
+        confirmAddBtn.style.cursor = 'pointer';
+        confirmAddBtn.style.backgroundColor = '#4CAF50';
+        confirmAddBtn.style.color = 'white';
+        confirmAddBtn.style.display = 'none';
+        document.querySelector(".button-container").appendChild(confirmAddBtn);
+    }
+
+    let confirmMsg = document.getElementById('add-confirm-msg');
+    if (!confirmMsg) {
+        confirmMsg = document.createElement('div');
+        confirmMsg.id = 'add-confirm-msg';
+        confirmMsg.textContent = "✔️ Added to folder!";
+        confirmMsg.style.display = 'none';
+        confirmMsg.style.position = 'absolute';
+        confirmMsg.style.top = '10px';
+        confirmMsg.style.right = '10px';
+        confirmMsg.style.background = 'rgba(0, 128, 0, 0.8)';
+        confirmMsg.style.color = 'white';
+        confirmMsg.style.padding = '6px 12px';
+        confirmMsg.style.borderRadius = '5px';
+        confirmMsg.style.fontSize = '14px';
+        confirmMsg.style.zIndex = '1000';
+        confirmMsg.style.transition = 'opacity 0.3s ease';
+        document.body.appendChild(confirmMsg);
+    }
+
+    addToFolderBtn.onclick = () => {
+        folderSelect.innerHTML = '';
+        folderSelect.style.display = "inline-block";
+        confirmAddBtn.style.display = "inline-block";
+
+        customFolders.forEach(folder => {
+        const option = document.createElement("option");
+        option.value = folder.name;
+        option.textContent = "📁 " + folder.name;
+        folderSelect.appendChild(option);
+    });
+};
+
+    confirmAddBtn.onclick = () => {
+        const selectedFolder = folderSelect.value;
+        const folder = customFolders.find(f => f.name === selectedFolder);
+
+        if (folder && !folder.content.some(item => item.src === clicked.src)) {
+            let isImg = clicked.tagName === "IMG";
+            console.log("this file is img: " + isImg + "; this tagname = " + clicked.tagName);
+            folder.content.push(addToCustom(clicked.src, clicked.name, isImg));
+            localStorage.setItem("customFolders", JSON.stringify(customFolders));
+
+            confirmMsg.textContent = `✔️ Added to "${selectedFolder}"`;
+            confirmMsg.style.backgroundColor = 'rgba(0, 128, 0, 0.9)';
+        } else if (folder) {
+            confirmMsg.textContent = `⚠️ Already in "${selectedFolder}"`;
+            confirmMsg.style.backgroundColor = 'rgba(255, 165, 0, 0.9)';
+        }
+
+        confirmMsg.style.display = 'block';
+        confirmMsg.style.opacity = 1;
+
+        setTimeout(() => {
+            confirmMsg.style.opacity = 0;
+            setTimeout(() => confirmMsg.style.display = 'none', 300);
+        }, 1500);
+
+        // Optionally hide dropdown after use
+        folderSelect.style.display = "none";
+        confirmAddBtn.style.display = "none";
+    };
+
+    folderSelect.onchange = () => {
+        const selectedFolder = folderSelect.value;
+        const folder = customFolders.find(f => f.name === selectedFolder);
+
+        if (folder && !folder.content.some(item => item.src === clicked.src)) {
+            folder.content.push(clicked);
+            localStorage.setItem("customFolders", JSON.stringify(customFolders));
+            refresh();
+
+            // Show success message
+            confirmMsg.textContent = `✔️ Added to "${selectedFolder}"`;
+            confirmMsg.style.backgroundColor = 'rgba(0, 128, 0, 0.9)';
+            confirmMsg.style.display = 'block';
+            confirmMsg.style.opacity = 1;
+
+            setTimeout(() => {
+                confirmMsg.style.opacity = 0;
+                setTimeout(() => confirmMsg.style.display = 'none', 300);
+            }, 1500);
+    } else if (folder) {
+        // Already in folder
+        confirmMsg.textContent = `⚠️ Already in "${selectedFolder}"`;
+        confirmMsg.style.backgroundColor = 'rgba(255, 165, 0, 0.9)';
+        confirmMsg.style.display = 'block';
+        confirmMsg.style.opacity = 1;
+
+        setTimeout(() => {
+            confirmMsg.style.opacity = 0;
+            setTimeout(() => {
+                confirmMsg.style.display = 'none';
+                confirmMsg.style.backgroundColor = 'rgba(0, 128, 0, 0.9)';
+            }, 300);
+        }, 1500);
+    }
+
+    folderSelect.style.display = "none";
+};
+
+
 
     const closeModalButton = document.getElementById('closeGalModal');
     closeModalButton.addEventListener('click', () => {
@@ -323,9 +499,6 @@ function refresh(){
         for(let i = 0; i < images_.length; i++){
             images_[i].element.style.display = "block";
         }       
-        for(let i = 0; i < folders.length; i++){
-            folders[i].style.display = "block";
-        }
         for(let i = 0; i < videos_.length; i++){
             videos_[i].element.style.display = "none";
         }
@@ -342,9 +515,17 @@ function refresh(){
                     customFolders[i].content[j].element.style.display = "block";
                 }
             }else{
-                //sadly there's a bug where the folder appears in every other
-                //aber ich hab kopfschmerzen und kann nicht mehr
+                const all = document.querySelectorAll(".specialfolder");
+                all.forEach(folder => {
+                folder.style.display = "none";
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "none";
+                }
+            })
             }
+        }
+        for(let i = 0; i < folders.length; i++){
+            folders[i].style.display = "block";
         }
         
     }else if(loca == "favorites"){
@@ -367,6 +548,22 @@ function refresh(){
             console.log(favorites_[i].element);
             favorites_[i].element.style.display = "block";
         }
+        for(let i = 0; i < customFolders.length; i++){
+            if(customFolders[i].location == loca){
+                createFolder(customFolders[i].name, customFolders[i].name);
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "block";
+                }
+            }else{
+                const all = document.querySelectorAll(".specialfolder");
+                all.forEach(folder => {
+                folder.style.display = "none";
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "none";
+                }
+            })
+            }
+        }
         createFolder("HOME", "HOME");
     }else if(loca == "videos"){
         console.log("video folder:");
@@ -381,6 +578,22 @@ function refresh(){
         }
         for(let i = 0; i < images_adult.length; i++){
             images_adult[i].element.style.display = "none";
+        }
+        for(let i = 0; i < customFolders.length; i++){
+            if(customFolders[i].location == loca){
+                createFolder(customFolders[i].name, customFolders[i].name);
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "block";
+                }
+            }else{
+                const all = document.querySelectorAll(".specialfolder");
+                all.forEach(folder => {
+                folder.style.display = "none";
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "none";
+                }
+            })
+            }
         }
         for(let i = 0; i < folders.length; i++){
             folders[i].style.display = "none";
@@ -403,6 +616,22 @@ function refresh(){
         for(let i = 0; i < videos_adult.length; i++){
             videos_adult[i].element.style.display = "none";
         }
+        for(let i = 0; i < customFolders.length; i++){
+            if(customFolders[i].location == loca){
+                createFolder(customFolders[i].name, customFolders[i].name);
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "block";
+                }
+            }else{
+                const all = document.querySelectorAll(".specialfolder");
+                all.forEach(folder => {
+                folder.style.display = "none";
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "none";
+                }
+            })
+            }
+        }
         createFolder("HOME", "HOME");
     }else if(loca == "adult_vids"){
         for(let i = 0; i < images_.length; i++){
@@ -420,8 +649,68 @@ function refresh(){
         for(let i = 0; i < videos_adult.length; i++){
             videos_adult[i].element.style.display = "block";
         }
+        for(let i = 0; i < customFolders.length; i++){
+            if(customFolders[i].location == loca){
+                createFolder(customFolders[i].name, customFolders[i].name);
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "block";
+                }
+            }else{
+                const all = document.querySelectorAll(".specialfolder");
+                all.forEach(folder => {
+                folder.style.display = "none";
+                for(let j = 0; j < customFolders[i].content.length; j++){
+                    customFolders[i].content[j].element.style.display = "none";
+                }
+            })
+            }
+        }
         createFolder("videos", "videos");
     }
+
+    customFolders.forEach(folder =>{
+        if(loca == folder.name){
+            for(let i = 0; i < favorites_.length; i++){
+                favorites_[i].element.style.display = "none";
+            }
+            for(let i = 0; i < images_.length; i++){
+                images_[i].element.style.display = "none";
+            }       
+            for(let i = 0; i < videos_.length; i++){
+                videos_[i].element.style.display = "none";
+            }
+            for(let i = 0; i < images_adult.length; i++){
+                images_adult[i].element.style.display = "none";
+            } 
+            for(let i = 0; i < videos_adult.length; i++){
+                videos_adult[i].element.style.display = "none";
+            }
+            for(let i = 0; i < customFolders.length; i++){
+                if(customFolders[i].location == loca){
+                    createFolder(customFolders[i].name, customFolders[i].name);
+                    for(let j = 0; j < customFolders[i].content.length; j++){
+                        customFolders[i].content[j].element.style.display = "block";
+                    }
+                }else{
+                    const all = document.querySelectorAll(".specialfolder");
+                    all.forEach(folder => {
+                    folder.style.display = "none";
+                    for(let j = 0; j < customFolders[i].content.length; j++){
+                        customFolders[i].content[j].element.style.display = "none";
+                    }
+                })
+                }
+            }
+            for(let i = 0; i < folders.length; i++){
+                folders[i].style.display = "none";
+            }
+            console.log(JSON.stringify(folder.content));
+            for(let i = 0; i < folder.content.length; i++){
+                addImage(folder.content[i].src, folder.content[i].name, folder.content[i].adult, true);
+            }
+            createFolder("HOME", "HOME");
+        }
+    });
 }
 
 function createFolder(name, loca_){
@@ -447,6 +736,7 @@ function createFolder(name, loca_){
         })
         //folder_.style.display = "none";
         loca = loca_;
+        console.log("setting loca to " + loca_);
         refresh();
     });
     
@@ -485,6 +775,19 @@ function addCustomFolder(name){
     }
     console.log("adding folder " + name + " in " + currentLoca);
     customFolders.push(tmp);
+}
+
+function saveCustomFolders() {
+    localStorage.setItem("customFolders", JSON.stringify(customFolders));
+}
+
+function loadCustomFolders() {
+    const tmp = JSON.parse(localStorage.getItem("customFolders"));
+    if (tmp) {
+        customFolders = tmp;
+        // Optional: you may need to recreate DOM elements too depending on structure
+        refresh();
+    }
 }
 
 document.addEventListener('keydown', function(event) {
