@@ -74,8 +74,10 @@ function openFullscreen(imgOrVid, src_) {
     const fullscreenVideo = document.getElementById('fullscreenVideo');
     const wallButton = document.getElementById("setWallpaper");
     let clicked;
+    let isImg_;
 
     if (imgOrVid.tagName === 'IMG') {
+        isImg_ = true;
         console.log("found image file");
         wallButton.style.opacity = 100;
         wallButton.style.display = "block"; 
@@ -93,6 +95,7 @@ function openFullscreen(imgOrVid, src_) {
         }
 
     }  else if (imgOrVid.tagName === 'VIDEO') {
+        isImg_ = false;
         console.log("found video file");
         wallButton.style.opacity = 0;
         if(src_){fullscreenVideo.src = src_;
@@ -114,7 +117,7 @@ function openFullscreen(imgOrVid, src_) {
 
     modal.style.display = 'block';
     if(!imgOrVid.dataset.folder){
-        setUpButtons(clicked);
+        setUpButtons(clicked, isImg_);
     }
 
 }
@@ -303,18 +306,29 @@ function addToCustom(src, name, isImg){
     imgElement.appendChild(overlay_);
     overlay_.appendChild(text_);
 
+    imgElement.style.display = "none";
+
     const tmp = {
         src: src,
         name: name,
         element: imgElement,
         isImg: isImg
     };
-    
-    imgElement.style.display = "none";
+
+    if(isImg){
+        img_.addEventListener('click', (event) => {
+            openFullscreen(event.target);
+        });
+    }else{
+        video_.addEventListener('click', (event) => {
+            openFullscreen(event.target);
+        });
+    }
+
     return tmp;
 }
 
-function setUpButtons(clicked){
+function setUpButtons(clicked, isImg_){
     const setWallButton = document.getElementById('setWallpaper');
     setWallButton.addEventListener('click', () => {
         setWallButton.textContent = "✓";
@@ -344,7 +358,6 @@ function setUpButtons(clicked){
    // 📁 Add to folder button logic
     const addToFolderBtn = document.getElementById("addToFolderBtn");
     const folderSelect = document.getElementById("folderSelect");
-    const modalContent = document.querySelector(".galmodal-content");
 
     addToFolderBtn.style.display = "inline-block";
     folderSelect.style.display = "none";
@@ -403,36 +416,6 @@ function setUpButtons(clicked){
         const folder = customFolders.find(f => f.name === selectedFolder);
 
         if (folder && !folder.content.some(item => item.src === clicked.src)) {
-            let isImg = clicked.tagName === "IMG";
-            console.log("this file is img: " + isImg + "; this tagname = " + clicked.tagName);
-            folder.content.push(addToCustom(clicked.src, clicked.name, isImg));
-            localStorage.setItem("customFolders", JSON.stringify(customFolders));
-
-            confirmMsg.textContent = `✔️ Added to "${selectedFolder}"`;
-            confirmMsg.style.backgroundColor = 'rgba(0, 128, 0, 0.9)';
-        } else if (folder) {
-            confirmMsg.textContent = `⚠️ Already in "${selectedFolder}"`;
-            confirmMsg.style.backgroundColor = 'rgba(255, 165, 0, 0.9)';
-        }
-
-        confirmMsg.style.display = 'block';
-        confirmMsg.style.opacity = 1;
-
-        setTimeout(() => {
-            confirmMsg.style.opacity = 0;
-            setTimeout(() => confirmMsg.style.display = 'none', 300);
-        }, 1500);
-
-        // Optionally hide dropdown after use
-        folderSelect.style.display = "none";
-        confirmAddBtn.style.display = "none";
-    };
-
-    folderSelect.onchange = () => {
-        const selectedFolder = folderSelect.value;
-        const folder = customFolders.find(f => f.name === selectedFolder);
-
-        if (folder && !folder.content.some(item => item.src === clicked.src)) {
             folder.content.push(clicked);
             localStorage.setItem("customFolders", JSON.stringify(customFolders));
             refresh();
@@ -464,9 +447,7 @@ function setUpButtons(clicked){
     }
 
     folderSelect.style.display = "none";
-};
-
-
+    };
 
     const closeModalButton = document.getElementById('closeGalModal');
     closeModalButton.addEventListener('click', () => {
@@ -512,7 +493,7 @@ function refresh(){
             if(customFolders[i].location == loca){
                 createFolder(customFolders[i].name, customFolders[i].name);
                 for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "block";
+                    customFolders[i].content[j].element.style.display = "none";
                 }
             }else{
                 const all = document.querySelectorAll(".specialfolder");
@@ -552,7 +533,7 @@ function refresh(){
             if(customFolders[i].location == loca){
                 createFolder(customFolders[i].name, customFolders[i].name);
                 for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "block";
+                    customFolders[i].content[j].element.style.display = "none";
                 }
             }else{
                 const all = document.querySelectorAll(".specialfolder");
@@ -583,7 +564,7 @@ function refresh(){
             if(customFolders[i].location == loca){
                 createFolder(customFolders[i].name, customFolders[i].name);
                 for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "block";
+                    customFolders[i].content[j].element.style.display = "none";
                 }
             }else{
                 const all = document.querySelectorAll(".specialfolder");
@@ -620,7 +601,7 @@ function refresh(){
             if(customFolders[i].location == loca){
                 createFolder(customFolders[i].name, customFolders[i].name);
                 for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "block";
+                    customFolders[i].content[j].element.style.display = "none";
                 }
             }else{
                 const all = document.querySelectorAll(".specialfolder");
@@ -653,7 +634,7 @@ function refresh(){
             if(customFolders[i].location == loca){
                 createFolder(customFolders[i].name, customFolders[i].name);
                 for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "block";
+                    customFolders[i].content[j].element.style.display = "none";
                 }
             }else{
                 const all = document.querySelectorAll(".specialfolder");
@@ -689,7 +670,7 @@ function refresh(){
                 if(customFolders[i].location == loca){
                     createFolder(customFolders[i].name, customFolders[i].name);
                     for(let j = 0; j < customFolders[i].content.length; j++){
-                        customFolders[i].content[j].element.style.display = "block";
+                        customFolders[i].content[j].element.style.display = "none";
                     }
                 }else{
                     const all = document.querySelectorAll(".specialfolder");
@@ -704,16 +685,28 @@ function refresh(){
             for(let i = 0; i < folders.length; i++){
                 folders[i].style.display = "none";
             }
-            console.log(JSON.stringify(folder.content));
             for(let i = 0; i < folder.content.length; i++){
-                addImage(folder.content[i].src, folder.content[i].name, folder.content[i].adult, true);
+                folder.content[i].element.style.display = "block";
             }
             createFolder("HOME", "HOME");
+        }else{
+            for(let i = 0; i < folder.content.length; i++){
+                folder.content[i].element.style.display = "hidden";
+            }
         }
     });
 }
 
 function createFolder(name, loca_){
+    const all = document.querySelectorAll(".specialfolder");
+    // 🔍 Check if a folder with the same name already exists
+    for (const element of all) {
+        const text = element.querySelector(".overlay-text")?.textContent;
+        if (text === name && !text === "HOME") {
+            console.log(`Folder "${name}" already exists. Skipping creation.`);
+            return; 
+        }
+    }
     const gallery_ = document.getElementById("gallery");
     const folder_ = document.createElement("div");
     const img_ = document.createElement("img");
@@ -730,8 +723,8 @@ function createFolder(name, loca_){
     folder_.appendChild(overlay_);
 
     folder_.addEventListener('click', () => {
-        const all = document.querySelectorAll(".specialfolder");
-        all.forEach(folder => {
+        const all_ = document.querySelectorAll(".specialfolder");
+        all_.forEach(folder => {
             folder.style.display = "none";
         })
         //folder_.style.display = "none";
