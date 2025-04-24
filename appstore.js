@@ -1,27 +1,41 @@
 let apps = [];
+const wifi = localStorage.getItem("Wi-Fi");
 
 document.addEventListener('DOMContentLoaded', () => {
-    initializeApps();
-    loadApps();
+    if(wifi){
+        if(wifi === "true"){
+            initializeApps();
+            loadApps();
     
-    const downloadButtons = document.querySelectorAll('.app-buttons button');
-    const bigInfos = document.querySelectorAll(".info-big");
-    bigInfos.forEach(info => {
-        info.style.display = "none";
-    });
+            const downloadButtons = document.querySelectorAll('.app-buttons button');
+            const bigInfos = document.querySelectorAll(".info-big");
+            bigInfos.forEach(info => {
+                info.style.display = "none";
+            });
 
-    downloadButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            const targetButton = event.target;
-            const appCard = targetButton.closest('.app-card');
-            const appInfo = appCard ? appCard.querySelector('.info-big') : null;
-            const app = apps.find(a => a.name === appCard.querySelector('h3').textContent);
-            
-            if (targetButton.textContent === 'Download' && app) {
-                startDownload(targetButton, app);  
-            }
+        downloadButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const targetButton = event.target;
+                const appCard = targetButton.closest('.app-card');
+                const appInfo = appCard ? appCard.querySelector('.info-big') : null;
+                const app = apps.find(a => a.name === appCard.querySelector('h3').textContent);
+                
+                if (targetButton.textContent === 'Download' && app) {
+                    startDownload(targetButton, app);  
+                }
+            });
         });
-    });
+        }else{
+            console.log("wifi not connected");
+            createErrorMessage("wifi");
+            return;
+        }
+    }else{
+        console.log("wifi not connected");
+        createErrorMessage("wifi");
+        return;
+    }
+    
 });
 
 document.addEventListener('keydown', function(event) {
@@ -228,4 +242,15 @@ function deactivateApp(app){
     }else{
         console.log("homeApps didn't load right.");
     }
+}
+
+function createErrorMessage(case_){
+    const container_ = document.getElementById("error");
+    const message = document.getElementById("errror_message");
+    container_.appendChild(message);
+    switch(case_){
+        case "wifi":
+           message.textContent = "Not connected to Wi-Fi! Either turn on in settings or try again later."
+    }
+    container_.style.display = "block";
 }

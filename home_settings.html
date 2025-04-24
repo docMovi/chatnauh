@@ -14,6 +14,7 @@
             <p>SETTINGS</p>
         </div>
         <div class="settings" id="settings">
+             <!-- WiFI Setting -->
             <div class="setting-item">
                 <div>
                     <h3>Wi-Fi</h3>
@@ -25,6 +26,18 @@
                 </label>
             </div>
     
+            <!-- NSFW Setting -->
+            <div class="setting-item" id="nsfw_switch">
+                <div>
+                    <h3>NSFW</h3>
+                    <p>Turn adult content on/off.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
             <!-- Bluetooth Setting -->
             <div class="setting-item">
                 <div>
@@ -35,15 +48,6 @@
                     <input type="checkbox">
                     <span class="slider"></span>
                 </label>
-            </div>
-    
-            <!-- Display Brightness Setting -->
-            <div class="setting-item">
-                <div>
-                    <h3>Display Brightness</h3>
-                    <p>Adjust the screen brightness.</p>
-                </div>
-                <input type="range" min="0" max="100" value="50" class="brightness-slider">
             </div>
     
             <!-- Location Services Setting -->

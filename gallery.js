@@ -471,230 +471,96 @@ function insideFavorite(clicked){
     return favorites_.some(favorite => favorite.src === clicked.src);
 }
 
-function refresh(){
-    if(loca == "HOME"){
-        console.log("starting page:");
-        for(let i = 0; i < favorites_.length; i++){
-            favorites_[i].element.style.display = "none";
-        }
-        for(let i = 0; i < images_.length; i++){
-            images_[i].element.style.display = "block";
-        }       
-        for(let i = 0; i < videos_.length; i++){
-            videos_[i].element.style.display = "none";
-        }
-        for(let i = 0; i < images_adult.length; i++){
-            images_adult[i].element.style.display = "none";
-        } 
-        for(let i = 0; i < videos_adult.length; i++){
-            videos_adult[i].element.style.display = "none";
-        }
-        for(let i = 0; i < customFolders.length; i++){
-            if(customFolders[i].location == loca){
-                createFolder(customFolders[i].name, customFolders[i].name);
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            }else{
-                const all = document.querySelectorAll(".specialfolder");
-                all.forEach(folder => {
-                folder.style.display = "none";
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            })
-            }
-        }
-        for(let i = 0; i < folders.length; i++){
-            folders[i].style.display = "block";
-        }
-        
-    }else if(loca == "favorites"){
-        for(let i = 0; i < images_.length; i++){
-            images_[i].element.style.display = "none";
-        }
-        for(let i = 0; i < videos_.length; i++){
-            videos_[i].element.style.display = "none";
-        }
-        for(let i = 0; i < videos_adult.length; i++){
-            videos_adult[i].element.style.display = "none";
-        }
-        for(let i = 0; i < images_adult.length; i++){
-            images_adult[i].element.style.display = "none";
-        }
-        for(let i = 0; i < folders.length; i++){
-            folders[i].style.display = "none";
-        }
-        for(let i = 0; i < favorites_.length; i++){
-            console.log(favorites_[i].element);
-            favorites_[i].element.style.display = "block";
-        }
-        for(let i = 0; i < customFolders.length; i++){
-            if(customFolders[i].location == loca){
-                createFolder(customFolders[i].name, customFolders[i].name);
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            }else{
-                const all = document.querySelectorAll(".specialfolder");
-                all.forEach(folder => {
-                folder.style.display = "none";
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            })
-            }
-        }
-        createFolder("HOME", "HOME");
-    }else if(loca == "videos"){
-        console.log("video folder:");
-        for(let i = 0; i < images_.length; i++){
-            images_[i].element.style.display = "none";
-        }
-        for(let i = 0; i < videos_.length; i++){
-            videos_[i].element.style.display = "block";
-        }
-        for(let i = 0; i < videos_adult.length; i++){
-            videos_adult[i].element.style.display = "none";
-        }
-        for(let i = 0; i < images_adult.length; i++){
-            images_adult[i].element.style.display = "none";
-        }
-        for(let i = 0; i < customFolders.length; i++){
-            if(customFolders[i].location == loca){
-                createFolder(customFolders[i].name, customFolders[i].name);
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            }else{
-                const all = document.querySelectorAll(".specialfolder");
-                all.forEach(folder => {
-                folder.style.display = "none";
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            })
-            }
-        }
-        for(let i = 0; i < folders.length; i++){
-            folders[i].style.display = "none";
-        }
-        createFolder("HOME", "HOME");
-        createFolder("ADULT VIDEOS", "adult_vids")
-    }else if(loca == "adult_img"){
-        for(let i = 0; i < images_.length; i++){
-            images_[i].element.style.display = "none";
-        }       
-        for(let i = 0; i < folders.length; i++){
-            folders[i].style.display = "none";
-        }
-        for(let i = 0; i < videos_.length; i++){
-            videos_[i].element.style.display = "none";
-        }
-        for(let i = 0; i < images_adult.length; i++){
-            images_adult[i].element.style.display = "block";
-        } 
-        for(let i = 0; i < videos_adult.length; i++){
-            videos_adult[i].element.style.display = "none";
-        }
-        for(let i = 0; i < customFolders.length; i++){
-            if(customFolders[i].location == loca){
-                createFolder(customFolders[i].name, customFolders[i].name);
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            }else{
-                const all = document.querySelectorAll(".specialfolder");
-                all.forEach(folder => {
-                folder.style.display = "none";
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            })
-            }
-        }
-        createFolder("HOME", "HOME");
-    }else if(loca == "adult_vids"){
-        for(let i = 0; i < images_.length; i++){
-            images_[i].element.style.display = "none";
-        }       
-        for(let i = 0; i < folders.length; i++){
-            folders[i].style.display = "none";
-        }
-        for(let i = 0; i < videos_.length; i++){
-            videos_[i].element.style.display = "none";
-        }
-        for(let i = 0; i < images_adult.length; i++){
-            images_adult[i].element.style.display = "none";
-        } 
-        for(let i = 0; i < videos_adult.length; i++){
-            videos_adult[i].element.style.display = "block";
-        }
-        for(let i = 0; i < customFolders.length; i++){
-            if(customFolders[i].location == loca){
-                createFolder(customFolders[i].name, customFolders[i].name);
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            }else{
-                const all = document.querySelectorAll(".specialfolder");
-                all.forEach(folder => {
-                folder.style.display = "none";
-                for(let j = 0; j < customFolders[i].content.length; j++){
-                    customFolders[i].content[j].element.style.display = "none";
-                }
-            })
-            }
-        }
-        createFolder("videos", "videos");
-    }
-
-    customFolders.forEach(folder =>{
-        if(loca == folder.name){
-            for(let i = 0; i < favorites_.length; i++){
-                favorites_[i].element.style.display = "none";
-            }
-            for(let i = 0; i < images_.length; i++){
-                images_[i].element.style.display = "none";
-            }       
-            for(let i = 0; i < videos_.length; i++){
-                videos_[i].element.style.display = "none";
-            }
-            for(let i = 0; i < images_adult.length; i++){
-                images_adult[i].element.style.display = "none";
-            } 
-            for(let i = 0; i < videos_adult.length; i++){
-                videos_adult[i].element.style.display = "none";
-            }
-            for(let i = 0; i < customFolders.length; i++){
-                if(customFolders[i].location == loca){
-                    createFolder(customFolders[i].name, customFolders[i].name);
-                    for(let j = 0; j < customFolders[i].content.length; j++){
-                        customFolders[i].content[j].element.style.display = "none";
-                    }
-                }else{
-                    const all = document.querySelectorAll(".specialfolder");
-                    all.forEach(folder => {
-                    folder.style.display = "none";
-                    for(let j = 0; j < customFolders[i].content.length; j++){
-                        customFolders[i].content[j].element.style.display = "none";
-                    }
-                })
-                }
-            }
-            for(let i = 0; i < folders.length; i++){
-                folders[i].style.display = "none";
-            }
-            for(let i = 0; i < folder.content.length; i++){
-                folder.content[i].element.style.display = "block";
-            }
-            createFolder("HOME", "HOME");
+function setDisplay(elements, displayStyle, with_) {
+    elements.forEach(item => {
+        if (with_) {
+            item.element.style.display = displayStyle;
         }else{
-            for(let i = 0; i < folder.content.length; i++){
-                folder.content[i].element.style.display = "hidden";
-            }
+            item.style.display = displayStyle;
         }
     });
+}
+
+function handleCustomFolders(location) {
+    customFolders.forEach(folder => {
+        const isMatchingLocation = folder.location === location;
+        const action = isMatchingLocation ? "block" : "none";
+        if (folder.content) {
+            folder.content.forEach(content => {
+                if (content && content.element) {
+                    content.element.style.display = action;
+                }
+            });
+        }
+
+        const allSpecialFolders = document.querySelectorAll(".specialfolder");
+        allSpecialFolders.forEach(specialFolder => {
+            specialFolder.style.display = "none";
+        });
+    });
+}
+
+function refresh() {
+    console.log("Refreshing page for location:", loca);
+    const error = document.getElementById("error");
+    //Hide all items initially
+    error.style.display = "none";
+    setDisplay(favorites_, "none", true);
+    setDisplay(images_, "none", true);
+    setDisplay(videos_, "none", true);
+    setDisplay(videos_adult, "none", true);
+    setDisplay(images_adult, "none", true);
+    setDisplay(folders, "none", false);
+
+    handleCustomFolders(loca);
+
+    switch(loca) {
+        case "HOME":
+            console.log("starting page:");
+            setDisplay(images_, "block", true);
+            setDisplay(folders, "block", false);
+            break;
+        case "favorites":
+            setDisplay(favorites_, "block", true);
+            break;
+        case "videos":
+            setDisplay(videos_, "block", true);
+            break;
+        case "adult_img":
+            if(getSetting("nsfw") === "true"){ 
+                setDisplay(images_adult, "block", true);
+            }else{
+                console.log("nsfw seems to be " + getSetting("nsfw"));
+                createErrorMessage("nsfw");
+            }
+            break;
+        case "adult_vids":
+            if(getSetting("nsfw") === "true"){
+                setDisplay(videos_adult, "block", true);
+            }else{
+                createErrorMessage("nsfw");
+            }
+            break;
+        default:
+            break;
+    }
+
+    if (loca === "favorites") {
+        createFolder("HOME", "HOME");
+    } else if (loca === "videos") {
+        createFolder("HOME", "HOME");
+        if(getSetting("nsfw") === "true"){
+            createFolder("ADULT VIDEOS", "adult_vids");
+        }
+    } else if (loca === "adult_img") {
+        createFolder("HOME", "HOME");
+    } else if (loca === "adult_vids") {
+        createFolder("videos", "videos");
+    } else if (loca === "HOME") {
+        //nothing
+    } else {
+        createFolder("HOME", "HOME");
+    }
 }
 
 function createFolder(name, loca_){
@@ -781,6 +647,30 @@ function loadCustomFolders() {
         // Optional: you may need to recreate DOM elements too depending on structure
         refresh();
     }
+}
+
+function getSetting(case_){
+    let state;
+    switch(case_){
+        case "nsfw": 
+            state = localStorage.getItem("NSFW");
+            console.log("nsfw is -> " + state);
+            return state;
+        case "wifi": 
+            state = localStorage.getItem("Wi-Fi");
+            return state;
+    }
+}
+
+function createErrorMessage(case_){
+    const container_ = document.getElementById("error");
+    const message = document.getElementById("errror_message");
+    container_.appendChild(message);
+    switch(case_){
+        case "nsfw":
+           message.textContent = "NSFW content is deactivated. Go to settings to see hidden content."
+    }
+    container_.style.display = "block";
 }
 
 document.addEventListener('keydown', function(event) {
