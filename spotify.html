@@ -8,17 +8,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="profile-container">
-        <div class="title">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/1024px-Spotify_icon.svg.png?20220821125323" alt="MUSICIFY">
-            <p>MUSICIFY</p>
-        </div>
-
-        <div class="music-app" id="musicApp">
+    <main class="profile-container">
+        <header class="title">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/1024px-Spotify_icon.svg.png?20220821125323" alt="Musicify Logo">
+            <h1>MUSICIFY</h1>
+        </header>
+        <section class="music-app" id="musicApp">
             <div class="now-playing">
-                <img src="https://www.graphicdesignforum.com/uploads/default/original/2X/d/d3c4e744046205a49d06beb874df3b39da7c9c73.jpeg" alt="Album Cover" class="cover" id="cover">
+                <img 
+                    src="https://www.graphicdesignforum.com/uploads/default/original/2X/d/d3c4e744046205a49d06beb874df3b39da7c9c73.jpeg" 
+                    alt="Album Cover of Dreamscape" 
+                    class="cover" 
+                    id="cover"
+                >
                 <div class="track-info">
-                    <h3 id="track-title">Dreamscape</h3>
+                    <h2 id="track-title">Dreamscape</h2>
                     <p id="track-artist">Nightwave</p>
                 </div>
                 <audio id="audio" controls>
@@ -27,29 +31,37 @@
                 </audio>
             </div>
 
-            <div class="playlist">
-                <h4>Playlist</h4>
+            <aside class="playlist">
+                <h3>🎤 All Songs </h3>
                 <ul id="track-list">
-                    <li onclick="playTrack('Dreamscape', 'Nightwave','https://www.graphicdesignforum.com/uploads/default/original/2X/d/d3c4e744046205a49d06beb874df3b39da7c9c73.jpeg', 'res/music/track1.mp3')">Dreamscape - Nightwave</li>
-                    <li onclick="playTrack('City Lights', 'Lunaria', 'res/music/cover2.jpg', 'res/music/track2.mp3')">City Lights - Lunaria</li>
-                    <li onclick="playTrack('Solar Drift', 'Echo 9', 'res/music/cover3.jpg', 'res/music/track3.mp3')">Solar Drift - Echo 9</li>
+                    <li onclick="playTrack('Dreamscape', 'Nightwave','https://www.graphicdesignforum.com/uploads/default/original/2X/d/d3c4e744046205a49d06beb874df3b39da7c9c73.jpeg', 'res/music/track1.mp3')">
+                        * Dreamscape – Nightwave
+                    </li>
+                    <li onclick="playTrack('City Lights', 'Lunaria', 'https://lastfm.freetls.fastly.net/i/u/ar0/df0c3fb92f4b24add2c83360e4e3f94b.jpg', 'res/music/track2.mp3')">
+                        * City Lights – Lunaria
+                    </li>
+                    <li onclick="playTrack('Solar Drift', 'Echo 9', 'https://www.nme.com/wp-content/uploads/2016/10/1972RoxyMusic600.jpg', 'res/music/track3.mp3')">
+                        * Solar Drift – Echo 9
+                    </li>
+                    
                 </ul>
-            </div>
+            </aside>
+        </section>
+        
+        <div class="error" id="error">
+            <img src="res/alerted.png" alt="Error Icon">
+            <p id="errror_message"></p>
         </div>
-    </div>
+    </main>
+    <button id="back" onclick="window.location.href='index.html';" aria-label="Back to Home"></button>
 
-    <button id="back" onclick="window.location.href='index.html';"></button>
-
-    <div class="error" id="error">
-        <img src="res/alerted.png" alt="ERROR:">
-        <p id="errror_message"></p>
-    </div>
 
     <script>
         function playTrack(title, artist, cover, audioSrc) {
             document.getElementById('track-title').textContent = title;
             document.getElementById('track-artist').textContent = artist;
             document.getElementById('cover').src = cover;
+
             const audio = document.getElementById('audio');
             audio.src = audioSrc;
             audio.play();
