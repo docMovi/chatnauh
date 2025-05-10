@@ -33,7 +33,7 @@ const profile3Messages = [
     { type: 'text', text: "I mean, you said you wanted to get distracted, right? 😉", options: [], paths: [] }, //25
     { type: 'text', text: "Don't tell me you're shy now... 😏", options: ["I'm not shy", "I'm just not into this, Amy."] , paths: [28,27]}, //26
     { type: 'text', text: "Come on! It's not like I don't know you better than anyone else 😘", options: [], paths: [] }, //27
-    { type: 'text', text: "Tell you what, if you come with me to the gym, I'll stop teasing you. Deal? 😜", options: ["Fine... but you owe me a lot of distraction", "I don't know, Amy. I might just want to leave you to your own teasing."] , paths: [30, 29] }, //28
+    { type: 'text', text: "Tell you what, if you come with me to the gym, I'll stop teasing you. Deal? 😜", options: ["Fine", "I don't know, Amy"] , paths: [30, 29] }, //28
     { type: 'text', text: "You're so boring bro...", options: [], paths: [] }, //29
     { type: 'text', text: "Look I'm already changing to my workout clothes 😋", options: [], paths: [] }, //30
     { type: 'image', imgUrl: "https://cdni.pornpics.com/1280/3/3/80655471/80655471_014_8a8b.jpg", imgDesc: "Amy in underwear", adult:true, options: ["You better not work out like this", "Amy..."], paths: [32,33] }, //31
@@ -41,54 +41,65 @@ const profile3Messages = [
     { type: 'text', text: "Come on, don’t tell me you're actually intimidated now? 😏", options: [], paths: [] }, //33
     { type: 'text', text: "Tell you what, I’ll make it easier for you and get dressed", options: [], paths: [] }, //34
     { type: 'image', imgUrl: "https://cdni.pornpics.com/1280/3/3/80655471/80655471_021_3f03.jpg", imgDesc: "Amy in her gym clothes", adult: true, options: [], paths: [] }, //35
-    { type: 'text', text: "But if you’re not into that... Maybe I could find other ways to distract you 😜", options: ["I’m curious, what other distractions do you have in mind?", "I don’t think that’s a good idea, Amy."], paths: [37,41] }, //36
+    { type: 'text', text: "But if you’re not into that... Maybe I could find other ways to distract you 😜", options: ["Okay go ahead", "I don’t think that’s a good idea, Amy."], paths: [37,41] }, //36
     { type: 'text', text: "I can’t believe you’re actually making me do this 😳", options: ["You’re the one teasing me, Amy. Don’t act surprised."], paths: [38] }, //37
     { type: 'text', text: "I didn't expect you to play along though", options: ["I just want to see how far you go, Amy.", "You're right, I shouldn't"], paths: [39, 41] }, //38
     { type: 'image', imgUrl: "https://cdni.pornpics.com/1280/3/1/11070634/11070634_008_92aa.jpg", imgDesc: "Amy covering breasts", adult: true, options: [], paths: [] }, //39
     { type: 'text', text: "This is how far I'll go 🫣", options: [], paths: [] }, //40
-    { type: 'text', text: "I hope you are ready for the gym now though...", options: ["Oh I’m ready... I think 😅", "No I don't think so."], paths: [43, 120] }, //42
+    { type: 'text', text: "I hope you are ready for the gym now though...", options: ["Oh I’m ready... I think 😅", "almost."], paths: [42, 42] }, //42
     
-    { type: 'text', text: "Good. Because I’ve got the *perfect* gym attire to motivate you 😏", options: [], paths: [44] }, //43
-    { type: 'image', imgUrl: "https://cdni.pornpics.com/1280/3/1/89377112/89377112_030_0902.jpg", imgDesc: "Amy's 'motivation technique'", adult: true, options: ["This is *not* gym-legal 🫣", "You're gonna get us kicked out"], paths: [45, 45] }, //44
-    { type: 'text', text: "Rules are just suggestions when you look this good 💅", options: ["You're dangerous"], paths: [46] }, //45
-    { type: 'text', text: "Dangerous? Or irresistible? 😘", options: ["A little of both tbh", "I think you don't know your place"], paths: [49, 47] }, //46
-    { type: 'image', imgUrl: "desc: Amy in her bedroom mirror, doing a double bicep flex in tight gym shorts, but posing with exaggerated cutenesshttps://evocdn.net/pphw/pornpics/11/files/6232/0154/ffc1/2265/e781/f7ce/9b3f/387f/1.jpg", imgDesc: "Amy showing off her 'summer bod'", adult: true, options: [], paths: [] }, //47
-    { type: 'text', text: "I'm hoping to become as I looked back then", options: ["You already are", "Good luck with that"], paths: [49, 49] }, //48
-    { type: 'text', text: "I try my best 😌 Now get your gym stuff. You’ve officially been summoned.", options: ["Only if you promise to behave", "Fine... but you're spotting me the *whole* time."], paths: [50, 51] }, //49
-    { type: 'text', text: "I never behave 😈", options: [], paths: [51, 51] }, //50
-    { type: 'image', imgUrl: "https://cdni.pornpics.com/1280/3/1/89377112/89377112_023_80c3.jpg", imgDesc: "Amy showing off again?", adult: true, options: ["This is gonna be chaos", "We’re getting banned for sure "], paths: [52, 52] }, //51
-    { type: 'text', text: "", options: ["Say what are you trying to achieve?"], paths: [53] }, //52
+    { type: 'text', text: "Good. Because I’ve got the *perfect* gym attire to motivate you 😏", options: [], paths: [43] }, //42
+    { type: 'image', imgUrl: "https://cdni.pornpics.com/1280/3/1/89377112/89377112_030_0902.jpg", imgDesc: "Amy's 'motivation technique'", adult: true, options: ["This is *not* gym-legal 🫣", "You're gonna get us kicked out"], paths: [44, 44] }, //43
+    { type: 'text', text: "Rules are just suggestions when you look this good 💅", options: ["You're dangerous"], paths: [45] }, //44
+    { type: 'text', text: "Dangerous? Or irresistible? 😘", options: ["A little of both tbh", "I think you don't know your place"], paths: [48, 46] }, //45
+    { type: 'image', imgUrl: "https://evocdn.net/pphw/pornpics/11/files/6232/0154/ffc1/2265/e781/f7ce/9b3f/387f/1.jpg", imgDesc: "Amy showing off her 'summer bod'", adult: true, options: [], paths: [] }, //46
+    { type: 'text', text: "I'm hoping to become as I looked back then", options: ["You already are", "Good luck with that"], paths: [48, 48] }, //47
+    { type: 'text', text: "I try my best 😌 Now get your gym stuff. You’ve officially been summoned.", options: ["Only if you promise to behave", "Fine... but give me some time to calm down"], paths: [49, 50] }, //48
+    { type: 'text', text: "I never behave 😈", options: [], paths: [50, 50] }, //49
+    { type: 'image', imgUrl: "https://cdni.pornpics.com/1280/3/3/41041463/41041463_024_36e1.jpg", imgDesc: "Amy showing off again?", adult: true, options: ["Amy!"], paths: [51, 51] }, //50
+    { type: 'text', text: "", options: ["Say what are you trying to achieve?"], paths: [52] }, //51
     
-    { type: 'text', text: "Oh come *on*! Do I really need to spell it out for you? 😏", options: ["Maybe you should.", "You're being impossible."], paths: [54, 55] },
-    { type: 'text', text: "Fine. Let's just say... I’m trying to *motivate* you. Physically, mentally... visually 💋", options: ["Wow"], paths: [56] }, // 54
-    { type: 'text', text: "Impossible? Or just impressively committed? 😌", options: [], paths: [56] }, // 55
-    { type: 'text', text: "You needed a push, so I became the... *push-up*. 😉", options: ["That was terrible.", "You're unbelievable."], paths: [57, 58] }, // 56
-    { type: 'text', text: "Terribly effective, though 😜", options: ["You're jokes get progressively worse"], paths: [59] }, // 57
-    { type: 'text', text: "Believe it. I’m your *personal tease trainer* now. Stretching limits... and maybe patience too 💪🍑", options: [], paths: [59] }, // 58
-    { type: 'image', imgUrl: "desc: Amy standing with one foot on a workout bench, wearing overly tight yoga pants and a wicked grin", imgDesc: "Amy's 'trainer mode'", adult: true, options: ["You're enjoying this way too much", "How am I supposed to focus like this?"], paths: [60, 61] }, // 59
-    { type: 'text', text: "Obviously. Watching you squirm is part of my workout too 😏", options: [], paths: [62] }, // 60
-    { type: 'text', text: "Exactly. Distraction *is* my favorite cardio 😘", options: [], paths: [62] }, // 61
-    { type: 'text', text: "So what do you say? One more set... or are you already out of breath? 😇", options: ["Let’s see what you’ve got, coach", "I need a cooldown after that"], paths: [63, 64] }, // 62
-    { type: 'text', text: "Now *that’s* the spirit! Don’t worry, I’ll go easy on you... for the first round 😈", options: [], paths: [] }, // 63
-    { type: 'text', text: "Aww, are you blushing already? Don’t worry... we’ll stretch that endurance eventually 😘", options: [], paths: [65] }, // 64
-
-    { type: 'text', text: "You know... if texting had a fitness level, I think you'd be burning calories already 😏", options: ["You're not exactly helping me cool down", "That’s one way to make me sweat..."], paths: [66, 66] }, // 65
-    { type: 'text', text: "Good. Consider it part of my very *motivational* coaching style 😇", options: [], paths: [67] }, // 66
-    { type: 'text', text: "Speaking of which... wanna see what I'm *not* wearing to the gym today? 😌", options: ["That’s not how gym prep works, Amy...", "What are you even trying to prove?"], paths: [68, 68] }, // 67
-    { type: 'image', imgUrl: "", imgDesc: "A mirror selfie showing Amy in a messy room, wearing only a sports bra and loosely draped towel around her waist. She's mid-laugh, clearly posing more for effect than function.", adult: true, options: ["Okay that’s not gym legal", "You’re such a tease"], paths: [69, 69] }, // 68
-    { type: 'text', text: "Oh please, it’s *practically* workout gear... if you count emotional endurance training 😜", options: ["I’m not sure I’ll survive this training arc", "You're making it really hard to focus"], paths: [70, 70] }, // 69
-    { type: 'text', text: "Focus is overrated anyway. Distraction? Way more fun 😘", options: ["You're impossible", "This is getting dangerously fun..."], paths: [71, 72] }, // 70
-    { type: 'text', text: "Impossible is just another word for 'Amy being herself'", options: [], paths: [73] }, // 71
-    { type: 'text', text: "Mmhmm... and yet here you are, still chatting with me. You *must* like danger 😏", options: [], paths: [73] }, // 72
-    { type: 'text', text: "So tell me honestly... what part of me makes it hardest to concentrate? Asking for... science. 📊", options: ["Amy...", "This feels illegal to answer"], paths: [74, 74] }, // 73
-    { type: 'text', text: "Relax. No wrong answers... just increasingly right ones 😇", options: ["Fine. It's the way you always act like this is normal."], paths: [75] }, // 74
-    { type: 'text', text: "What, casual family bonding with a hint of chaos? Totally normal 😌", options: [], paths: [76] }, // 75
-    { type: 'text', text: "But seriously... I do know how far I’m pushing things. And I kinda like it when you let me.", options: ["You're dangerous, Amy", "You're walking a really fine line..."], paths: [77, 77] }, // 76
-    { type: 'text', text: "Balance, bro. It's all about *balance*. A little tease, a little tension... keeps things exciting 🖤", options: [], paths: [78] }, // 77
-    { type: 'text', text: "And don’t worry, I’ll stop *right before* things get too hot to handle. Probably. Maybe. 😏", options: ["...You're such a brat", "I'll pretend I believe you"], paths: [79, 79] }, // 78
-    { type: 'text', text: "Mmm, guess you'll have to stay tuned to see just *how far* I take this game 😘", options: ["That sounds like a threat AND a promise", "You’re not gonna make this easy, huh?"], paths: [80, 81] }, // 79
-    { type: 'text', text: "Only fair. You never made it easy for me growing up... payback is a *flirt* 😏", options: [], paths: [] }, // 80
-    { type: 'text', text: "Easy? Nah. You’d get bored. And we can’t have *that*, now can we? 😇", options: [], paths: [] }, // 81
-
+    { type: 'text', text: "Oh come *on*! Do I really need to spell it out for you?", options: ["Maybe you should.", "Yes?"], paths: [53, 53] }, //52
+    { type: 'text', text: "Fine. Let's just say... I’m trying to *motivate* you. Physically, mentally... visually", options: ["Wow", "wtf"], paths: [54, 54] }, // 53
+    { type: 'text', text: "You needed a push, so I became the... *push-up*. 😉", options: ["That was terrible.", "You're unbelievable."], paths: [55, 56] }, // 54
+    { type: 'text', text: "Terribly effective, though 😜", options: ["You're jokes get progressively worse"], paths: [56] }, // 55
+    { type: 'text', text: "I'm your distraction and I have a lot of fun being it🍑", options: [], paths: [] }, // 56
+    { type: 'image', imgUrl: "https://cdni.pornpics.com/1280/3/3/83370154/83370154_007_198e.jpg", imgDesc: "Amy having fun'", adult: true, options: ["This is wrong"], paths: [58] }, // 57
+    { type: 'text', text: "Obviously. But why do we have to care", options: [], paths: [] }, // 58
+    { type: 'text', text: "For all I know, I'm having fun", options: [], paths: [] }, // 59
+    { type: 'text', text: "And it excites me knowing how you are reacting right now", options: ["Amy stop.", "You are not thinking straight"], paths: [61, 61] }, // 60
+    { type: 'text', text: "I know you have a boner right now", options: [], paths: [] }, // 61
+    { type: 'text', text: "To your own sister", options: [], paths: [] }, // 62
+    { type: "video", imgUrl: "res/vid/amy/amy_kaylla.mov", imgDesc: "Amy first video", adult: true, options: ["You look really good", "Amy stop it, before you do something stupid"], paths: [64, 64]}, // 63
+    { type: 'text', text: "Stop saying anything", options: [], paths: [] }, // 64
+    { type: 'text', text: "Just let this happen", options: ["...", "you're out of control"], paths: [67, 66] }, // 65
+    { type: 'text', text: "And you'll better be fine with it", options: [], paths: [] }, // 66
+    { type: 'text', text: "I'm too turned on, " + localStorage.getItem("name_"), options: [], paths: [] }, // 67
+    { type: "video", imgUrl: "res/vid/amy/amy_almost_masturbating.mov", imgDesc: "about to masturbate", adult: true, options: ["Wow", "Amy"], paths: [69, 69]}, // 63
+    { type: 'text', text: "we better stop now " + localStorage.getItem("name_"), options: [], paths: [] }, // 69
+    { type: 'text', text: "i think I have to come to my senses real quick", options: ["no wait", "you are right"], paths: [74, 71] }, // 70
+    { type: 'text', text: "let me give you one last distraction", options: [], paths: [] }, // 71
+    { type: 'text', text: "because you listened so well", options: [], paths: [] }, // 72
+    { type: 'image', imgUrl: "res/3prof/last_present.png", imgDesc: "last present", adult: true, options: ["Thank you!"], paths: [] }, //73
+    { type: 'text', text: "What do you mean", options: ["you're going to get off anyway", "my bad, sorry"], paths: [75,71] }, // 74
+    { type: 'text', text: "yes?", options: ["why not show to me", "just one more"], paths: [76,71] }, // 75
+    { type: 'text', text: "", options: ["I will not talk about it ever"], paths: [77] }, // 76
+    { type: 'text', text: "", options: ["I just want to see"], paths: [78] }, // 77
+    { type: 'text', text: "", options: ["Amy"], paths: [79] }, // 78
+    { type: 'text', text: "", options: ["sorry"], paths: [80] }, // 79
+    { type: "video", imgUrl: "res/vid/amy/amy_masturbating.mov", imgDesc: "amy fingering", adult: true, options: ["show me more", "thank you"], paths: [81, 71]}, // 80
+    { type: 'text', text: "okay", options: [], paths: [] }, // 81
+    { type: 'text', text: "I will", options: [], paths: [] }, // 82
+    { type: 'text', text: "because I can't stop imagining your boner. You get an extra long video.", options: [], paths: [] }, // 83
+    { type: "video", imgUrl: "res/vid/amy/vibrator_tease.mp4", imgDesc: "vibrator tease", adult: true, options: ["you're so hot"], paths: [85]}, // 84
+    { type: 'text', text: "I wish you'd fuck me right now", options: [], paths: [] }, // 85
+    { type: "video", imgUrl: "res/vid/amy/vibrator_fuck.mp4", imgDesc: "amy masturbating with vibrator", adult: true, options: [], paths: []}, // 86
+    { type: 'text', text: "oh, " + localStorage.getItem("name_") + "I'm so close", options: [], paths: [] }, // 87
+    { type: "video", imgUrl: "res/vid/amy_cumming.mov", imgDesc: "amy cumming with vibrator", adult: true, options: [], paths: []}, // 88
+    { type: 'text', text: "Wow", options: [], paths: [] }, // 89
+    { type: 'text', text: "This was so intense", options: [], paths: [] }, // 90
+    { type: 'text', text: "And so wrong", options: [], paths: [] }, // 90
+    { type: 'text', text: "You promise we'll never talk about it?", options: [], paths: [] }, // 90
+    { type: 'text', text: "And you take me to the gym?", options: ["Promised"], paths: [] }, // 91
 ];
 export default profile3Messages;
