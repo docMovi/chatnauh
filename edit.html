@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Edit Chat</title>
+</head>
+<body>
+  <div class="creation-container">
+    <h1>Edit Your Chat</h1>
+
+    <div class="chat-meta">
+      <label>Character Name:
+        <input type="text" id="chatName" placeholder="Enter chat name" />
+      </label>
+      <label>Profile Picture URL:
+        <input type="text" id="chatImageUrl" placeholder="Enter image URL" />
+      </label>
+      <div class="image-preview">
+        <img id="chatImagePreview" src="res/pr/unknown.png" alt="Chat image preview"/>
+      </div>
+    </div>
+
+    <div class="creation" id="messagesContainer"></div>
+
+    <button id="addMessageBtn">+ Add Message</button>
+    <button id="saveBtn">Save Chat</button>
+    <button id="exportBtn">Export Chat</button>
+    <button id="previewBtn">Play Preview</button>
+    <button onclick="window.location.href='creation.html'">← Back</button>
+  </div>
+
+  <!-- Templates (wie vorher) -->
+  <template id="messageTemplate">
+    <div class="message-card" draggable="true">
+      <div class="message-header">
+        <span class="message-title">Message</span>
+        <button class="toggle-btn">▼</button>
+      </div>
+      <div class="message-body">
+        <label>Type:
+          <select class="msg-type">
+            <option value="text">Text</option>
+            <option value="image">Image</option>
+            <option value="video">Video</option>
+            <option value="notification">Notification</option>
+            <option value="complete">Complete</option>
+            <option value="createAndWait">Create and Wait</option>
+          </select>
+        </label>
+        <label>Content:
+          <input type="text" class="msg-content" placeholder="Enter text or URL" />
+        </label>
+        <div class="options-container">
+          <h4>Options</h4>
+          <div class="options-list"></div>
+          <button class="add-option-btn">+ Add Option</button>
+        </div>
+      </div>
+  
+      <div class="message-actions">
+        <button class="delete-message-btn">Delete</button>
+      </div>
+    </div>
+  </template>
+  
+
+  <template id="optionTemplate">
+    <div class="option">
+      <input type="text" class="option-text" placeholder="Option text; leave blank and message will jump to next" />
+      <label>Path to:
+        <select class="path-dropdown"></select>
+      </label>
+      <button class="delete-option-btn">🗑️</button>
+    </div>
+  </template>
+
+  <div class="whereFrom" id="whereFrom">
+    <p>Starting Point:</p>
+    <select class="whereFromSelect"></select>
+  </div>
+  
+  
+
+  <script src="storage.js"></script>
+  <script src="edit.js"></script>
+</body>
+</html>
